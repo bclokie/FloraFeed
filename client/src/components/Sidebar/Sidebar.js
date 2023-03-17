@@ -30,8 +30,8 @@ const Sidebar = () => {
           </ListItem>
   ))}
   </List>
-      <List sx={{ position: "absolute", bottom: 0, display: "flex", alignItems: "center" }}>
-        <ListItem button>
+  <List sx={{ position: "absolute", bottom: 0, left: 0, right: 0}}>
+    <ListItem button variant="outlined" sx={{ textAlign: "center" }}>
       <ListItemText primary="Logout" />
     </ListItem>
   </List>
