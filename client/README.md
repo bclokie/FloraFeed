@@ -2,6 +2,17 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Install Dependencies
+
+First run 
+
+### 'npm install'
+
+Then run the following command
+
+### 'npm install @mui/material @emotion/react @emotion/styled @mui/icons-material @mui/styles --legacy-peer-deps'
+
+
 ## Available Scripts
 
 In the project directory, you can run:
