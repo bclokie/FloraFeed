@@ -18,7 +18,6 @@ function MapView() {
   ];
 
   return (
-    // Still missing Google Maps API Key
     <LoadScript googleMapsApiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY}>
       <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={2}>
         {markers.map((marker) => (
