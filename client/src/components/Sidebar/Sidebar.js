@@ -1,8 +1,12 @@
 import React from 'react';
 import { Drawer, List, ListItem, ListItemIcon, ListItemText } from '@mui/material';
 import { useStyles } from './styles'; // Import useStyles from styles.js
-import InboxIcon from '@mui/icons-material/Inbox';
-import MailIcon from '@mui/icons-material/Mail';
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
+import SpaIcon from '@mui/icons-material/Spa';
+import UploadIcon from '@mui/icons-material/Upload';
+import Avatar from '@mui/material/Avatar';
+import { green } from '@mui/material/colors';
+
 
 const Sidebar = () => {
   const classes = useStyles(); // Use useStyles here
@@ -13,17 +17,25 @@ const Sidebar = () => {
       variant="permanent"
       anchor="left"
     >
-      <List>
-        {['Inbox', 'Outbox'].map((text, index) => (
+      <List sx={{ display: "flex", flexDirection:"column", alignItems: "center"}}>
+        <Avatar sx={{ bgcolor: green[500] }} variant="rounded" xs={8} />
+        {['Name', 'Discover', 'My Uploads'].map((text, index) => (
           <ListItem button key={text}>
             <ListItemIcon>
-              {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+              {text === 'Name' ? <AccountBoxIcon/> : ''}
+              {text === 'Discover' ? <SpaIcon/> : ''}
+              {text === 'My Uploads' ? <UploadIcon/> : ''}
             </ListItemIcon>
             <ListItemText primary={text} />
           </ListItem>
-        ))}
-      </List>
-    </Drawer>
+  ))}
+  </List>
+      <List sx={{ position: "absolute", bottom: 0, display: "flex", alignItems: "center" }}>
+        <ListItem button>
+      <ListItemText primary="Logout" />
+    </ListItem>
+  </List>
+  </Drawer>
   );
 };
 
