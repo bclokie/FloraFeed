@@ -8,7 +8,6 @@ import Avatar from '@mui/material/Avatar';
 import { green } from '@mui/material/colors';
 import {Typography} from '@mui/material';
 
-
 const Sidebar = () => {
   const classes = useStyles(); // Use useStyles here
 
