@@ -6,6 +6,7 @@ import SpaIcon from '@mui/icons-material/Spa';
 import UploadIcon from '@mui/icons-material/Upload';
 import Avatar from '@mui/material/Avatar';
 import { green } from '@mui/material/colors';
+import {Typography} from '@mui/material';
 
 
 const Sidebar = () => {
@@ -18,7 +19,7 @@ const Sidebar = () => {
       anchor="left"
     >
       <List sx={{ display: "flex", flexDirection:"column", alignItems: "center"}}>
-        <Avatar sx={{ bgcolor: green[500] }} variant="rounded" xs={8} />
+      <Typography variant="h4" textAlign="center" color="green">Logo</Typography>
         {['Name', 'Discover', 'My Uploads'].map((text, index) => (
           <ListItem button key={text}>
             <ListItemIcon>
