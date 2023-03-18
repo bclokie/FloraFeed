@@ -1,9 +1,14 @@
 import React from "react";
-import Sidebar from "./components/Sidebar/Sidebar"
+import Sidebar from "./components/Sidebar/Sidebar";
+import PlantDetails from "./components/PlantDetails/PlantDetails";
+import Box from "@mui/material/Box";
 
 const App = () => {
   return (
-    <Sidebar />
+    <Box display="flex">
+      <Sidebar />
+      <PlantDetails />
+    </Box>
   );
 };
 
