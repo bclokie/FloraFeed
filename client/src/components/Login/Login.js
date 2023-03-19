@@ -1,11 +1,13 @@
-import React from "react";
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
+import React, { useState } from "react";
 
-const Login = () => {
+const Login = ({ onLogin }) => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const colors = {
     white: "#FFFFFF",
     green1: "#2C7C50",
@@ -57,6 +59,8 @@ const Login = () => {
             margin="normal"
             variant="outlined"
             sx={{ marginBottom: 2 }}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
           />
           <TextField
             label="Password"
@@ -65,6 +69,8 @@ const Login = () => {
             margin="normal"
             variant="outlined"
             sx={{ marginBottom: 2 }}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
           />
           <Button
             fullWidth
@@ -78,6 +84,7 @@ const Login = () => {
               textTransform: "none",
               fontWeight: "bold",
             }}
+            onClick={() => onLogin(email, password)}
           >
             Login
           </Button>
