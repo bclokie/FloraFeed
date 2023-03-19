@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Card from "@mui/material/Card";
 import Typography from "@mui/material/Typography";
 import CardMedia from "@mui/material/CardMedia";
@@ -7,22 +7,10 @@ import Container from "@mui/material/Container";
 import IconButton from "@mui/material/IconButton";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import Avatar from "@mui/material/Avatar";
+import Button from "@mui/material/Button";
 
-const PlantDetails = () => {
-  // Test Data
-  const user = {
-    userName: "Brandy",
-    userAvatar: "https://source.unsplash.com/random/100x100",
-  };
-
-  const plant = {
-    commonName: "Monstera Deliciosa",
-    scientificName: "Plant Scientific Name",
-    description:
-      "Laboris incididunt id ipsum aute duis.Id id adipisicing sint eu ea dolor qui nisi laborum nisi pariatur id excepteur dolor.",
-    imageUrl: "https://source.unsplash.com/random/1080x1080",
-    timePosted: "2 hours ago",
-  };
+const PlantDetails = ({ user, plant }) => {
+  const [expanded, setExpanded] = useState(false);
 
   // Color palette
   const colors = {
@@ -31,6 +19,10 @@ const PlantDetails = () => {
     green2: "#2B764A",
     lightGreen1: "#EDF1F0",
     lightGreen2: "#DAE1D8",
+  };
+
+  const handleExpandClick = () => {
+    setExpanded(!expanded);
   };
 
   return (
@@ -120,7 +112,6 @@ const PlantDetails = () => {
               display: "flex",
               flexDirection: "column",
               justifyContent: "space-between",
-
               height: "100%",
             }}
           >
@@ -150,17 +141,34 @@ const PlantDetails = () => {
             <Typography
               variant="body2"
               color="text.secondary"
-              sx={{ mb: 2, fontFamily: "'Nunito', sans-serif" }}
+              sx={{
+                mb: 2,
+                fontFamily: "'Nunito', sans-serif",
+                overflow: "hidden",
+                textOverflow: expanded ? "unset" : "ellipsis",
+                whiteSpace: expanded ? "normal" : "nowrap",
+                width: "100%",
+              }}
             >
               {plant.description}
             </Typography>
-            <Typography
-              variant="caption"
-              color="text.secondary"
-              sx={{ textAlign: "left" }}
-            >
-              {plant.timePosted}
-            </Typography>
+
+            <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+              <Typography
+                variant="caption"
+                color="text.secondary"
+                sx={{ textAlign: "left" }}
+              >
+                {plant.timePosted}
+              </Typography>
+              <Button
+                size="small"
+                onClick={handleExpandClick}
+                sx={{ textTransform: "none", color: colors.green1 }}
+              >
+                {expanded ? "Less" : "More"}
+              </Button>
+            </Box>
           </Box>
         </Card>
       </Box>
