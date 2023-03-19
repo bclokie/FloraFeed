@@ -6,7 +6,6 @@ import Box from "@mui/material/Box";
 const App = () => {
   return (
     <Box display="flex">
-      <Sidebar />
       <PlantDetails />
     </Box>
   );

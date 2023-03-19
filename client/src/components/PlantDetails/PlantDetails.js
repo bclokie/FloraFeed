@@ -1,21 +1,27 @@
 import React from "react";
 import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import CardMedia from "@mui/material/CardMedia";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
-import { useMediaQuery } from "@mui/material";
-import { useTheme } from "@mui/system";
+import IconButton from "@mui/material/IconButton";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import Avatar from "@mui/material/Avatar";
 
 const PlantDetails = () => {
+  // Test Data
+  const user = {
+    userName: "Brandy",
+    userAvatar: "https://source.unsplash.com/random/100x100",
+  };
+
   const plant = {
     commonName: "Monstera Deliciosa",
     scientificName: "Plant Scientific Name",
     description:
-      "Laboris incididunt id ipsum aute duis.Id id adipisicing sint eu ea dolor qui nisi laborum nisi pariatur id excepteur dolor. Id in incididunt amet deserunt ipsum anim. Officia id eiusmod irure amet eiusmod fugiat sit. Incididunt tempor proident quis cillum do deserunt. Adipisicing et eu excepteur magna nisi magna ea. Tempor amet veniam veniam consequat. Ea ea duis do voluptate do ullamco.",
-    imageUrl:
-      "https://cdn.shopify.com/s/files/1/1092/9568/products/image_d3fc13d1-5ce4-40d4-bd35-927fbee20c2d_1024x1024.jpg?v=1593528097",
+      "Laboris incididunt id ipsum aute duis.Id id adipisicing sint eu ea dolor qui nisi laborum nisi pariatur id excepteur dolor.",
+    imageUrl: "https://source.unsplash.com/random/1080x1080",
+    timePosted: "2 hours ago",
   };
 
   // Color palette
@@ -27,30 +33,11 @@ const PlantDetails = () => {
     lightGreen2: "#DAE1D8",
   };
 
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-
-  const cardStyles = isMobile
-    ? {
-        h5: {
-          fontSize: "1.4rem",
-        },
-        subtitle1: {
-          fontSize: "0.9rem",
-        },
-        body2: {
-          fontSize: "0.8rem",
-        },
-      }
-    : {};
-
-  const imageHeight = isMobile ? "125%" : "125%";
-
   return (
     <Container maxWidth="sm">
       <Box
         sx={{
-          maxWidth: 345,
+          maxWidth: 400,
           bgcolor: colors.lightGreen1,
           borderRadius: 2,
           boxShadow: 3,
@@ -64,43 +51,117 @@ const PlantDetails = () => {
             bgcolor: colors.white,
           }}
         >
-          <CardMedia
-            component="img"
+          <Box
             sx={{
-              paddingTop: imageHeight,
-              borderTopLeftRadius: 2,
-              borderTopRightRadius: 2,
-              borderBottom: `4px solid ${colors.green2}`,
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-              backgroundImage: `url(${plant.imageUrl})`,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              p: 2,
             }}
-          />
-          <CardContent>
+          >
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              <Avatar
+                alt="User Avatar"
+                src={user.userAvatar}
+                sx={{ width: 32, height: 32, marginRight: 1 }}
+              />
+              <Typography
+                gutterBottom
+                variant="h6"
+                component="div"
+                sx={{
+                  color: colors.green1,
+                  fontFamily: "'Nunito', sans-serif",
+                  fontWeight: "bold",
+                }}
+              >
+                {user.userName}
+              </Typography>
+            </Box>
+
+            <IconButton
+              aria-label="add to favorites"
+              sx={{ color: colors.green1 }}
+            >
+              <FavoriteBorderIcon />
+            </IconButton>
+          </Box>
+          <Box
+            sx={{
+              position: "relative",
+              paddingTop: "100%",
+            }}
+          >
+            <CardMedia
+              component="img"
+              alt="Plant image"
+              image={plant.imageUrl}
+              sx={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                width: "100%",
+                height: "100%",
+                borderTopLeftRadius: 2,
+                borderTopRightRadius: 2,
+                borderBottom: `4px solid ${colors.green2}`,
+                objectFit: "cover",
+              }}
+            />
+          </Box>
+          <Box
+            sx={{
+              p: 2,
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-between",
+
+              height: "100%",
+            }}
+          >
             <Typography
               gutterBottom
               variant="h5"
               component="div"
-              sx={{ color: colors.green1, ...cardStyles.h5 }}
+              sx={{
+                color: colors.green1,
+                fontFamily: "'Nunito', sans-serif",
+                fontWeight: "bold",
+              }}
             >
               {plant.commonName}
             </Typography>
             <Typography
               gutterBottom
-              variant="subtitle1"
+              variant="caption"
               color="text.secondary"
-              sx={{ fontStyle: "italic", ...cardStyles.subtitle1 }}
+              sx={{
+                fontStyle: "italic",
+                fontFamily: "Playfair Display', serif",
+              }}
             >
               {plant.scientificName}
             </Typography>
             <Typography
               variant="body2"
               color="text.secondary"
-              sx={cardStyles.body2}
+              sx={{ mb: 2, fontFamily: "'Nunito', sans-serif" }}
             >
               {plant.description}
             </Typography>
-          </CardContent>
+            <Typography
+              variant="caption"
+              color="text.secondary"
+              sx={{ textAlign: "left" }}
+            >
+              {plant.timePosted}
+            </Typography>
+          </Box>
         </Card>
       </Box>
     </Container>
