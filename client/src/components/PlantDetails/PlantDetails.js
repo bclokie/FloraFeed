@@ -30,7 +30,6 @@ const PlantDetails = ({ user, plant }) => {
       <Box
         sx={{
           maxWidth: 400,
-          bgcolor: colors.lightGreen1,
           borderRadius: 2,
           boxShadow: 3,
           mx: "auto",
@@ -40,7 +39,7 @@ const PlantDetails = ({ user, plant }) => {
         <Card
           sx={{
             borderRadius: 2,
-            bgcolor: colors.white,
+            bgcolor: "transparent",
           }}
         >
           <Box
@@ -48,7 +47,8 @@ const PlantDetails = ({ user, plant }) => {
               display: "flex",
               alignItems: "center",
               justifyContent: "space-between",
-              p: 2,
+              p: 1,
+              paddingBottom: 0.5,
             }}
           >
             <Box
@@ -76,13 +76,21 @@ const PlantDetails = ({ user, plant }) => {
               </Typography>
             </Box>
 
-            <IconButton
-              aria-label="add to favorites"
-              sx={{ color: colors.green1 }}
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+              }}
             >
-              <FavoriteBorderIcon />
-            </IconButton>
+              <IconButton
+                aria-label="add to favorites"
+                sx={{ color: colors.green1 }}
+              >
+                <FavoriteBorderIcon />
+              </IconButton>
+            </Box>
           </Box>
+
           <Box
             sx={{
               position: "relative",
@@ -101,7 +109,7 @@ const PlantDetails = ({ user, plant }) => {
                 height: "100%",
                 borderTopLeftRadius: 2,
                 borderTopRightRadius: 2,
-                borderBottom: `4px solid ${colors.green2}`,
+                borderBottom: `3px solid ${colors.green2}`,
                 objectFit: "cover",
               }}
             />
@@ -112,7 +120,6 @@ const PlantDetails = ({ user, plant }) => {
               display: "flex",
               flexDirection: "column",
               justifyContent: "space-between",
-              height: "100%",
             }}
           >
             <Typography
@@ -142,18 +149,26 @@ const PlantDetails = ({ user, plant }) => {
               variant="body2"
               color="text.secondary"
               sx={{
-                mb: 2,
+                mb: 1,
                 fontFamily: "'Nunito', sans-serif",
                 overflow: "hidden",
                 textOverflow: expanded ? "unset" : "ellipsis",
                 whiteSpace: expanded ? "normal" : "nowrap",
                 width: "100%",
+                lineHeight: 1.5,
+                minHeight: expanded ? "unset" : "1rem",
               }}
             >
               {plant.description}
             </Typography>
 
-            <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
               <Typography
                 variant="caption"
                 color="text.secondary"

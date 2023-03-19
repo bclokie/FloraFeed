@@ -23,8 +23,7 @@ const mockData = [
     plant: {
       commonName: "Monstera Deliciosa",
       scientificName: "Plant Scientific Name",
-      description:
-        "Laboris incididunt id ipsum aute duis.Id id adipisicing sint eu ea dolor qui nisi laborum nisi pariatur id excepteur dolor.",
+      description: "Laboris ",
       imageUrl: "https://source.unsplash.com/random/1080x1080",
       timePosted: "2 hours ago",
     },
@@ -94,7 +93,6 @@ const mockData = [
 function GridView() {
   return (
     <div style={containerStyle}>
-      <p>Grid</p>
       <Grid container spacing={0}>
         {mockData.map((data) => (
           <Grid item xs={10} sm={6} md={4} key={data.id}>
