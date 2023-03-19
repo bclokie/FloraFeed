@@ -6,21 +6,26 @@ import { Button } from "@mui/material";
 import ListView from "./components/ListView";
 import GridView from "./components/GridView";
 import Login from "./components/Login/Login";
+import axios from "axios";
 
 const App = () => {
   const [view, setView] = useState("MAP");
   const [loggedIn, setLoggedIn] = useState(false);
 
-  const mockUser = {
-    email: "brandy@example.com",
-    password: "password123",
-  };
+  const handleLogin = async (email, password) => {
+    try {
+      const response = await axios.post("http://localhost:8080/api/login", {
+        email,
+        password,
+      });
 
-  const handleLogin = (email, password) => {
-    if (email === mockUser.email && password === mockUser.password) {
-      setLoggedIn(true);
-    } else {
-      alert("Invalid email or password");
+      if (response.status === 200) {
+        setLoggedIn(true);
+      } else {
+        alert(response.data.message);
+      }
+    } catch (error) {
+      alert(error.response.data.message);
     }
   };
 
