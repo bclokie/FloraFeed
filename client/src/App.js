@@ -11,9 +11,22 @@ const App = () => {
   const [view, setView] = useState("MAP");
   const [loggedIn, setLoggedIn] = useState(false);
 
-  const handleLogin = () => {
-    setLoggedIn(true);
+  const mockUser = {
+    email: "brandy@example.com",
+    password: "password123",
   };
+
+  const handleLogin = (email, password) => {
+    if (email === mockUser.email && password === mockUser.password) {
+      setLoggedIn(true);
+    } else {
+      alert("Invalid email or password");
+    }
+  };
+
+  if (!loggedIn) {
+    return <Login onLogin={handleLogin} />;
+  }
 
   return (
     <div>
