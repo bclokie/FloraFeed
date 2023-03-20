@@ -36,7 +36,7 @@ function MapView() {
       ))}
     </GoogleMap>
   )
-  
+
   return (
     <>
       {window.google ?  mapWithoutLoadScript : mapWithLoadScript}
