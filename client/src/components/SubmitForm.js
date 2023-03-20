@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useStyles } from "./SubmitStyles.js";
-import { parse } from "exifr";
+import exifr from "exifr";
 
 export function SubmitForm() {
   const [title, setTitle] = useState("");
@@ -18,16 +18,15 @@ export function SubmitForm() {
 
   const handleImageChange = async (event) => {
     const file = event.target.files[0];
-    const maxSize = 5 * 1024 * 1024; // 5MB
+    const maxSize = 5 * 1024 * 1024; // This = 5MB
     if (file && file.size > maxSize) {
       alert("Please choose an image file smaller than 5MB.");
     } else {
-      // Read Exif metadata from the image file
-      const exifData = await parse(file);
-      if (!exifData) {
-        alert("Please choose an image file with EXIF data")
-      }
-      else {
+      // Read GPS data from the image file
+      const exifData = await exifr.parse(file);
+      if (!exifData || !exifData.latitude || !exifData.longitude) {
+        alert("Please choose an image file with GPS data")
+      } else {
         setImage(file)      
       }
     }
