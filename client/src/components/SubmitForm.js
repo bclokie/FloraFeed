@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useStyles } from "./SubmitStyles.js";
+import { parse } from "exifr";
 
 export function SubmitForm() {
   const [title, setTitle] = useState("");
@@ -15,13 +16,20 @@ export function SubmitForm() {
     setDescription("");
   };
 
-  const handleImageChange = (event) => {
+  const handleImageChange = async (event) => {
     const file = event.target.files[0];
-    const maxSize = 5 * 1024 * 1024; // Apparently this is how you write 5MB
+    const maxSize = 5 * 1024 * 1024; // 5MB
     if (file && file.size > maxSize) {
       alert("Please choose an image file smaller than 5MB.");
     } else {
-      setImage(file);
+      // Read Exif metadata from the image file
+      const exifData = await parse(file);
+      if (!exifData) {
+        alert("Please choose an image file with EXIF data")
+      }
+      else {
+        setImage(file)      
+      }
     }
   };
 
@@ -58,6 +66,7 @@ export function SubmitForm() {
         />
       </label>
       <br />
+      <br></br>
       <label>
         Description:
         <textarea
