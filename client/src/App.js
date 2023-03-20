@@ -11,31 +11,70 @@ import axios from "axios";
 const App = () => {
   const [view, setView] = useState("MAP");
   const [loggedIn, setLoggedIn] = useState(false);
-
-  const handleLogin = async (email, password) => {
-    try {
-      const response = await axios.post("http://localhost:8080/api/login", {
-        email,
-        password,
-      });
-
-      if (response.status === 200) {
-        setLoggedIn(true);
-      } else {
-        alert(response.data.message);
-      }
-    } catch (error) {
-      alert(error.response.data.message);
-    }
-  };
-
-  if (!loggedIn) {
-    return <Login onLogin={handleLogin} />;
+  const [registerEmail, setRegisterEmail] = useState("");
+  const [registerPassword, setRegisterPassword] = useState("");
+  const [loginEmail, setLoginEmail] = useState("")
+  const [loginPassword, setLoginPassword] = useState("");
+  const login = () => {
+    axios({
+      method: "POST", 
+      data: {
+        email: loginEmail,
+        password: registerPassword
+      },
+      withCredentials: true,
+      url: "http://localhost:8080/login"
+    })
+    .then((res) => console.log(res));
   }
+  const register = () => {
+    axios({
+      method: "POST", 
+      data: {
+        email: registerEmail,
+        password: registerPassword
+      },
+      withCredentials: true,
+      url: "http://localhost:8080/register"
+    })
+    .then((res) => console.log(res));
+  }
+  const getUser = () => {
+    axios({
+      method: "GET", 
+      data: {
+        email: registerEmail,
+        password: registerPassword
+      },
+      withCredentials: true,
+      url: "http://localhost:8080/getUser"
+    })
+    .then((res) => console.log(res));
+  }
+
+  // const handleLogin = async (email, password) => {
+  //   try {
+  //     const response = await axios.post("http://localhost:8080/api/login", {
+  //       email,
+  //       password,
+  //     });
+
+  //     if (response.status === 200) {
+  //       setLoggedIn(true);
+  //     } else {
+  //       alert(response.data.message);
+  //     }
+  //   } catch (error) {
+  //     alert(error.response.data.message);
+  //   }
+  // };
+
+  // if (!loggedIn) {
+  //   return <Login onLogin={handleLogin} />;
+  // }
 
   return (
     <div>
-      {loggedIn ? (
         <>
           <Container
             sx={{
@@ -85,10 +124,35 @@ const App = () => {
             {view === "GRID" ? <GridView /> : ""}
           </Container>
           <Button>Test</Button>
+
         </>
-      ) : (
-        <Login onLogin={handleLogin} />
-      )}
+        <Container
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              marginTop: "40px",
+              marginBottom: "40px",
+            }}
+          >
+        <div>
+          <h1>Register</h1>
+          <input placeholder="email" onChange={e => setRegisterEmail(e.target.value)}/>
+          <input placeholder="password" onChange={e => setRegisterPassword(e.target.value)}/>
+          <button onClick={register}>Submit</button>
+        </div>
+        <div>
+          <h1>Login</h1>
+          <input placeholder="username" onChange={e => setLoginEmail(e.target.value)}/>
+          <input placeholder="password" onChange={e => setLoginPassword(e.target.value)}/>
+          <button onClick={login}>Submit</button>
+        </div>
+        <div>
+          <h1>Get User</h1>
+          <input placeholder="username"/>
+          <input placeholder="password"/>
+          <button onClick={getUser}>Submit</button>
+        </div>
+        </Container>
     </div>
   );
 };
