@@ -9,8 +9,6 @@ export function SubmitForm() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    // Submit form data to server using axios or fetch
-    // Reset form fields
     setTitle("");
     setPlantName("");
     setImage(null);
@@ -42,7 +40,7 @@ export function SubmitForm() {
       </label>
       <br />
       <label>
-        Image with EXIF Data:
+        Photo:
         <input
           type="file"
           accept="image/*"
