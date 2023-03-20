@@ -45,7 +45,7 @@ const App = () => {
               alignItems: "center",
               marginTop: "40px",
               marginBottom: "40px",
-              marginLeft: "300px"
+              marginLeft: "15%"
             }}
           >
             <div>
@@ -84,7 +84,7 @@ const App = () => {
                 variant="outlined"
                 color="success"
                 onClick={() => console.log("submit new post")}
-                sx={{ marginLeft: "auto", marginRight: "300px", }}
+                sx={{ marginLeft: "auto" }}
                 startIcon={<AddIcon />}
               >
                 New Post
@@ -94,7 +94,7 @@ const App = () => {
           <Sidebar />
           <Container
             sx={{
-              width: "60%",
+              width: "80%",
               height: "400px",
               display: "flex",
               alignItems: "center",
