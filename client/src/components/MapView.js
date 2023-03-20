@@ -12,13 +12,14 @@ const center = {
   lng: 0,
 };
 
-function MapView() {
-  const markers = [
-    { id: 1, position: { lat: 0, lng: 0 } },
-    { id: 2, position: { lat: 10, lng: 10 } },
-  ];
+const markers = [
+  { id: 1, position: { lat: 0, lng: 0 } },
+  { id: 2, position: { lat: 10, lng: 10 } },
+];
 
-  return (
+function MapView() {
+
+  const mapWithLoadScript = (
     <LoadScript googleMapsApiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY}>
       <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={2}>
         {markers.map((marker) => (
@@ -26,6 +27,20 @@ function MapView() {
         ))}
       </GoogleMap>
     </LoadScript>
+  )
+
+  const mapWithoutLoadScript = (
+    <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={2}>
+      {markers.map((marker) => (
+        <Marker key={marker.id} position={marker.position} />
+      ))}
+    </GoogleMap>
+  )
+  
+  return (
+    <>
+      {window.google ?  mapWithoutLoadScript : mapWithLoadScript}
+    </>
   );
 }
 
