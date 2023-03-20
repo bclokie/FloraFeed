@@ -84,7 +84,7 @@ const App = () => {
                 variant="outlined"
                 color="success"
                 onClick={() => console.log("submit new post")}
-                sx={{ marginLeft: "auto" }}
+                sx={{ marginLeft: "auto", marginRight: "300px", }}
                 startIcon={<AddIcon />}
               >
                 New Post
