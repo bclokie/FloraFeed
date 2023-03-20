@@ -15,6 +15,16 @@ export function SubmitForm() {
     setDescription("");
   };
 
+  const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    const maxSize = 5 * 1024 * 1024; // Apparently this is how you write 5MB
+    if (file && file.size > maxSize) {
+      alert("Please choose an image file smaller than 5MB.");
+    } else {
+      setImage(file);
+    }
+  };
+
   const classes = useStyles();
 
   return (
@@ -44,7 +54,7 @@ export function SubmitForm() {
         <input
           type="file"
           accept="image/*"
-          onChange={(event) => setImage(event.target.files[0])}
+          onChange={handleImageChange}
         />
       </label>
       <br />
@@ -60,4 +70,4 @@ export function SubmitForm() {
       <button type="submit" className={classes.button}>Submit</button>
     </form>
   );
-} 
+}
