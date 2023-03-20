@@ -6,11 +6,13 @@ import { Button } from "@mui/material";
 import ListView from "./components/ListView";
 import GridView from "./components/GridView";
 import Login from "./components/Login/Login";
+import Signup from "./components/Signup/Signup"; // Import the Signup component
 import axios from "axios";
 
 const App = () => {
   const [view, setView] = useState("MAP");
   const [loggedIn, setLoggedIn] = useState(false);
+  const [showSignup, setShowSignup] = useState(false); // Add state to toggle between Login and Signup
 
   const handleLogin = async (email, password) => {
     try {
@@ -29,8 +31,47 @@ const App = () => {
     }
   };
 
+  const handleSignup = async (firstName, lastName, email, password) => {
+    try {
+      const response = await axios.post("http://localhost:8080/api/register", {
+        firstName,
+        lastName,
+        email,
+        password,
+      });
+
+      if (response.status === 201) {
+        alert("User registered successfully");
+        setShowSignup(false);
+      } else {
+        alert(response.data.message);
+      }
+    } catch (error) {
+      alert(error.response.data.message);
+    }
+  };
+
   if (!loggedIn) {
-    return <Login onLogin={handleLogin} />;
+    return (
+      <>
+        {showSignup ? (
+          <Signup onSignup={handleSignup} />
+        ) : (
+          <Login onLogin={handleLogin} />
+        )}
+        <Button
+          onClick={() => setShowSignup(!showSignup)}
+          style={{
+            position: "fixed",
+            bottom: "20px",
+            right: "20px",
+            zIndex: 1000,
+          }}
+        >
+          {showSignup ? "Back to Login" : "Sign up"}
+        </Button>
+      </>
+    );
   }
 
   return (
