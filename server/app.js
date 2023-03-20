@@ -77,11 +77,6 @@ app.listen(PORT, () => console.log(`Server is listening on port ${PORT}`));
 
 // const app = express();
 
-// mongoose.connect('mongodb+srv://coreysilver:GIKDi8gsM3Q8v7Op@leafly.7e17ock.mongodb.net/?retryWrites=true&w=majority', {
-//   useNewUrlParser: true,
-//   useUnifiedTopology: true
-// })
-
 // // Middleware
 // app.use(morgan(ENVIROMENT));
 // app.use(bodyParser.json());
