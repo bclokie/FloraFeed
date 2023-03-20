@@ -8,8 +8,9 @@ import GridView from "./components/GridView";
 import Login from "./components/Login/Login";
 import axios from "axios";
 import AddIcon from "@mui/icons-material/Add";
-import SubmitForm from "./components/SubmitForm";
-import Popup from "reactjs-popup";
+import { SubmitForm } from "./components/SubmitForm";
+import { ThemeProvider } from '@mui/material/styles';
+import { theme } from './components/SubmitStyles';
 
 
 const App = () => {
@@ -83,23 +84,15 @@ const App = () => {
                 alignItems: "center",
               }}
             >
-            <Popup
-              open={view === "SubmitForm"}
-              onClose={() => setView("MAP")}
-              modal
-              closeOnDocumentClick
-            >
-              <SubmitForm />
-            </Popup>
-            <Button
-              variant="outlined"
-              color="success"
-              onClick={() => setView("SubmitForm")}
-              sx={{ marginLeft: "auto" }}
-              startIcon={<AddIcon />}
-            >
-              New Post
-            </Button>
+              <Button
+                variant="outlined"
+                color="success"
+                onClick={() => setView("SubmitForm")}
+                sx={{ marginLeft: "auto" }}
+                startIcon={<AddIcon />}
+              >
+                New Post
+              </Button>
             </div>
           </Container>
           <Sidebar />
@@ -115,6 +108,7 @@ const App = () => {
             {view === "MAP" ? <MapView /> : ""}
             {view === "LIST" ? <ListView /> : ""}
             {view === "GRID" ? <GridView /> : ""}
+            {view === "SubmitForm" ? <SubmitForm /> : ""}
           </Container>
           <Button>Test</Button>
         </>
@@ -125,4 +119,10 @@ const App = () => {
   );  
 };
 
-export default App;
+const WrappedApp = () => (
+  <ThemeProvider theme={theme}>
+    <App />
+  </ThemeProvider>
+);
+
+export default WrappedApp;

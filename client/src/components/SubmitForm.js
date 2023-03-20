@@ -1,6 +1,7 @@
 import React, { useState } from "react";
+import { useStyles } from "./SubmitStyles.js";
 
-function SubmitForm() {
+export function SubmitForm() {
   const [title, setTitle] = useState("");
   const [plantName, setPlantName] = useState("");
   const [image, setImage] = useState(null);
@@ -16,6 +17,8 @@ function SubmitForm() {
     setDescription("");
   };
 
+  const classes = useStyles();
+
   return (
     <form onSubmit={handleSubmit}>
       <label>
@@ -24,6 +27,7 @@ function SubmitForm() {
           type="text"
           value={title}
           onChange={(event) => setTitle(event.target.value)}
+          className={classes.input}
         />
       </label>
       <br />
@@ -33,6 +37,7 @@ function SubmitForm() {
           type="text"
           value={plantName}
           onChange={(event) => setPlantName(event.target.value)}
+          className={classes.input}
         />
       </label>
       <br />
@@ -50,12 +55,11 @@ function SubmitForm() {
         <textarea
           value={description}
           onChange={(event) => setDescription(event.target.value)}
+          className={classes.textarea}
         />
       </label>
       <br />
-      <button type="submit">Submit</button>
+      <button type="submit" className={classes.button}>Submit</button>
     </form>
   );
-}
-
-export default SubmitForm;
+} 
