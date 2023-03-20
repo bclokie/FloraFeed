@@ -8,6 +8,9 @@ import GridView from "./components/GridView";
 import Login from "./components/Login/Login";
 import axios from "axios";
 import AddIcon from "@mui/icons-material/Add";
+import SubmitForm from "./components/SubmitForm";
+import Popup from "reactjs-popup";
+
 
 const App = () => {
   const [view, setView] = useState("MAP");
@@ -45,7 +48,7 @@ const App = () => {
               alignItems: "center",
               marginTop: "40px",
               marginBottom: "40px",
-              marginLeft: "15%"
+              marginLeft: "10%"
             }}
           >
             <div>
@@ -80,15 +83,23 @@ const App = () => {
                 alignItems: "center",
               }}
             >
-              <Button
-                variant="outlined"
-                color="success"
-                onClick={() => console.log("submit new post")}
-                sx={{ marginLeft: "auto" }}
-                startIcon={<AddIcon />}
-              >
-                New Post
-              </Button>
+            <Popup
+              open={view === "SubmitForm"}
+              onClose={() => setView("MAP")}
+              modal
+              closeOnDocumentClick
+            >
+              <SubmitForm />
+            </Popup>
+            <Button
+              variant="outlined"
+              color="success"
+              onClick={() => setView("SubmitForm")}
+              sx={{ marginLeft: "auto" }}
+              startIcon={<AddIcon />}
+            >
+              New Post
+            </Button>
             </div>
           </Container>
           <Sidebar />
