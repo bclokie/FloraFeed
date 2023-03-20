@@ -17,7 +17,7 @@ const Login = ({ onLogin }) => {
   };
 
   return (
-    <Container maxWidth="sm">
+    <Container maxWidth="false">
       <Box
         sx={{
           display: "flex",
