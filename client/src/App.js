@@ -8,6 +8,10 @@ import GridView from "./components/GridView";
 import Login from "./components/Login/Login";
 import Signup from "./components/Signup/Signup";
 import firebase from "./firebase";
+import {
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+} from "firebase/auth";
 
 const App = () => {
   const [view, setView] = useState("MAP");
@@ -25,7 +29,7 @@ const App = () => {
 
   const handleLogin = async (email, password) => {
     try {
-      await firebase.auth.signInWithEmailAndPassword(email, password);
+      await signInWithEmailAndPassword(firebase.auth, email, password);
     } catch (error) {
       alert(error.message);
     }
@@ -33,7 +37,7 @@ const App = () => {
 
   const handleSignup = async (firstName, lastName, email, password) => {
     try {
-      await firebase.auth.createUserWithEmailAndPassword(email, password);
+      await createUserWithEmailAndPassword(firebase.auth, email, password);
 
       alert("User registered successfully");
     } catch (error) {
@@ -44,9 +48,10 @@ const App = () => {
   if (!user) {
     return (
       <>
-        <Login onLogin={handleLogin} />
+        {view !== "SIGNUP" ? <Login onLogin={handleLogin} /> : ""}
+        {view === "SIGNUP" ? <Signup onSignup={handleSignup} /> : ""}
         <Button
-          onClick={() => setView("SIGNUP")}
+          onClick={() => setView(view === "SIGNUP" ? "LOGIN" : "SIGNUP")}
           style={{
             position: "fixed",
             bottom: "20px",
@@ -54,9 +59,8 @@ const App = () => {
             zIndex: 1000,
           }}
         >
-          Sign up
+          {view === "SIGNUP" ? "Log in" : "Sign up"}
         </Button>
-        {view === "SIGNUP" ? <Signup onSignup={handleSignup} /> : ""}
       </>
     );
   }
