@@ -34,9 +34,6 @@ const Sidebar = ({ open, handleSidebarClose }) => {
       }}
     >
       <div className={classes.toolbar}>
-        <IconButton onClick={handleSidebarClose}>
-          <MenuIcon />
-        </IconButton>
       </div>
       <List>
         <Typography variant="h4" textAlign="center" color="green" className={classes.logo}>
@@ -53,7 +50,7 @@ const Sidebar = ({ open, handleSidebarClose }) => {
           </ListItem>
         ))}
       </List>
-      <List className={classes.logoutButton}>
+      <List className={classes.logoutButton} sx={{ position: "absolute", bottom: 0 }}>
         <ListItem button onClick={handleLogoutClick}>
           <ListItemText primary="Logout" />
         </ListItem>
