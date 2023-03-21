@@ -45,41 +45,59 @@ export function SubmitForm() {
   const classes = useStyles();
 
   return (
-    <form onSubmit={handleSubmit}>
-    <label>
-      <span style={{ 
-        color: colors.green1,
-        fontFamily: "'Nunito', sans-serif",
-        fontWeight: "bold",
-        fontSize: "24px",
-        marginTop: "200px",
-        marginBottom: 4,
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-      }}>Title:
-      </span>        
-      <input style= {{ marginBottom: "40px"}}
-        type="text"
-        value={title}
-        onChange={(event) => setTitle(event.target.value)}
-        className={classes.input}
-      />
+    <form onSubmit={handleSubmit} style={{ width: "90%" }}>
+      <label>
+        <span style={{
+          color: colors.green1,
+          fontFamily: "'Nunito', sans-serif",
+          fontWeight: "bold",
+          fontSize: "24px",
+          marginTop: "200px",
+          marginBottom: 4,
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          maxWidth: "25%",
+          margin: "0 auto",
+        }}>Title:
+        </span>
+        <input style={{
+          marginBottom: "40px",
+          width: "25%",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          margin: "0 auto",
+        }}
+          type="text"
+          value={title}
+          onChange={(event) => setTitle(event.target.value)}
+          className={classes.input}
+        />
       </label>
       <br />
       <label>
-      <span style={{ 
-        color: colors.green1,
-        fontFamily: "'Nunito', sans-serif",
-        fontWeight: "bold",
-        fontSize: "24px",
-        marginBottom: 4,
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-      }}> Scientific Plant Name:
-      </span> 
-        <input style= {{ marginBottom: "40px"}}
+        <span style={{
+          color: colors.green1,
+          fontFamily: "'Nunito', sans-serif",
+          fontWeight: "bold",
+          fontSize: "24px",
+          marginBottom: 4,
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          maxWidth: "25%",
+          margin: "0 auto",
+        }}> Scientific Plant Name:
+        </span>
+        <input style={{
+          marginBottom: "40px",
+          width: "25%",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          margin: "0 auto",
+        }}
           type="text"
           value={plantName}
           onChange={(event) => setPlantName(event.target.value)}
@@ -88,19 +106,28 @@ export function SubmitForm() {
       </label>
       <br />
       <label>
-      <span style={{ 
-        color: colors.green1,
-        fontFamily: "'Nunito', sans-serif",
-        fontWeight: "bold",
-        fontSize: "24px",
-        marginBottom: 4,
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-      }}>
-        Photo:
-        </span>
-        <input style= {{ marginBottom: "20px"}}
+        <span style={{
+          color: colors.green1,
+          fontFamily: "'Nunito', sans-serif",
+          fontWeight: "bold",
+          fontSize: "24px",
+          marginBottom: 4,
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          maxWidth: "25%",
+          margin: "0 auto",
+        }}>
+          Photo:
+          </span>
+        <input style={{
+          marginTop: "10px",
+          marginBottom: "20px",
+          margin: "0 auto",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
           type="file"
           accept="image/*"
           onChange={handleImageChange}
@@ -109,26 +136,36 @@ export function SubmitForm() {
       <br />
       <br></br>
       <label>
-      <span style={{ 
-        color: colors.green1,
-        fontFamily: "'Nunito', sans-serif",
-        fontWeight: "bold",
-        fontSize: "24px",
-        marginBottom: 4,
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-      }}>
-        Description:
-      </span>
-        <textarea style= {{ marginBottom: "40px"}}
+        <span style={{
+          color: colors.green1,
+          fontFamily: "'Nunito', sans-serif",
+          fontWeight: "bold",
+          fontSize: "24px",
+          marginBottom: 4,
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          maxWidth: "25%",
+          margin: "0 auto",
+        }}>
+          Description:
+        </span>
+        <textarea
+          style={{
+            marginBottom: "40px",
+            maxWidth: "70%",
+            margin: "0 auto",
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
           value={description}
           onChange={(event) => setDescription(event.target.value)}
           className={classes.textarea}
         />
       </label>
       <br />
-      <button type="submit" className={classes.button} >Submit</button>
+      <button type="submit" className={classes.button}>Submit</button>
     </form>
-  );
+  );  
 }
