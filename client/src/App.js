@@ -8,9 +8,9 @@ import GridView from "./components/GridView";
 import Login from "./components/Login/Login";
 import axios from "axios";
 import AddIcon from "@mui/icons-material/Add";
-import { SubmitForm } from "./components/SubmitForm";
+import { SubmitForm } from "./components/Submit/SubmitForm";
 import { ThemeProvider } from '@mui/material/styles';
-import { theme } from './components/SubmitStyles';
+import { theme } from './components/Submit/SubmitStyles';
 
 
 const App = () => {

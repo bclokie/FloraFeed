@@ -2,6 +2,13 @@ import { makeStyles } from '@mui/styles';
 import { createTheme } from '@mui/material/styles';
 
 const theme = createTheme();
+const colors = {
+  white: "#FFFFFF",
+  green1: "#2C7C50",
+  green2: "#2B764A",
+  lightGreen1: "#EDF1F0",
+  lightGreen2: "#DAE1D8",
+};
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -30,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: '16px',
   },
   button: {
-    backgroundColor: '#4caf50',
+    backgroundColor: '#357a38',
     border: 'none',
     borderRadius: '4px',
     color: 'white',
@@ -39,8 +46,10 @@ const useStyles = makeStyles((theme) => ({
     cursor: 'pointer',
     transition: 'background-color 0.3s',
     '&:hover': {
-      backgroundColor: '#357a38',
+      backgroundColor: '#4caf50',
     },
+    display: 'block',
+    margin: '0 auto',
   },
 }));
 
