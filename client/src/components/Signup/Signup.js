@@ -1,11 +1,14 @@
+// src/components/Signup/Signup.js
+import React, { useState } from "react";
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import React, { useState } from "react";
 
-const Login = ({ onLogin }) => {
+const Signup = ({ onSignup }) => {
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const colors = {
@@ -17,7 +20,7 @@ const Login = ({ onLogin }) => {
   };
 
   return (
-    <Container maxWidth="false">
+    <Container maxWidth="sm">
       <Box
         sx={{
           display: "flex",
@@ -38,7 +41,7 @@ const Login = ({ onLogin }) => {
             marginBottom: 4,
           }}
         >
-          Login
+          Sign up
         </Typography>
         <Box
           component="form"
@@ -52,6 +55,24 @@ const Login = ({ onLogin }) => {
           }}
           autoComplete="off"
         >
+          <TextField
+            label="First Name"
+            fullWidth
+            margin="normal"
+            variant="outlined"
+            sx={{ marginBottom: 2 }}
+            value={firstName}
+            onChange={(e) => setFirstName(e.target.value)}
+          />
+          <TextField
+            label="Last Name"
+            fullWidth
+            margin="normal"
+            variant="outlined"
+            sx={{ marginBottom: 2 }}
+            value={lastName}
+            onChange={(e) => setLastName(e.target.value)}
+          />
           <TextField
             label="Email"
             type="email"
@@ -84,9 +105,9 @@ const Login = ({ onLogin }) => {
               textTransform: "none",
               fontWeight: "bold",
             }}
-            onClick={() => onLogin(email, password)}
+            onClick={() => onSignup(firstName, lastName, email, password)}
           >
-            Login
+            Sign up
           </Button>
         </Box>
       </Box>
@@ -94,4 +115,4 @@ const Login = ({ onLogin }) => {
   );
 };
 
-export default Login;
+export default Signup;
