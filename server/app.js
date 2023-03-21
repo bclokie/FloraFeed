@@ -49,7 +49,6 @@ app.use(
     }
   }
   const {postSchema} = require('./db/post.model.js')
-  const Post = mongoose.model('Post');
   
 
 app.post("/api/login", (req, res, next) => {
