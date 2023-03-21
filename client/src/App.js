@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Container } from "@mui/system";
-import { Button } from "@mui/material";
+import { Button, IconButton } from "@mui/material";
 import Sidebar from "./components/Sidebar/Sidebar";
 import MapView from "./components/MapView/MapView";
 import ListView from "./components/ListView/ListView";
@@ -12,10 +12,12 @@ import Navigation from "./components/Navigation/Navigation";
 import { SubmitForm } from "./components/Submit/SubmitForm";
 import { ThemeProvider } from "@mui/material/styles";
 import { theme } from "./components/Submit/SubmitStyles";
+import MenuIcon from '@mui/icons-material/Menu';
 
 const App = () => {
   const { user, handleLogin, handleSignup } = useAuth();
   const [view, setView] = useState("MAP");
+  const [sidebarOpen, setSidebarOpen] = useState(true);
 
   const renderView = () => {
     switch (view) {
@@ -30,6 +32,10 @@ const App = () => {
       default:
         return null;
     }
+  };
+
+  const handleToggleSidebar = () => {
+    setSidebarOpen(!sidebarOpen);
   };
 
   if (!user) {
@@ -55,7 +61,7 @@ const App = () => {
   return (
     <div>
       <Navigation setView={setView} />
-      <Sidebar />
+      <Sidebar open={sidebarOpen} handleSidebarClose={() => setSidebarOpen(false)} />
       <Container
         sx={{
           width: "80%",
@@ -65,6 +71,9 @@ const App = () => {
           justifyContent: "center",
         }}
       >
+        <IconButton onClick={handleToggleSidebar}>
+          <MenuIcon />
+        </IconButton>
         {renderView()}
       </Container>
     </div>

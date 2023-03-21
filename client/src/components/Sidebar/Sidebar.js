@@ -6,8 +6,10 @@ import SpaIcon from '@mui/icons-material/Spa';
 import UploadIcon from '@mui/icons-material/Upload';
 import { Typography } from '@mui/material';
 import { useAuth } from '../../hooks/useAuth';
+import IconButton from '@mui/material/IconButton';
+import MenuIcon from '@mui/icons-material/Menu';
 
-const Sidebar = () => {
+const Sidebar = ({ open, handleSidebarClose }) => {
   const classes = useStyles();
   const { handleLogout } = useAuth();
 
@@ -15,29 +17,41 @@ const Sidebar = () => {
     handleLogout();
   };
 
+  const handleListItemClick = (text) => {
+    console.log(`Clicked ${text}`);
+    // TODO: Handle the click event for each list item
+  };
+
   return (
     <Drawer
       className={classes.drawer}
-      variant="permanent"
+      variant="temporary"
       anchor="left"
+      open={open}
+      onClose={handleSidebarClose}
+      classes={{
+        paper: classes.drawerPaper,
+      }}
     >
-      <List sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-        <Typography variant="h4" textAlign="center" color="green">
+      <div className={classes.toolbar}>
+      </div>
+      <List>
+        <Typography variant="h4" textAlign="center" color="green" className={classes.logo}>
           Logo
         </Typography>
         {['Name', 'Discover', 'My Uploads'].map((text, index) => (
-          <ListItem button key={text}>
+          <ListItem button key={text} onClick={() => handleListItemClick(text)}>
             <ListItemIcon>
-              {text === 'Name' ? <AccountBoxIcon /> : ''}
-              {text === 'Discover' ? <SpaIcon /> : ''}
-              {text === 'My Uploads' ? <UploadIcon /> : ''}
+              {text === 'Name' && <AccountBoxIcon />}
+              {text === 'Discover' && <SpaIcon />}
+              {text === 'My Uploads' && <UploadIcon />}
             </ListItemIcon>
             <ListItemText primary={text} />
           </ListItem>
         ))}
       </List>
-      <List sx={{ position: "absolute", bottom: 0, left: 0, right: 0 }}>
-        <ListItem button variant="outlined" sx={{ textAlign: "center" }} onClick={handleLogoutClick}>
+      <List className={classes.logoutButton} sx={{ position: "absolute", bottom: 0 }}>
+        <ListItem button onClick={handleLogoutClick}>
           <ListItemText primary="Logout" />
         </ListItem>
       </List>
