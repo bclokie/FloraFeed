@@ -38,10 +38,12 @@ export function SubmitForm() {
   };
 
   const handleImageChange = async (event) => {
+    console.log("handleImageChange called");
     const file = event.target.files[0];
     const maxSize = 5 * 1024 * 1024; // This = 5MB
     if (file && file.size > maxSize) {
       alert("Please choose an image file smaller than 5MB.");
+      return;
     } else {
       // Read GPS data from the image file
       let exifData = await exifr.gps(file);
@@ -56,6 +58,25 @@ export function SubmitForm() {
   };
 
   const classes = useStyles();
+
+  const disabledButtonStyles = {
+    backgroundColor: "gray",
+    color: "white",
+    cursor: "not-allowed"
+  };
+  
+  const enabledButtonStyles = {
+    backgroundColor: colors.green1,
+    cursor: 'pointer',
+    transition: 'background-color 0.3s',
+    '&:hover': {
+      backgroundColor: colors.green2,
+    },
+  };
+
+  const buttonStyles = !title || !plantName || !image || !description
+    ? disabledButtonStyles : enabledButtonStyles;
+
 
   return (
     <form onSubmit={handleSubmit} style={{ width: "90%" }}>
@@ -178,7 +199,15 @@ export function SubmitForm() {
         />
       </label>
       <br />
-      <button type="submit" className={classes.button} onSubmit={submitData}>Submit</button>
+      <button
+        type="submit"
+        className={classes.button}
+        onSubmit={submitData}
+        style={buttonStyles}
+        disabled={!title || !plantName || !image || !description}
+      >
+        Submit
+      </button>
     </form>
   );  
 }
