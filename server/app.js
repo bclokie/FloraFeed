@@ -12,6 +12,9 @@ const session = require("express-session");
 const Post = require('./db/post.model.js');
 const catsRoutes = require("./routes/catsRoutes");
 const User = require("./models/user");
+const fileUpload = require('express-fileupload');
+
+
 
 const app = express();
 
@@ -20,6 +23,7 @@ app.use(morgan(ENVIROMENT));
 app.use(bodyParser.json());
 app.use(cors());
 app.use(express.json());
+app.use(fileUpload());
 
 // Connect to MongoDB
 mongoose
@@ -108,16 +112,18 @@ app.use(
 
 
 app.post("/submit", (req, res) => {
-  Post.insertMany([{title: req.body.title, plantName: req.body.plantName, image: req.body.image, description: req.body.description}])
+  console.log('this is req.files', req.files);
+  Post.insertMany([{title: req.body.title, plantName: req.body.plantName, image: req.files.image.data, description: req.body.description}])
 })
 app.get("/submit", (req, res) => {
-  Post.find({})
-    .then(posts => {
-      console.log(posts);
-    })
-    .catch(err => {
-      console.error(err);
-    });
+  Post.findById('641a0ad4a0c8691b2201d26c').lean()
+  .then((post) => {
+    console.log('')
+    res.json(post)
+  })
+  .catch((err) => {
+    console.log(err);
+  });
 })
 
 
