@@ -9,6 +9,7 @@ import { useAuth } from '../../hooks/useAuth';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import LogoutIcon from '@mui/icons-material/Logout';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 
 const Sidebar = ({ open, handleSidebarClose, text }) => {
   const classes = useStyles();
@@ -40,12 +41,14 @@ const Sidebar = ({ open, handleSidebarClose, text }) => {
         <Typography variant="h4" textAlign="center" color="green" className={classes.logo}>
           Logo
         </Typography>
-        {['Name', 'Discover', 'My Uploads'].map((menuItem, index) => (
+        {['Name', 'Discover', 'My Uploads', 'Favourites'].map((menuItem, index) => (
           <ListItem button key={menuItem} onClick={() => handleListItemClick(menuItem)}>
             <ListItemIcon>
               {menuItem === 'Name' && <AccountBoxIcon />}
               {menuItem === 'Discover' && <SpaIcon />}
               {menuItem === 'My Uploads' && <UploadIcon />}
+              {menuItem === 'Favourites' && <FavoriteIcon />}
+
             </ListItemIcon>
             <ListItemText primary={menuItem} />
           </ListItem>
