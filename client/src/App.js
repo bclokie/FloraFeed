@@ -16,6 +16,7 @@ import { theme } from "./components/Submit/SubmitStyles";
 const App = () => {
   const { user, handleLogin, handleSignup } = useAuth();
   const [view, setView] = useState("MAP");
+  const [sidebarOpen, setSidebarOpen] = useState(true);
 
   const renderView = () => {
     switch (view) {
@@ -30,6 +31,10 @@ const App = () => {
       default:
         return null;
     }
+  };
+
+  const handleToggleSidebar = () => {
+    setSidebarOpen(!sidebarOpen);
   };
 
   if (!user) {
@@ -55,7 +60,7 @@ const App = () => {
   return (
     <div>
       <Navigation setView={setView} />
-      <Sidebar />
+      <Sidebar open={sidebarOpen} />
       <Container
         sx={{
           width: "80%",
@@ -65,6 +70,9 @@ const App = () => {
           justifyContent: "center",
         }}
       >
+        <Button onClick={handleToggleSidebar}>
+          {sidebarOpen ? "Close Sidebar" : "Open Sidebar"}
+        </Button>
         {renderView()}
       </Container>
     </div>
