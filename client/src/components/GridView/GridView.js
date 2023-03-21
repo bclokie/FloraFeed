@@ -1,5 +1,5 @@
 import React from "react";
-import PlantDetails from "./PlantDetails/PlantDetails";
+import PlantDetails from "../PlantDetails/PlantDetails";
 import Grid from "@mui/material/Grid";
 
 const containerStyle = {
