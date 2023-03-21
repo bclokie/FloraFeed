@@ -1,5 +1,5 @@
 import React from 'react';
-import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
+import { GoogleMap, LoadScript, Marker, MarkerF } from '@react-google-maps/api';
 
 const containerStyle = {
   width: '100%',
@@ -12,18 +12,18 @@ const center = {
   lng: 0,
 };
 
-const markers = [
-  { id: 1, position: { lat: 0, lng: 0 } },
-  { id: 2, position: { lat: 10, lng: 10 } },
-];
+const coordinatesData = [
+  { id: 1, position: { lat: 37.7749, lng: -122.4194 } },
+  { id: 2, position: { lat: 40.7128, lng: -74.0060 } },
+  { id: 3, position: { lat: 51.5074, lng: -0.1278 } }
+]
 
 function MapView() {
-
   const mapWithLoadScript = (
     <LoadScript googleMapsApiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY}>
       <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={2}>
-        {markers.map((marker) => (
-          <Marker key={marker.id} position={marker.position} />
+        {coordinatesData.map((marker) => (
+          <MarkerF key={marker.id} position={marker.position} />
         ))}
       </GoogleMap>
     </LoadScript>
@@ -31,15 +31,15 @@ function MapView() {
 
   const mapWithoutLoadScript = (
     <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={2}>
-      {markers.map((marker) => (
-        <Marker key={marker.id} position={marker.position} />
+      {coordinatesData.map((marker) => (
+        <MarkerF key={marker.id} position={marker.position} />
       ))}
     </GoogleMap>
   )
 
   return (
     <>
-      {window.google ?  mapWithoutLoadScript : mapWithLoadScript}
+      {window.google ? mapWithoutLoadScript : mapWithLoadScript}
     </>
   );
 }
