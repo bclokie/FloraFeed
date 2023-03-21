@@ -1,19 +1,32 @@
 import React, { useState } from "react";
 import { useStyles } from "./SubmitStyles.js";
 import exifr from "exifr";
+import axios from 'axios';
 
 export function SubmitForm() {
   const [title, setTitle] = useState("");
   const [plantName, setPlantName] = useState("");
   const [image, setImage] = useState(null);
   const [description, setDescription] = useState("");
-
+  
+  const submitData = function() {
+    axios({
+      method: 'post',
+      url: 'http://localhost:8080/submit',
+      data: {
+        title,
+        plantName,
+        image, description
+      }
+    })
+  }
   const handleSubmit = (event) => {
     event.preventDefault();
     setTitle("");
     setPlantName("");
     setImage(null);
     setDescription("");
+    submitData()
   };
 
   const colors = {
@@ -165,7 +178,7 @@ export function SubmitForm() {
         />
       </label>
       <br />
-      <button type="submit" className={classes.button}>Submit</button>
+      <button type="submit" className={classes.button} onSubmit={submitData}>Submit</button>
     </form>
   );  
 }
