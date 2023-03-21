@@ -5,6 +5,7 @@ import {
   createUserWithEmailAndPassword,
   signInWithPopup,
   GoogleAuthProvider,
+  signOut,
 } from "firebase/auth";
 
 export const useAuth = () => {
@@ -46,5 +47,14 @@ export const useAuth = () => {
     }
   };
 
-  return { user, handleLogin, handleSignup, handleGoogleSignIn };
+  const handleLogout = async () => {
+    try {
+      await signOut(firebase.auth);
+      setUser(null);
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+
+  return { user, handleLogin, handleSignup, handleGoogleSignIn, handleLogout };
 };
