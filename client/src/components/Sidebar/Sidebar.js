@@ -6,6 +6,8 @@ import SpaIcon from '@mui/icons-material/Spa';
 import UploadIcon from '@mui/icons-material/Upload';
 import { Typography } from '@mui/material';
 import { useAuth } from '../../hooks/useAuth';
+import IconButton from '@mui/material/IconButton';
+import MenuIcon from '@mui/icons-material/Menu';
 
 const Sidebar = ({ open, handleSidebarClose }) => {
   const classes = useStyles();
@@ -23,14 +25,19 @@ const Sidebar = ({ open, handleSidebarClose }) => {
   return (
     <Drawer
       className={classes.drawer}
-      variant="persistent"
+      variant="temporary"
       anchor="left"
       open={open}
+      onClose={handleSidebarClose}
       classes={{
         paper: classes.drawerPaper,
       }}
     >
-      <div className={classes.toolbar} />
+      <div className={classes.toolbar}>
+        <IconButton onClick={handleSidebarClose}>
+          <MenuIcon />
+        </IconButton>
+      </div>
       <List>
         <Typography variant="h4" textAlign="center" color="green" className={classes.logo}>
           Logo
