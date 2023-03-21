@@ -12,6 +12,11 @@ import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
 } from "firebase/auth";
+import axios from "axios";
+import AddIcon from "@mui/icons-material/Add";
+import { SubmitForm } from "./components/Submit/SubmitForm";
+import { ThemeProvider } from '@mui/material/styles';
+import { theme } from './components/Submit/SubmitStyles';
 
 const App = () => {
   const [view, setView] = useState("MAP");
@@ -72,40 +77,60 @@ const App = () => {
           <Container
             sx={{
               display: "flex",
-              justifyContent: "center",
+              justifyContent: "space-between",
+              alignItems: "center",
               marginTop: "40px",
               marginBottom: "40px",
+              marginLeft: "10%"
             }}
           >
-            <Button
-              variant="outlined"
-              color="success"
-              style={{ marginRight: "20px" }}
-              onClick={() => setView("GRID")}
+            <div>
+              <Button
+                variant="outlined"
+                color="success"
+                style={{ marginRight: "20px" }}
+                onClick={() => setView("GRID")}
+              >
+                Grid
+              </Button>
+              <Button
+                variant="outlined"
+                color="success"
+                style={{ marginRight: "20px" }}
+                onClick={() => setView("LIST")}
+              >
+                List
+              </Button>
+              <Button
+                variant="outlined"
+                color="success"
+                style={{ marginRight: "20px" }}
+                onClick={() => setView("MAP")}
+              >
+                Map
+              </Button>
+            </div>
+            <div
+              sx={{
+                display: "flex",
+                alignItems: "center",
+              }}
             >
-              Grid
-            </Button>
-            <Button
-              variant="outlined"
-              color="success"
-              style={{ marginRight: "20px" }}
-              onClick={() => setView("LIST")}
-            >
-              List
-            </Button>
-            <Button
-              variant="outlined"
-              color="success"
-              style={{ marginRight: "20px" }}
-              onClick={() => setView("MAP")}
-            >
-              Map
-            </Button>
+              <Button
+                variant="outlined"
+                color="success"
+                onClick={() => setView("SubmitForm")}
+                sx={{ marginLeft: "auto" }}
+                startIcon={<AddIcon />}
+              >
+                New Post
+              </Button>
+            </div>
           </Container>
           <Sidebar />
           <Container
             sx={{
-              width: "60%",
+              width: "80%",
               height: "400px",
               display: "flex",
               alignItems: "center",
@@ -115,6 +140,7 @@ const App = () => {
             {view === "MAP" ? <MapView /> : ""}
             {view === "LIST" ? <ListView /> : ""}
             {view === "GRID" ? <GridView /> : ""}
+            {view === "SubmitForm" ? <SubmitForm /> : ""}
           </Container>
           <Button>Test</Button>
         </>
@@ -122,7 +148,13 @@ const App = () => {
         <Login onLogin={handleLogin} />
       )}
     </div>
-  );
+  );  
 };
 
-export default App;
+const WrappedApp = () => (
+  <ThemeProvider theme={theme}>
+    <App />
+  </ThemeProvider>
+);
+
+export default WrappedApp;
