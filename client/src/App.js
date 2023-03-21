@@ -61,7 +61,7 @@ const App = () => {
   return (
     <div>
       <Navigation setView={setView} />
-      <Sidebar open={sidebarOpen} handleSidebarClose={() => setSidebarOpen(false)} />
+      <Sidebar open={sidebarOpen} handleSidebarClose={() => setSidebarOpen(false)} text="Logout" />
       <Container
         sx={{
           width: "80%",
