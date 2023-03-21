@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: '16px',
   },
   button: {
-    backgroundColor: '#357a38',
+    backgroundColor: colors.green1,
     border: 'none',
     borderRadius: '4px',
     color: 'white',
@@ -46,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
     cursor: 'pointer',
     transition: 'background-color 0.3s',
     '&:hover': {
-      backgroundColor: '#4caf50',
+      backgroundColor: colors.green2,
     },
     display: 'block',
     margin: '0 auto',
