@@ -50,10 +50,10 @@ const Sidebar = ({ open, handleSidebarClose }) => {
           </ListItem>
         ))}
       </List>
-      <List className={classes.logoutButton} sx={{ position: "absolute", bottom: 0 }}>
-        <ListItem button onClick={handleLogoutClick}>
-          <ListItemText primary="Logout" />
-        </ListItem>
+      <List className={classes.logoutButton} sx={{ position: "absolute", bottom: 0, width: "100%", textAlign: "center", borderTopLeftRadius: 16, borderTopRightRadius: 16, bgcolor: "#f5f5f5", p: 2 }}>
+      <ListItem button onClick={handleLogoutClick}>
+        <ListItemText primary="Logout" />
+      </ListItem>
       </List>
     </Drawer>
   );
