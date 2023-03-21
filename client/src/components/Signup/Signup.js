@@ -6,7 +6,7 @@ import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 
-const Signup = ({ onSignup }) => {
+const Signup = ({ onSignup, onSwitchToLogin, onGoogleSignIn }) => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -109,6 +109,47 @@ const Signup = ({ onSignup }) => {
           >
             Sign up
           </Button>
+          <Button
+            fullWidth
+            variant="contained"
+            sx={{
+              backgroundColor: colors.green1,
+              "&:hover": {
+                backgroundColor: colors.green2,
+              },
+              color: colors.white,
+              textTransform: "none",
+              fontWeight: "bold",
+              marginTop: 2,
+            }}
+            onClick={onGoogleSignIn}
+          >
+            Sign up with Google
+          </Button>
+
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "center",
+              marginTop: 2,
+            }}
+          >
+            <Typography variant="body2" sx={{ marginRight: 1 }}>
+              Already have an account?
+            </Typography>
+            <Typography
+              variant="body2"
+              sx={{
+                cursor: "pointer",
+                textDecoration: "underline",
+                color: colors.green1,
+              }}
+              onClick={onSwitchToLogin}
+            >
+              Log in
+            </Typography>
+          </Box>
         </Box>
       </Box>
     </Container>

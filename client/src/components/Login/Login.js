@@ -5,7 +5,7 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import React, { useState } from "react";
 
-const Login = ({ onLogin }) => {
+const Login = ({ onLogin, onSwitchToSignup, onGoogleSignIn }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const colors = {
@@ -88,6 +88,47 @@ const Login = ({ onLogin }) => {
           >
             Login
           </Button>
+          <Button
+            fullWidth
+            variant="contained"
+            sx={{
+              backgroundColor: colors.green1,
+              "&:hover": {
+                backgroundColor: colors.green2,
+              },
+              color: colors.white,
+              textTransform: "none",
+              fontWeight: "bold",
+              marginTop: 2,
+            }}
+            onClick={onGoogleSignIn}
+          >
+            Sign in with Google
+          </Button>
+
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "center",
+              marginTop: 2,
+            }}
+          >
+            <Typography variant="body2" sx={{ marginRight: 1 }}>
+              Don't have an account?
+            </Typography>
+            <Typography
+              variant="body2"
+              sx={{
+                cursor: "pointer",
+                textDecoration: "underline",
+                color: colors.green1,
+              }}
+              onClick={onSwitchToSignup}
+            >
+              Sign up
+            </Typography>
+          </Box>
         </Box>
       </Box>
     </Container>

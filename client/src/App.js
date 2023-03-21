@@ -12,10 +12,11 @@ import Navigation from "./components/Navigation/Navigation";
 import { SubmitForm } from "./components/Submit/SubmitForm";
 import { ThemeProvider } from "@mui/material/styles";
 import { theme } from "./components/Submit/SubmitStyles";
-import MenuIcon from '@mui/icons-material/Menu';
+import MenuIcon from "@mui/icons-material/Menu";
 
 const App = () => {
-  const { user, handleLogin, handleSignup } = useAuth();
+  const { user, handleLogin, handleSignup, handleGoogleSignIn } = useAuth();
+
   const [view, setView] = useState("MAP");
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
@@ -41,19 +42,24 @@ const App = () => {
   if (!user) {
     return (
       <>
-        {view !== "SIGNUP" ? <Login onLogin={handleLogin} /> : ""}
-        {view === "SIGNUP" ? <Signup onSignup={handleSignup} /> : ""}
-        <Button
-          onClick={() => setView(view === "SIGNUP" ? "LOGIN" : "SIGNUP")}
-          style={{
-            position: "fixed",
-            bottom: "20px",
-            right: "20px",
-            zIndex: 1000,
-          }}
-        >
-          {view === "SIGNUP" ? "Log in" : "Sign up"}
-        </Button>
+        {view !== "SIGNUP" ? (
+          <Login
+            onLogin={handleLogin}
+            onSwitchToSignup={() => setView("SIGNUP")}
+            onGoogleSignIn={handleGoogleSignIn}
+          />
+        ) : (
+          ""
+        )}
+        {view === "SIGNUP" ? (
+          <Signup
+            onSignup={handleSignup}
+            onSwitchToLogin={() => setView("LOGIN")}
+            onGoogleSignIn={handleGoogleSignIn}
+          />
+        ) : (
+          ""
+        )}
       </>
     );
   }
@@ -61,7 +67,11 @@ const App = () => {
   return (
     <div>
       <Navigation setView={setView} />
-      <Sidebar open={sidebarOpen} handleSidebarClose={() => setSidebarOpen(false)} text="Logout" />
+      <Sidebar
+        open={sidebarOpen}
+        handleSidebarClose={() => setSidebarOpen(false)}
+        text="Logout"
+      />
       <Container
         sx={{
           width: "80%",
