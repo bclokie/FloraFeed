@@ -21,6 +21,7 @@ const PlantDetails = ({ user, plant }) => {
     lightGreen2: "#DAE1D8",
   };
 
+  console.log(plant);
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
@@ -100,7 +101,7 @@ const PlantDetails = ({ user, plant }) => {
             <CardMedia
               component="img"
               alt="Plant image"
-              image={plant.imageUrl}
+              image={`data:image/jpg;base64,${plant.image}`}
               sx={{
                 position: "absolute",
                 top: 0,
@@ -132,7 +133,7 @@ const PlantDetails = ({ user, plant }) => {
                 fontWeight: "bold",
               }}
             >
-              {plant.commonName}
+              {plant.title}
             </Typography>
             <Typography
               gutterBottom
@@ -143,7 +144,7 @@ const PlantDetails = ({ user, plant }) => {
                 fontFamily: "Playfair Display', serif",
               }}
             >
-              {plant.scientificName}
+              {plant.plantName}
             </Typography>
             <Typography
               variant="body2"

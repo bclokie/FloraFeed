@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useStyles } from "./SubmitStyles.js";
 import exifr from "exifr";
 import axios from 'axios';
@@ -8,6 +8,21 @@ export function SubmitForm() {
   const [plantName, setPlantName] = useState("");
   const [image, setImage] = useState(null);
   const [description, setDescription] = useState("");
+  const [binary, setBinary] = useState("");
+  useEffect(() => {
+    // Update the document title using the browser API
+    axios.get('http://localhost:8080/submit')
+      .then((data) => {
+        console.log(data.data.image);
+        setBinary(data.data.image)
+        console.log('binary is:', binary);
+    })
+    // .then((image) => {
+    //   console.log('image is', image);
+    //   setBinary(image);
+    //   console.log('binary is: ', binary);
+    // })
+  }, []);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -29,7 +44,6 @@ export function SubmitForm() {
   }
 
 
-
   return (
     
     <>
@@ -48,7 +62,9 @@ export function SubmitForm() {
       </label>
       <button type="submit">Submit</button>
     </form>
-    <img src={`data:image/jpeg;base64,${axios.get('http://localhost:8080/')}`}/>
     </>
   );  
 }
+
+
+
