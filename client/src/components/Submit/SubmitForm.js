@@ -35,7 +35,7 @@ export function SubmitForm() {
     const file = event.target.files[0];
     const maxSize = 10 * 1024 * 1024; // This = 10MB
     if (file && file.size > maxSize) {
-      alert("Please choose an image file smaller than 5MB.");
+      alert("Please choose an image file smaller than 10MB.");
       return;
     } else {
       // Read GPS data from the image file
