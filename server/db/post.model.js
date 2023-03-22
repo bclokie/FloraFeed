@@ -3,13 +3,12 @@ const { Schema } = mongoose;
 
 const postSchema = new Schema({
   title: String,
-  scientificName: String,
-  image: {
-    data: Buffer,
-    contentType: String
-  },
+  plantName: String,
+  image: String,
   author: String,
-  description: String
+  description: String,
+  latitude: Number,
+  longitude: Number
 });
 
 const Post = mongoose.model('Post', postSchema);
