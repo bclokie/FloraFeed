@@ -1,5 +1,7 @@
 import React, { useState } from "react";
+
 import { Container, useMediaQuery, useTheme, Box } from "@mui/material";
+
 import Sidebar from "./components/Sidebar/Sidebar";
 import MapView from "./components/MapView/MapView";
 import ListView from "./components/ListView/ListView";
@@ -10,8 +12,6 @@ import { useAuth } from "./hooks/useAuth";
 import { SubmitForm } from "./components/Submit/SubmitForm";
 import { ThemeProvider } from "@mui/material/styles";
 import { theme } from "./components/Submit/SubmitStyles";
-import MenuIcon from "@mui/icons-material/Menu";
-import { IconButton } from "@mui/material";
 
 const App = () => {
   const { user, handleLogin, handleSignup, handleGoogleSignIn, handleLogout } =

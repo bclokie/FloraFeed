@@ -2,24 +2,17 @@ import React, { useState } from "react";
 import { useStyles } from "./SubmitStyles.js";
 import exifr from "exifr";
 import axios from 'axios';
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+
+const storage = getStorage();
 
 export function SubmitForm() {
   const [title, setTitle] = useState("");
   const [plantName, setPlantName] = useState("");
   const [image, setImage] = useState(null);
   const [description, setDescription] = useState("");
-  
-  const submitData = function() {
-    axios({
-      method: 'post',
-      url: 'http://localhost:8080/submit',
-      data: {
-        title,
-        plantName,
-        image, description
-      }
-    })
-  }
+  const [exifData, setExifData] = useState(null); // Declare exifData state here
+
   const handleSubmit = (event) => {
     event.preventDefault();
     setTitle("");
@@ -40,21 +33,50 @@ export function SubmitForm() {
   const handleImageChange = async (event) => {
     console.log("handleImageChange called");
     const file = event.target.files[0];
-    const maxSize = 5 * 1024 * 1024; // This = 5MB
+    const maxSize = 10 * 1024 * 1024; // This = 10MB
     if (file && file.size > maxSize) {
       alert("Please choose an image file smaller than 5MB.");
       return;
     } else {
       // Read GPS data from the image file
-      let exifData = await exifr.gps(file);
+      let data = await exifr.gps(file); // Update the value of exifData state
+      console.log(data.latitude);
+      console.log(data.longitude);
       /* The following is placeholder until we can 
       ask user to add pins to Google Maps */
-      if (!exifData || !exifData.latitude || !exifData.longitude) {
+      if (!data || !data.latitude || !data.longitude) {
         alert("Please choose an image file with GPS data")
       } else {
-        setImage(file)      
+        setImage(file); // Set the image file as the state
+        setExifData(data); // Update the value of exifData state
+        console.log("Done!")
       }
     }
+  };
+
+  const submitData = async function() {
+    const storageRef = ref(storage, "images/" + image.name);
+    await uploadBytes(storageRef, image);
+    const downloadURL = await getDownloadURL(storageRef);
+    console.log(downloadURL);
+    axios({
+      method: 'post',
+      url: 'http://localhost:8080/submit',
+      data: {
+        title,
+        plantName, 
+        image: downloadURL,
+        description,
+        latitude: exifData ? exifData.latitude : null, // include latitude field
+        longitude: exifData ? exifData.longitude : null // include longitude field
+      }
+    })
+      .then(response => {
+        console.log(response.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
   };
 
   const classes = useStyles();

@@ -1,6 +1,11 @@
+
 import React from "react";
-import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api";
+
 import { Box } from "@mui/material";
+
+import React, { useState } from 'react';
+import { GoogleMap, LoadScript, MarkerF, InfoWindow } from '@react-google-maps/api';
+
 
 const containerStyle = {
   width: "100%",
@@ -13,18 +18,26 @@ const center = {
 };
 
 const coordinatesData = [
-  { id: 1, position: { lat: 37.7749, lng: -122.4194 } },
-  { id: 2, position: { lat: 40.7128, lng: -74.006 } },
-  { id: 3, position: { lat: 51.5074, lng: -0.1278 } },
-  { id: 4, position: { lat: 43.642567, lng: -79.387054 } },
-  { id: 5, position: { lat: -33.4337, lng: -70.651 } },
-];
 
-const mapStyles = [
-  // Add custom map style JSON here
-];
+  { id: 1, position: { lat: 37.7749, lng: -122.4194 }, content: "Testing the content" },
+  { id: 2, position: { lat: 40.7128, lng: -74.0060 }, content: "New York" },
+  { id: 3, position: { lat: 51.5074, lng: -0.1278 }, content: "London" },
+  { id: 4, position: { lat: 43.642567, lng: -79.387054 }, content: "Toronto" },
+  { id: 5, position: { lat: -33.4337, lng: -70.6510 }, content: "Santiago" }
+]
+
 
 function MapView() {
+  const [selectedMarker, setSelectedMarker] = useState(null);
+
+  const handleMarkerClick = (marker) => {
+    setSelectedMarker(marker);
+  };
+
+  const handleCloseClick = () => {
+    setSelectedMarker(null);
+  };
+
   const mapWithLoadScript = (
     <LoadScript googleMapsApiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY}>
       <GoogleMap
@@ -34,7 +47,14 @@ function MapView() {
         options={{ styles: mapStyles }}
       >
         {coordinatesData.map((marker) => (
-          <Marker key={marker.id} position={marker.position} />
+          <MarkerF key={marker.id} position={marker.position} onClick={() => handleMarkerClick(marker)}>
+            {selectedMarker === marker ? (
+              <InfoWindow onCloseClick={handleCloseClick}>
+                <div>{marker.content}</div>
+              </InfoWindow>
+            ) : null}
+          </MarkerF>
+
         ))}
       </GoogleMap>
     </LoadScript>
@@ -48,7 +68,15 @@ function MapView() {
       options={{ styles: mapStyles }}
     >
       {coordinatesData.map((marker) => (
-        <Marker key={marker.id} position={marker.position} />
+
+        <MarkerF key={marker.id} position={marker.position} onClick={() => handleMarkerClick(marker)}>
+          {selectedMarker === marker ? (
+            <InfoWindow onCloseClick={handleCloseClick}>
+              <div>{marker.content}</div>
+            </InfoWindow>
+          ) : null}
+        </MarkerF>
+
       ))}
     </GoogleMap>
   );
