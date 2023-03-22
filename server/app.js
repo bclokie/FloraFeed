@@ -108,7 +108,7 @@ app.use(
 
 
 app.post("/submit", (req, res) => {
-  Post.insertMany([{title: req.body.title, plantName: req.body.plantName, image: req.body.image, description: req.body.description}])
+  Post.insertMany([{title: req.body.title, plantName: req.body.plantName, image: req.body.image, description: req.body.description, timestamps: true}])
 })
 app.get("/posts", (req, res) => {
   Post.find({})

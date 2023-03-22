@@ -9,7 +9,7 @@ const postSchema = new Schema({
   description: String,
   latitude: Number,
   longitude: Number
-});
+}, { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' } });
 
 const Post = mongoose.model('Post', postSchema);
 
