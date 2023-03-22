@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Container } from "@mui/system";
-import { Button, IconButton } from "@mui/material";
+import { Button } from "@mui/material";
 import Sidebar from "./components/Sidebar/Sidebar";
 import MapView from "./components/MapView/MapView";
 import ListView from "./components/ListView/ListView";
@@ -8,11 +8,12 @@ import GridView from "./components/GridView/GridView";
 import Login from "./components/Login/Login";
 import Signup from "./components/Signup/Signup";
 import { useAuth } from "./hooks/useAuth";
-import Navigation from "./components/Navigation/Navigation";
+import { Navigation } from "./components/Navigation/Navigation";
 import { SubmitForm } from "./components/Submit/SubmitForm";
 import { ThemeProvider } from "@mui/material/styles";
 import { theme } from "./components/Submit/SubmitStyles";
 import MenuIcon from "@mui/icons-material/Menu";
+import { IconButton } from "@mui/material";
 
 const App = () => {
   const { user, handleLogin, handleSignup, handleGoogleSignIn } = useAuth();
@@ -66,7 +67,7 @@ const App = () => {
 
   return (
     <div>
-      <Navigation setView={setView} />
+      <Navigation setView={setView} handleToggleSidebar={handleToggleSidebar} />
       <Sidebar
         open={sidebarOpen}
         handleSidebarClose={() => setSidebarOpen(false)}
@@ -81,9 +82,6 @@ const App = () => {
           justifyContent: "center",
         }}
       >
-        <IconButton onClick={handleToggleSidebar}>
-          <MenuIcon />
-        </IconButton>
         {renderView()}
       </Container>
     </div>

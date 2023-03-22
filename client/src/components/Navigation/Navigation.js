@@ -1,8 +1,8 @@
-import React from "react";
-import { Button, Container } from "@mui/material";
+import { Button, Container, IconButton } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
+import MenuIcon from "@mui/icons-material/Menu";
 
-const Navigation = ({ setView }) => {
+const Navigation = ({ setView, handleToggleSidebar }) => {
   return (
     <Container
       sx={{
@@ -15,10 +15,13 @@ const Navigation = ({ setView }) => {
       }}
     >
       <div>
+        <IconButton onClick={handleToggleSidebar}>
+          <MenuIcon />
+        </IconButton>
         <Button
           variant="outlined"
           color="success"
-          style={{ marginRight: "20px" }}
+          style={{ marginRight: "20px", marginLeft: "20px" }}
           onClick={() => setView("GRID")}
         >
           Grid
@@ -50,7 +53,6 @@ const Navigation = ({ setView }) => {
           variant="outlined"
           color="success"
           onClick={() => setView("SubmitForm")}
-          sx={{ marginLeft: "auto" }}
           startIcon={<AddIcon />}
         >
           New Post
@@ -60,4 +62,4 @@ const Navigation = ({ setView }) => {
   );
 };
 
-export default Navigation;
+export { Navigation };
