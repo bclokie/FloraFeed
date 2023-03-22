@@ -4,7 +4,7 @@ import {
   GoogleMap,
   LoadScript,
   MarkerF,
-  InfoWindow,
+  InfoWindowF,
 } from "@react-google-maps/api";
 
 const containerStyle = {
@@ -50,9 +50,9 @@ function MapView() {
             onClick={() => handleMarkerClick(marker)}
           >
             {selectedMarker === marker ? (
-              <InfoWindow onCloseClick={handleCloseClick}>
+              <InfoWindowF onCloseClick={handleCloseClick}>
                 <div>{marker.content}</div>
-              </InfoWindow>
+              </InfoWindowF>
             ) : null}
           </MarkerF>
         ))}
@@ -69,9 +69,9 @@ function MapView() {
           onClick={() => handleMarkerClick(marker)}
         >
           {selectedMarker === marker ? (
-            <InfoWindow onCloseClick={handleCloseClick}>
+            <InfoWindowF onCloseClick={handleCloseClick}>
               <div>{marker.content}</div>
-            </InfoWindow>
+            </InfoWindowF>
           ) : null}
         </MarkerF>
       ))}
