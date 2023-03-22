@@ -1,5 +1,7 @@
 import React, { useState } from "react";
-import { Container } from "@mui/system";
+
+import { Container, useMediaQuery, useTheme, Box } from "@mui/material";
+
 import Sidebar from "./components/Sidebar/Sidebar";
 import MapView from "./components/MapView/MapView";
 import ListView from "./components/ListView/ListView";
@@ -7,16 +9,16 @@ import GridView from "./components/GridView/GridView";
 import Login from "./components/Login/Login";
 import Signup from "./components/Signup/Signup";
 import { useAuth } from "./hooks/useAuth";
-import { Navigation } from "./components/Navigation/Navigation";
 import { SubmitForm } from "./components/Submit/SubmitForm";
 import { ThemeProvider } from "@mui/material/styles";
 import { theme } from "./components/Submit/SubmitStyles";
 
 const App = () => {
-  const { user, handleLogin, handleSignup, handleGoogleSignIn } = useAuth();
+  const { user, handleLogin, handleSignup, handleGoogleSignIn, handleLogout } =
+    useAuth();
+  const theme = useTheme();
 
   const [view, setView] = useState("MAP");
-  const [sidebarOpen, setSidebarOpen] = useState(true);
 
   const renderView = () => {
     switch (view) {
@@ -33,8 +35,10 @@ const App = () => {
     }
   };
 
-  const handleToggleSidebar = () => {
-    setSidebarOpen(!sidebarOpen);
+  const onLogout = () => {
+    handleLogout()
+      .then(() => setView("LOGIN"))
+      .catch((error) => console.log(error));
   };
 
   if (!user) {
@@ -63,25 +67,39 @@ const App = () => {
   }
 
   return (
-    <div>
-      <Navigation setView={setView} handleToggleSidebar={handleToggleSidebar} />
-      <Sidebar
-        open={sidebarOpen}
-        handleSidebarClose={() => setSidebarOpen(false)}
-        text="Logout"
-      />
-      <Container
+    <Box
+      sx={{
+        display: "flex",
+        height: "100vh",
+      }}
+    >
+      <Box
+        component="aside"
         sx={{
-          width: "80%",
-          height: "400px",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
+          width: "240px",
+          backgroundColor: "background.paper",
+          position: "fixed",
+        }}
+      >
+        <Sidebar
+          setView={setView}
+          userName={user.displayName}
+          userAvatar={user.photoURL}
+          onLogout={onLogout}
+        />
+      </Box>
+      <Box
+        component="main"
+        sx={{
+          flexGrow: 1,
+          overflow: "auto",
+          backgroundColor: "background.default",
+          marginLeft: "240px",
         }}
       >
         {renderView()}
-      </Container>
-    </div>
+      </Box>
+    </Box>
   );
 };
 

@@ -1,68 +1,142 @@
-import React from 'react';
-import { Drawer, List, ListItem, ListItemIcon, ListItemText } from '@mui/material';
-import { useStyles } from './styles';
-import AccountBoxIcon from '@mui/icons-material/AccountBox';
-import SpaIcon from '@mui/icons-material/Spa';
-import UploadIcon from '@mui/icons-material/Upload';
-import { Typography } from '@mui/material';
-import { useAuth } from '../../hooks/useAuth';
-import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
-import LogoutIcon from '@mui/icons-material/Logout';
-import FavoriteIcon from '@mui/icons-material/Favorite';
+import React from "react";
+import {
+  Box,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Avatar,
+  Typography,
+  Button,
+} from "@mui/material";
+import HomeIcon from "@mui/icons-material/Home";
+import ListIcon from "@mui/icons-material/List";
+import MapIcon from "@mui/icons-material/Map";
+import LogoutIcon from "@mui/icons-material/Logout";
+import AddIcon from "@mui/icons-material/Add";
+import GridViewIcon from "@mui/icons-material/GridView";
 
-const Sidebar = ({ open, handleSidebarClose, text }) => {
-  const classes = useStyles();
-  const { handleLogout } = useAuth();
+const colors = {
+  white: "#FFFFFF",
+  green1: "#2C7C50",
+  green2: "#2B764A",
+  lightGreen1: "#EDF1F0",
+  lightGreen2: "#DAE1D8",
+  glass1: "rgba(255, 255, 255, 0.8)",
+  glass2: "rgba(255, 255, 255, 0.15)",
+};
 
-  const handleLogoutClick = () => {
-    handleLogout();
-  };
-
-  const handleListItemClick = (menuItem) => {
-    console.log(`Clicked ${menuItem}`);
-    // TODO: Handle the click event for each list item
-  };
-
+const Sidebar = ({ userName, userAvatar, onLogout, setView }) => {
   return (
-    <Drawer
-      className={classes.drawer}
-      variant="temporary"
-      anchor="left"
-      open={open}
-      onClose={handleSidebarClose}
-      classes={{
-        paper: classes.drawerPaper,
+    <Box
+      sx={{
+        backgroundColor: "#FFFFFF",
+        width: 250,
+        border: "none",
+        boxShadow: 3,
+        zIndex: 1100,
+        height: "100vh",
+        position: "fixed",
+        left: 0,
+        top: 0,
+        display: "flex",
+        flexDirection: "column",
+        WebkitBackdropFilter: "blur(4px)",
+        borderRadius: 2,
       }}
     >
-      <div className={classes.toolbar}>
-      </div>
-      <List>
-        <Typography variant="h4" textAlign="center" color="green" className={classes.logo}>
-          Logo
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          padding: 2,
+          borderBottom: "1px solid",
+          borderColor: colors.green1,
+          marginBottom: 2,
+        }}
+      >
+        <Avatar src={userAvatar} sx={{ width: 60, height: 60 }} />
+        <Typography
+          variant="subtitle1"
+          sx={{ fontWeight: "bold", marginTop: 1, color: colors.green1 }}
+        >
+          {userName}
         </Typography>
-        {['Name', 'Discover', 'My Uploads', 'Favourites'].map((menuItem, index) => (
-          <ListItem button key={menuItem} onClick={() => handleListItemClick(menuItem)}>
-            <ListItemIcon>
-              {menuItem === 'Name' && <AccountBoxIcon />}
-              {menuItem === 'Discover' && <SpaIcon />}
-              {menuItem === 'My Uploads' && <UploadIcon />}
-              {menuItem === 'Favourites' && <FavoriteIcon />}
-
-            </ListItemIcon>
-            <ListItemText primary={menuItem} />
+      </Box>
+      <List>
+        {[
+          {
+            text: "Grid View",
+            onClick: () => setView("GRID"),
+            icon: <GridViewIcon />,
+          },
+          {
+            text: "List View",
+            onClick: () => setView("LIST"),
+            icon: <ListIcon />,
+          },
+          {
+            text: "Map View",
+            onClick: () => setView("MAP"),
+            icon: <MapIcon />,
+          },
+        ].map((item, index) => (
+          <ListItem
+            button
+            key={item.text}
+            onClick={item.onClick}
+            sx={{
+              "&:hover": {
+                backgroundColor: colors.green1,
+                color: colors.lightGreen1,
+              },
+              color: colors.green1,
+            }}
+          >
+            <ListItemIcon sx={{ color: "inherit" }}>{item.icon}</ListItemIcon>
+            <ListItemText primary={item.text} />
           </ListItem>
         ))}
+        <Box sx={{ padding: 2 }}>
+          <Button
+            fullWidth
+            variant="outlined"
+            color="success"
+            startIcon={<AddIcon />}
+            onClick={() => setView("SubmitForm")}
+            sx={{
+              marginBottom: 2,
+              borderColor: colors.green1,
+              color: colors.green1,
+              textTransform: "none",
+              fontWeight: "bold",
+            }}
+          >
+            New Post
+          </Button>
+        </Box>
       </List>
-      <List className={classes.logoutButton} sx={{ position: "absolute", bottom: 0, width: "100%", textAlign: "center", borderTopLeftRadius: 16, borderTopRightRadius: 16, bgcolor: "#f5f5f5", p: 2 }}>
-        <ListItem button onClick={() => handleLogoutClick()}>
-          <ListItemIcon>
-            <LogoutIcon />
-          </ListItemIcon>
-          <ListItemText primary={text} />
-        </ListItem>
-      </List>
-    </Drawer>
+      <Box sx={{ flexGrow: 1 }} />
+      <Box sx={{ padding: 2 }}>
+        <Button
+          fullWidth
+          startIcon={<LogoutIcon />}
+          sx={{
+            backgroundColor: colors.green1,
+            color: colors.white,
+            textTransform: "none",
+            fontWeight: "bold",
+            "&:hover": {
+              backgroundColor: colors.green2,
+            },
+          }}
+          onClick={onLogout}
+        >
+          Logout
+        </Button>
+      </Box>
+    </Box>
   );
 };
 

@@ -1,12 +1,12 @@
-import React from 'react';
-import PlantDetails from '../PlantDetails/PlantDetails';
-import { Grid } from '@mui/material';
+import React from "react";
+import PlantDetails from "../PlantDetails/PlantDetails";
+import { Grid } from "@mui/material";
 const containerStyle = {
-  width: '100%',
-  height: '60vh',
-  margin: 'auto',
-  display: 'flex',
-  flexDirection: 'column'
+  width: "100%",
+
+  margin: "auto",
+  display: "flex",
+  flexDirection: "column",
 };
 
 const center = {
@@ -91,21 +91,16 @@ const mockData = [
   },
 ];
 
-
-
-
-function ListView() {
+const ListView = () => {
   return (
-    <div style={containerStyle}>
-      <Grid>
-        {mockData.map((data) => (
-          <Grid key={data.id}>
-            <PlantDetails user={data.user} plant={data.plant} />
-          </Grid>
-        ))}
-      </Grid>
-    </div>
+    <Grid container spacing={2} sx={{ width: "100%", height: "100%" }}>
+      {mockData.map((data) => (
+        <Grid item xs={12} key={data.id}>
+          <PlantDetails user={data.user} plant={data.plant} />
+        </Grid>
+      ))}
+    </Grid>
   );
-}
+};
 
 export default ListView;
