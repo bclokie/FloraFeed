@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import { useStyles } from "./SubmitStyles.js";
 import exifr from "exifr";
 import axios from 'axios';
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+
+const storage = getStorage();
 
 export function SubmitForm() {
   const [title, setTitle] = useState("");
@@ -9,17 +12,23 @@ export function SubmitForm() {
   const [image, setImage] = useState(null);
   const [description, setDescription] = useState("");
   
-  const submitData = function() {
+  const submitData = async function() {
+    const storageRef = ref(storage, "images/" + image.name);
+    await uploadBytes(storageRef, image);
+    const downloadURL = await getDownloadURL(storageRef);
+    console.log(downloadURL)
     axios({
       method: 'post',
       url: 'http://localhost:8080/submit',
       data: {
         title,
         plantName,
-        image, description
+        image: downloadURL,
+        description
       }
-    })
-  }
+    });
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
     setTitle("");
@@ -52,7 +61,8 @@ export function SubmitForm() {
       if (!exifData || !exifData.latitude || !exifData.longitude) {
         alert("Please choose an image file with GPS data")
       } else {
-        setImage(file)      
+        setImage(file); // Set the image file as the state
+        console.log("Done!")
       }
     }
   };
