@@ -18,10 +18,12 @@ const Signup = ({ onSignup, onSwitchToLogin, onGoogleSignIn }) => {
     green2: "#2B764A",
     lightGreen1: "#EDF1F0",
     lightGreen2: "#DAE1D8",
+    glass1: "rgba(255, 255, 255, 0.8)",
+    glass2: "rgba(255, 255, 255, 0.15)",
   };
 
   return (
-    <Container maxWidth="sm">
+    <Container maxWidth="false">
       <Box
         sx={{
           display: "flex",
@@ -29,39 +31,44 @@ const Signup = ({ onSignup, onSwitchToLogin, onGoogleSignIn }) => {
           alignItems: "center",
           justifyContent: "center",
           minHeight: "100vh",
-          bgcolor: colors.lightGreen1,
+
+          backgroundImage:
+            "url('https://cdn.midjourney.com/5b0f582d-c01b-4253-9ad9-4de668ac04d3/grid_0.png')",
+          backgroundSize: "cover",
         }}
       >
-        <Typography
-          variant="h4"
-          component="h1"
-          sx={{
-            color: colors.green1,
-            fontFamily: "'Nunito', sans-serif",
-            fontWeight: "bold",
-            marginBottom: 4,
-          }}
-        >
-          Sign up
-        </Typography>
         <Box
           component="form"
           sx={{
+            backgroundColor: colors.glass1,
+            WebkitBackdropFilter: "blur(10px)",
             width: "100%",
             maxWidth: 400,
-            backgroundColor: colors.white,
             borderRadius: 2,
             padding: 4,
             boxShadow: 3,
+            textAlign: "center",
           }}
           autoComplete="off"
         >
+          <Typography
+            variant="h4"
+            component="h1"
+            sx={{
+              color: colors.green1,
+              fontFamily: "'Nunito', sans-serif",
+              fontWeight: "bold",
+              marginBottom: 4,
+            }}
+          >
+            Sign up
+          </Typography>
           <TextField
             label="First Name"
             fullWidth
             margin="normal"
             variant="outlined"
-            sx={{ marginBottom: 2 }}
+            sx={{ marginBottom: 2, backgroundColor: colors.glass2 }}
             value={firstName}
             onChange={(e) => setFirstName(e.target.value)}
           />
@@ -70,7 +77,7 @@ const Signup = ({ onSignup, onSwitchToLogin, onGoogleSignIn }) => {
             fullWidth
             margin="normal"
             variant="outlined"
-            sx={{ marginBottom: 2 }}
+            sx={{ marginBottom: 2, backgroundColor: colors.glass2 }}
             value={lastName}
             onChange={(e) => setLastName(e.target.value)}
           />
@@ -80,7 +87,7 @@ const Signup = ({ onSignup, onSwitchToLogin, onGoogleSignIn }) => {
             fullWidth
             margin="normal"
             variant="outlined"
-            sx={{ marginBottom: 2 }}
+            sx={{ marginBottom: 2, backgroundColor: colors.glass2 }}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
@@ -90,7 +97,7 @@ const Signup = ({ onSignup, onSwitchToLogin, onGoogleSignIn }) => {
             fullWidth
             margin="normal"
             variant="outlined"
-            sx={{ marginBottom: 2 }}
+            sx={{ marginBottom: 2, backgroundColor: colors.glass2 }}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
