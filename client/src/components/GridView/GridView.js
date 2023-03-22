@@ -90,6 +90,9 @@ const getPosts = function() {
   axios.get('http://localhost:8080/posts')
   .then((posts) => {
     posts.data.map((data, index) => {
+      const date = new Date(data.created_at);
+      const formattedDate = date.toLocaleDateString();
+      const formattedTime = date.toLocaleTimeString();
       postData.push({
         id: index + 1,
         user: {
@@ -101,7 +104,7 @@ const getPosts = function() {
           scientificName: data.plantName,
           description: data.description,
           imageUrl: data.image,
-          timePosted: "2 hours ago"
+          timePosted: `${formattedDate} ${formattedTime}`
         }
       })
     })

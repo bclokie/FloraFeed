@@ -10,7 +10,6 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 
 const PlantDetails = ({ user, plant }) => {
-  console.log('plant is:', plant)
   const [expanded, setExpanded] = useState(false);
 
   // Color palette
