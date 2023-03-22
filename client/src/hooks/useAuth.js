@@ -1,18 +1,18 @@
 import { useState, useEffect } from "react";
-import firebase from "../firebase";
+import { auth, provider } from "../firebase";
 import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   signInWithPopup,
-  GoogleAuthProvider,
   signOut,
+  onAuthStateChanged,
 } from "firebase/auth";
 
 export const useAuth = () => {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    const unsubscribe = firebase.auth.onAuthStateChanged((user) => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
       setUser(user);
     });
 
@@ -23,7 +23,7 @@ export const useAuth = () => {
 
   const handleLogin = async (email, password) => {
     try {
-      await signInWithEmailAndPassword(firebase.auth, email, password);
+      await signInWithEmailAndPassword(auth, email, password);
     } catch (error) {
       alert(error.message);
     }
@@ -31,7 +31,7 @@ export const useAuth = () => {
 
   const handleSignup = async (firstName, lastName, email, password) => {
     try {
-      await createUserWithEmailAndPassword(firebase.auth, email, password);
+      await createUserWithEmailAndPassword(auth, email, password);
       alert("User registered successfully");
     } catch (error) {
       alert(error.message);
@@ -39,9 +39,8 @@ export const useAuth = () => {
   };
 
   const handleGoogleSignIn = async () => {
-    const provider = new GoogleAuthProvider();
     try {
-      await signInWithPopup(firebase.auth, provider);
+      await signInWithPopup(auth, provider);
     } catch (error) {
       alert(error.message);
     }
@@ -49,7 +48,7 @@ export const useAuth = () => {
 
   const handleLogout = async () => {
     try {
-      await signOut(firebase.auth);
+      await signOut(auth);
       setUser(null);
     } catch (error) {
       alert(error.message);
