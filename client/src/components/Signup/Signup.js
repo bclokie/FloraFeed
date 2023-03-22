@@ -5,6 +5,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
+import GoogleButton from "react-google-button";
 
 const Signup = ({ onSignup, onSwitchToLogin, onGoogleSignIn }) => {
   const [firstName, setFirstName] = useState("");
@@ -109,23 +110,20 @@ const Signup = ({ onSignup, onSwitchToLogin, onGoogleSignIn }) => {
           >
             Sign up
           </Button>
-          <Button
-            fullWidth
-            variant="contained"
+          <Box
             sx={{
-              backgroundColor: colors.green1,
-              "&:hover": {
-                backgroundColor: colors.green2,
-              },
-              color: colors.white,
-              textTransform: "none",
-              fontWeight: "bold",
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "center",
               marginTop: 2,
             }}
-            onClick={onGoogleSignIn}
           >
-            Sign up with Google
-          </Button>
+            <GoogleButton
+              label="Continue with Google"
+              type="light"
+              onClick={onGoogleSignIn}
+            ></GoogleButton>
+          </Box>
 
           <Box
             sx={{
