@@ -108,7 +108,7 @@ export function SubmitForm() {
           fontFamily: "'Nunito', sans-serif",
           fontWeight: "bold",
           fontSize: "24px",
-          marginTop: "200px",
+          marginTop: "100px",
           marginBottom: 4,
           display: 'flex',
           justifyContent: 'center',
