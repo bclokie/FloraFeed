@@ -4,13 +4,8 @@ import Grid from "@mui/material/Grid";
 
 const containerStyle = {
   width: "100%",
-  height: "60vh",
   margin: "auto",
-};
-
-const center = {
-  lat: 0,
-  lng: 0,
+  height: "100%",
 };
 
 const mockData = [
@@ -90,17 +85,16 @@ const mockData = [
   },
 ];
 
-function GridView() {
+const GridView = () => {
   return (
-    <div style={containerStyle}>
-      <Grid container spacing={0}>
-        {mockData.map((data) => (
-          <Grid item xs={10} sm={6} md={4} key={data.id}>
-            <PlantDetails user={data.user} plant={data.plant} />
-          </Grid>
-        ))}
-      </Grid>
-    </div>
+    <Grid container spacing={1} sx={{ width: "100%", height: "100%" }}>
+      {mockData.map((data) => (
+        <Grid item xs={12} sm={12} md={6} lg={4} key={data.id}>
+          <PlantDetails user={data.user} plant={data.plant} />
+        </Grid>
+      ))}
+    </Grid>
   );
-}
+};
+
 export default GridView;
