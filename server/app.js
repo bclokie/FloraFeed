@@ -112,19 +112,30 @@ app.use(
 
 
 app.post("/submit", (req, res) => {
-  console.log('this is req.files', req.files);
+  //console.log('this is req.files', req.files);
   Post.insertMany([{title: req.body.title, plantName: req.body.plantName, image: req.files.image.data, description: req.body.description}])
 })
 app.get("/submit", (req, res) => {
-  Post.findById('641a0ad4a0c8691b2201d26c').lean()
+  Post.findById('641a54965abef2f136b9a3ec').lean()
   .then((post) => {
-    console.log('')
     res.json(post)
   })
   .catch((err) => {
     console.log(err);
   });
 })
+
+app.get("/posts", (req, res) => {
+  Post.find()
+    .then((posts) => {
+      res.send(posts)
+    })
+  .catch((err) => {
+    console.log(err);
+  });
+})
+
+
 
 
 app.listen(PORT, () => console.log(`Server is listening on port ${PORT}`));
