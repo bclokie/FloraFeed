@@ -15,6 +15,8 @@ const Login = ({ onLogin, onSwitchToSignup, onGoogleSignIn }) => {
     green2: "#2B764A",
     lightGreen1: "#EDF1F0",
     lightGreen2: "#DAE1D8",
+    glass1: "rgba(255, 255, 255, 0.8)",
+    glass2: "rgba(255, 255, 255, 0.15)",
   };
 
   return (
@@ -26,40 +28,44 @@ const Login = ({ onLogin, onSwitchToSignup, onGoogleSignIn }) => {
           alignItems: "center",
           justifyContent: "center",
           minHeight: "100vh",
-          bgcolor: colors.lightGreen1,
+          backgroundImage:
+            "url('https://cdn.midjourney.com/5b0f582d-c01b-4253-9ad9-4de668ac04d3/grid_0.png')",
+          backgroundSize: "cover",
         }}
       >
-        <Typography
-          variant="h4"
-          component="h1"
-          sx={{
-            color: colors.green1,
-            fontFamily: "'Nunito', sans-serif",
-            fontWeight: "bold",
-            marginBottom: 4,
-          }}
-        >
-          Login
-        </Typography>
         <Box
           component="form"
           sx={{
+            backgroundColor: colors.glass1,
             width: "100%",
             maxWidth: 400,
-            backgroundColor: colors.white,
+            WebkitBackdropFilter: "blur(4px)",
             borderRadius: 2,
             padding: 4,
             boxShadow: 3,
+            textAlign: "center",
           }}
           autoComplete="off"
         >
+          <Typography
+            variant="h4"
+            component="h1"
+            sx={{
+              color: colors.green1,
+              fontFamily: "'Nunito', sans-serif",
+              fontWeight: "bold",
+              marginBottom: 4,
+            }}
+          >
+            Login
+          </Typography>
           <TextField
             label="Email"
             type="email"
             fullWidth
             margin="normal"
             variant="outlined"
-            sx={{ marginBottom: 2 }}
+            sx={{ marginBottom: 2, backgroundColor: colors.glass2 }}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
@@ -69,7 +75,7 @@ const Login = ({ onLogin, onSwitchToSignup, onGoogleSignIn }) => {
             fullWidth
             margin="normal"
             variant="outlined"
-            sx={{ marginBottom: 2 }}
+            sx={{ marginBottom: 2, backgroundColor: colors.glass2 }}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
@@ -77,6 +83,7 @@ const Login = ({ onLogin, onSwitchToSignup, onGoogleSignIn }) => {
             fullWidth
             variant="contained"
             sx={{
+              fontFamily: "'Nunito', sans-serif",
               backgroundColor: colors.green1,
               "&:hover": {
                 backgroundColor: colors.green2,
