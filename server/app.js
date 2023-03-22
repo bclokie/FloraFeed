@@ -110,10 +110,10 @@ app.use(
 app.post("/submit", (req, res) => {
   Post.insertMany([{title: req.body.title, plantName: req.body.plantName, image: req.body.image, description: req.body.description}])
 })
-app.get("/submit", (req, res) => {
+app.get("/posts", (req, res) => {
   Post.find({})
     .then(posts => {
-      console.log(posts);
+      res.json(posts);
     })
     .catch(err => {
       console.error(err);
