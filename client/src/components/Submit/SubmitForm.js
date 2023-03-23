@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { Form } from "./SubmitStyles.js";
 import exifr from "exifr";
-import axios from 'axios';
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { getFirestore, collection, addDoc } from "firebase/firestore";
 
 const storage = getStorage();
+const db = getFirestore();
 
 export function SubmitForm() {
   const [title, setTitle] = useState("");
@@ -54,29 +55,25 @@ export function SubmitForm() {
     }
   };
 
-  const submitData = async function() {
+  const submitData = async function () {
     const storageRef = ref(storage, "images/" + image.name);
     await uploadBytes(storageRef, image);
     const downloadURL = await getDownloadURL(storageRef);
     console.log(downloadURL);
-    axios({
-      method: 'post',
-      url: 'http://localhost:8080/submit',
-      data: {
+
+    try {
+      const docRef = await addDoc(collection(db, "posts"), {
         title,
-        plantName, 
+        plantName,
         image: downloadURL,
         description,
         latitude: exifData ? exifData.latitude : null, // include latitude field
-        longitude: exifData ? exifData.longitude : null // include longitude field
-      }
-    })
-      .then(response => {
-        console.log(response.data);
-      })
-      .catch(error => {
-        console.log(error);
+        longitude: exifData ? exifData.longitude : null, // include longitude field
       });
+      console.log("Document written with ID: ", docRef.id);
+    } catch (e) {
+      console.error("Error adding document: ", e);
+    }
   };
 
   const classes = Form();
