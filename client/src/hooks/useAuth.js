@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { auth, provider } from "../firebase";
+import { auth, provider, db } from "../firebase";
 import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
@@ -7,6 +7,7 @@ import {
   signOut,
   onAuthStateChanged,
 } from "firebase/auth";
+import { setDoc, doc } from "firebase/firestore";
 
 export const useAuth = () => {
   const [user, setUser] = useState(null);
@@ -21,6 +22,23 @@ export const useAuth = () => {
     };
   }, []);
 
+  const createUserDocument = async (user, firstName, lastName, userName) => {
+    try {
+      const userRef = doc(db, "users", user.uid);
+      await setDoc(userRef, {
+        uid: user.uid,
+        email: user.email,
+        firstName,
+        lastName,
+        userName,
+        // Add any other fields you want to store for your users
+      });
+      console.log("User document created:", user.uid);
+    } catch (error) {
+      console.error("Error creating user document:", error);
+    }
+  };
+
   const handleLogin = async (email, password) => {
     try {
       await signInWithEmailAndPassword(auth, email, password);
@@ -29,9 +47,22 @@ export const useAuth = () => {
     }
   };
 
-  const handleSignup = async (firstName, lastName, email, password) => {
+  const handleSignup = async (
+    firstName,
+    lastName,
+    userName,
+    email,
+    password
+  ) => {
+    // Include userName parameter
     try {
-      await createUserWithEmailAndPassword(auth, email, password);
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      const { user } = userCredential;
+      await createUserDocument(user, firstName, lastName, userName); // Pass userName to createUserDocument
       alert("User registered successfully");
     } catch (error) {
       alert(error.message);
@@ -40,12 +71,14 @@ export const useAuth = () => {
 
   const handleGoogleSignIn = async () => {
     try {
-      await signInWithPopup(auth, provider);
+      const userCredential = await signInWithPopup(auth, provider);
+      const { user } = userCredential;
+      const [firstName, lastName] = user.displayName.split(" ");
+      await createUserDocument(user, firstName, lastName);
     } catch (error) {
       alert(error.message);
     }
   };
-
   const handleLogout = async () => {
     try {
       await signOut(auth);

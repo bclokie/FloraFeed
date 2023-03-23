@@ -1,4 +1,3 @@
-// src/components/Signup/Signup.js
 import React, { useState } from "react";
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
@@ -6,12 +5,15 @@ import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import GoogleButton from "react-google-button";
+import { useAuth } from "../../hooks/useAuth";
 
-const Signup = ({ onSignup, onSwitchToLogin, onGoogleSignIn }) => {
+const Signup = ({ onSwitchToLogin }) => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [userName, setUserName] = useState("");
+  const { handleSignup, handleGoogleSignIn } = useAuth();
   const colors = {
     white: "#FFFFFF",
     green1: "#2C7C50",
@@ -64,6 +66,15 @@ const Signup = ({ onSignup, onSwitchToLogin, onGoogleSignIn }) => {
             Sign up
           </Typography>
           <TextField
+            label="Username"
+            fullWidth
+            margin="normal"
+            variant="outlined"
+            sx={{ marginBottom: 2, backgroundColor: colors.glass2 }}
+            value={userName}
+            onChange={(e) => setUserName(e.target.value)}
+          />
+          <TextField
             label="First Name"
             fullWidth
             margin="normal"
@@ -101,6 +112,7 @@ const Signup = ({ onSignup, onSwitchToLogin, onGoogleSignIn }) => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
+
           <Button
             fullWidth
             variant="contained"
@@ -113,7 +125,9 @@ const Signup = ({ onSignup, onSwitchToLogin, onGoogleSignIn }) => {
               textTransform: "none",
               fontWeight: "bold",
             }}
-            onClick={() => onSignup(firstName, lastName, email, password)}
+            onClick={() =>
+              handleSignup(firstName, lastName, userName, email, password)
+            } // Include userName in the handleSignup function call
           >
             Sign up
           </Button>
@@ -128,10 +142,9 @@ const Signup = ({ onSignup, onSwitchToLogin, onGoogleSignIn }) => {
             <GoogleButton
               label="Continue with Google"
               type="light"
-              onClick={onGoogleSignIn}
+              onClick={handleGoogleSignIn} // Use handleGoogleSignIn function from the useAuth hook
             ></GoogleButton>
           </Box>
-
           <Box
             sx={{
               display: "flex",

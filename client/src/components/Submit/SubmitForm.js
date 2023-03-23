@@ -125,131 +125,130 @@ export function SubmitForm() {
       : enabledButtonStyles;
 
   return (
-    <form onSubmit={handleSubmit} style={{ width: "90%" }}>
-      <Container maxWidth="false">
+    <Container maxWidth="false">
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          minHeight: "100vh",
+          backgroundImage: "url('')",
+          backgroundSize: "cover",
+        }}
+      >
         <Box
+          component="form"
+          onSubmit={handleSubmit}
           sx={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "center",
-            minHeight: "100vh",
-            backgroundImage: "url('')",
-            backgroundSize: "cover",
+            backgroundColor: "#FFFFFF",
+            width: "100%",
+            maxWidth: 400,
+            borderRadius: 2,
+            padding: 4,
+            boxShadow: 3,
+            textAlign: "center",
           }}
+          autoComplete="off"
         >
-          <Box
-            component="form"
+          <Typography
+            variant="h4"
+            component="h1"
             sx={{
-              backgroundColor: "#FFFFFF",
-              width: "100%",
-              maxWidth: 400,
-              borderRadius: 2,
-              padding: 4,
-              boxShadow: 3,
-              textAlign: "center",
+              color: colors.green1,
+              fontFamily: "'Nunito', sans-serif",
+              fontWeight: "bold",
+              marginBottom: 2,
             }}
-            autoComplete="off"
           >
-            <Typography
-              variant="h4"
-              component="h1"
-              sx={{
-                color: colors.green1,
-                fontFamily: "'Nunito', sans-serif",
-                fontWeight: "bold",
-                marginBottom: 2,
-              }}
-            >
-              Submit a New Plant
-            </Typography>
-            <FormControl>
-              <Button
-                variant="contained"
-                component="label"
-                startIcon={<CloudUploadIcon />}
-                sx={{
-                  backgroundColor: colors.green1,
-                  "&:hover": {
-                    backgroundColor: colors.green2,
-                  },
-                  marginTop: 2,
-                  textTransform: "none",
-                  fontFamily: "'Nunito', sans-serif",
-                  fontWeight: "bold",
-                }}
-              >
-                Choose File
-                <input
-                  id="photo-file"
-                  type="file"
-                  accept="image/*"
-                  onChange={handleImageChange}
-                  style={{
-                    display: "none",
-                  }}
-                />
-              </Button>
-              {image && (
-                <FormHelperText style={{ textAlign: "center", marginTop: 1 }}>
-                  {image.name}
-                </FormHelperText>
-              )}
-            </FormControl>
-
-            <TextField
-              label="Title"
-              fullWidth
-              margin="normal"
-              variant="outlined"
-              sx={{ marginBottom: 2, backgroundColor: colors.glass2 }}
-              value={title}
-              onChange={(event) => setTitle(event.target.value)}
-            />
-            <TextField
-              label="Scientific Plant Name"
-              fullWidth
-              margin="normal"
-              variant="outlined"
-              sx={{ marginBottom: 2, backgroundColor: colors.glass2 }}
-              value={plantName}
-              onChange={(event) => setPlantName(event.target.value)}
-            />
-
-            <TextField
-              label="Description"
-              fullWidth
-              margin="normal"
-              variant="outlined"
-              sx={{ marginBottom: 2, backgroundColor: colors.glass2 }}
-              value={description}
-              onChange={(event) => setDescription(event.target.value)}
-              multiline
-              rows={4}
-            />
-
+            Submit a New Plant
+          </Typography>
+          <FormControl>
             <Button
-              fullWidth
               variant="contained"
+              component="label"
+              startIcon={<CloudUploadIcon />}
               sx={{
-                fontFamily: "'Nunito', sans-serif",
                 backgroundColor: colors.green1,
                 "&:hover": {
                   backgroundColor: colors.green2,
                 },
-                color: colors.white,
-                textTransform: "none",
-                fontWeight: "bold",
                 marginTop: 2,
+                textTransform: "none",
+                fontFamily: "'Nunito', sans-serif",
+                fontWeight: "bold",
               }}
-              type="submit"
-              disabled={!title || !plantName || !image || !description}
             >
-              Submit
+              Choose File
+              <input
+                id="photo-file"
+                type="file"
+                accept="image/*"
+                onChange={handleImageChange}
+                style={{
+                  display: "none",
+                }}
+              />
             </Button>
-          </Box>
+            {image && (
+              <FormHelperText style={{ textAlign: "center", marginTop: 1 }}>
+                {image.name}
+              </FormHelperText>
+            )}
+          </FormControl>
+
+          <TextField
+            label="Title"
+            fullWidth
+            margin="normal"
+            variant="outlined"
+            sx={{ marginBottom: 2, backgroundColor: colors.glass2 }}
+            value={title}
+            onChange={(event) => setTitle(event.target.value)}
+          />
+          <TextField
+            label="Scientific Plant Name"
+            fullWidth
+            margin="normal"
+            variant="outlined"
+            sx={{ marginBottom: 2, backgroundColor: colors.glass2 }}
+            value={plantName}
+            onChange={(event) => setPlantName(event.target.value)}
+          />
+
+          <TextField
+            label="Description"
+            fullWidth
+            margin="normal"
+            variant="outlined"
+            sx={{ marginBottom: 2, backgroundColor: colors.glass2 }}
+            value={description}
+            onChange={(event) => setDescription(event.target.value)}
+            multiline
+            rows={4}
+          />
+
+          <Button
+            fullWidth
+            variant="contained"
+            sx={{
+              fontFamily: "'Nunito', sans-serif",
+              backgroundColor: colors.green1,
+              "&:hover": {
+                backgroundColor: colors.green2,
+              },
+              color: colors.white,
+              textTransform: "none",
+              fontWeight: "bold",
+              marginTop: 2,
+            }}
+            type="submit"
+            disabled={!title || !plantName || !image || !description}
+          >
+            Submit
+          </Button>
         </Box>
-      </Container>
-    </form>
+      </Box>
+    </Container>
   );
 }
