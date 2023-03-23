@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import { Container, useMediaQuery, useTheme, Box, } from "@mui/material";
+import { Container, useMediaQuery, useTheme, Box } from "@mui/material";
 
 import Sidebar from "./components/Sidebar/Sidebar";
 import MapView from "./components/MapView/MapView";
@@ -11,7 +11,6 @@ import Signup from "./components/Signup/Signup";
 import { useAuth } from "./hooks/useAuth";
 import { SubmitForm } from "./components/Submit/SubmitForm";
 import { ThemeProvider } from "@mui/material/styles";
-import { theme } from "./components/Submit/SubmitStyles";
 
 const App = () => {
   const { user, handleLogin, handleSignup, handleGoogleSignIn, handleLogout } =
@@ -21,8 +20,8 @@ const App = () => {
   const [view, setView] = useState("");
 
   useEffect(() => {
-    setView("MAP")
-  }, [])
+    setView("MAP");
+  }, []);
 
   const renderView = () => {
     switch (view) {
@@ -107,10 +106,4 @@ const App = () => {
   );
 };
 
-const WrappedApp = () => (
-  <ThemeProvider theme={theme}>
-    <App />
-  </ThemeProvider>
-);
-
-export default WrappedApp;
+export default App;
