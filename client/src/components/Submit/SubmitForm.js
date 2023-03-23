@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import { Form } from "./SubmitStyles.js";
 import exifr from "exifr";
-import axios from 'axios';
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
-
-const storage = getStorage();
+import { getFirestore, collection, addDoc } from "firebase/firestore";
+import { db, storage } from "../../firebase";
 
 export function SubmitForm() {
   const [title, setTitle] = useState("");
@@ -13,14 +12,15 @@ export function SubmitForm() {
   const [description, setDescription] = useState("");
   const [exifData, setExifData] = useState(null); // Declare exifData state here
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
+    await submitData(); // Call submitData() first
     setTitle("");
     setPlantName("");
     setImage(null);
     setDescription("");
-    submitData()
   };
+
 
   const colors = {
     white: "#FFFFFF",
@@ -54,29 +54,25 @@ export function SubmitForm() {
     }
   };
 
-  const submitData = async function() {
+  const submitData = async function () {
     const storageRef = ref(storage, "images/" + image.name);
     await uploadBytes(storageRef, image);
     const downloadURL = await getDownloadURL(storageRef);
     console.log(downloadURL);
-    axios({
-      method: 'post',
-      url: 'http://localhost:8080/submit',
-      data: {
+
+    try {
+      const docRef = await addDoc(collection(db, "posts"), {
         title,
-        plantName, 
+        plantName,
         image: downloadURL,
         description,
         latitude: exifData ? exifData.latitude : null, // include latitude field
-        longitude: exifData ? exifData.longitude : null // include longitude field
-      }
-    })
-      .then(response => {
-        console.log(response.data);
-      })
-      .catch(error => {
-        console.log(error);
+        longitude: exifData ? exifData.longitude : null, // include longitude field
       });
+      console.log("Document written with ID: ", docRef.id);
+    } catch (e) {
+      console.error("Error adding document: ", e);
+    }
   };
 
   const classes = Form();
@@ -224,12 +220,12 @@ export function SubmitForm() {
       <button
         type="submit"
         className={classes.button}
-        onSubmit={submitData}
         style={buttonStyles}
         disabled={!title || !plantName || !image || !description}
       >
         Submit
       </button>
+
     </form>
   );  
 }
