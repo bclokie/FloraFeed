@@ -4,8 +4,10 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
+import { FormControl } from "@mui/material";
 import GoogleButton from "react-google-button";
 import { useAuth } from "../../hooks/useAuth";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 
 const Signup = ({ onSwitchToLogin }) => {
   const [firstName, setFirstName] = useState("");
@@ -14,6 +16,9 @@ const Signup = ({ onSwitchToLogin }) => {
   const [password, setPassword] = useState("");
   const [userName, setUserName] = useState("");
   const { handleSignup, handleGoogleSignIn } = useAuth();
+  const [avatarFile, setAvatarFile] = useState(null);
+  const [fileName, setFileName] = useState("");
+
   const colors = {
     white: "#FFFFFF",
     green1: "#2C7C50",
@@ -112,6 +117,37 @@ const Signup = ({ onSwitchToLogin }) => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
+          <FormControl>
+            <Button
+              variant="contained"
+              component="label"
+              startIcon={<CloudUploadIcon />}
+              sx={{
+                backgroundColor: colors.green1,
+                "&:hover": {
+                  backgroundColor: colors.green2,
+                },
+                marginTop: 2,
+                textTransform: "none",
+                fontFamily: "'Nunito', sans-serif",
+                fontWeight: "bold",
+                marginBottom: 4,
+              }}
+            >
+              {fileName || "Upload Profile Picture"}
+              <input
+                accept="image/*"
+                type="file"
+                onChange={(e) => {
+                  setAvatarFile(e.target.files[0]);
+                  setFileName(e.target.files[0]?.name); // Update fileName when a file is selected
+                }}
+                style={{
+                  display: "none",
+                }}
+              />
+            </Button>
+          </FormControl>
 
           <Button
             fullWidth
@@ -126,8 +162,15 @@ const Signup = ({ onSwitchToLogin }) => {
               fontWeight: "bold",
             }}
             onClick={() =>
-              handleSignup(firstName, lastName, userName, email, password)
-            } // Include userName in the handleSignup function call
+              handleSignup(
+                firstName,
+                lastName,
+                userName,
+                email,
+                password,
+                avatarFile
+              )
+            }
           >
             Sign up
           </Button>
@@ -142,7 +185,7 @@ const Signup = ({ onSwitchToLogin }) => {
             <GoogleButton
               label="Continue with Google"
               type="light"
-              onClick={handleGoogleSignIn} // Use handleGoogleSignIn function from the useAuth hook
+              onClick={handleGoogleSignIn}
             ></GoogleButton>
           </Box>
           <Box

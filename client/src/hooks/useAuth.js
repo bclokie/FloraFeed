@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { auth, provider, db } from "../firebase";
+import { auth, provider, db, storage } from "../firebase";
 import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
@@ -8,6 +8,7 @@ import {
   onAuthStateChanged,
 } from "firebase/auth";
 import { setDoc, doc } from "firebase/firestore";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 export const useAuth = () => {
   const [user, setUser] = useState(null);
@@ -22,7 +23,20 @@ export const useAuth = () => {
     };
   }, []);
 
-  const createUserDocument = async (user, firstName, lastName, userName) => {
+  const uploadAvatar = async (file, uid) => {
+    const storageRef = ref(storage, `avatars/${uid}/${file.name}`);
+    await uploadBytes(storageRef, file);
+    const downloadURL = await getDownloadURL(storageRef);
+    return downloadURL;
+  };
+
+  const createUserDocument = async (
+    user,
+    firstName,
+    lastName,
+    userName,
+    avatarUrl
+  ) => {
     try {
       const userRef = doc(db, "users", user.uid);
       await setDoc(userRef, {
@@ -31,7 +45,7 @@ export const useAuth = () => {
         firstName,
         lastName,
         userName,
-        // Add any other fields you want to store for your users
+        avatarUrl,
       });
       console.log("User document created:", user.uid);
     } catch (error) {
@@ -52,9 +66,9 @@ export const useAuth = () => {
     lastName,
     userName,
     email,
-    password
+    password,
+    avatarFile
   ) => {
-    // Include userName parameter
     try {
       const userCredential = await createUserWithEmailAndPassword(
         auth,
@@ -62,7 +76,10 @@ export const useAuth = () => {
         password
       );
       const { user } = userCredential;
-      await createUserDocument(user, firstName, lastName, userName); // Pass userName to createUserDocument
+      const avatarUrl = avatarFile
+        ? await uploadAvatar(avatarFile, user.uid)
+        : null;
+      await createUserDocument(user, firstName, lastName, userName, avatarUrl); // Pass userName to createUserDocument
       alert("User registered successfully");
     } catch (error) {
       alert(error.message);
