@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
-import { Container, useMediaQuery, useTheme, Box } from "@mui/material";
+import { Container, useMediaQuery, useTheme, Box, } from "@mui/material";
 
 import Sidebar from "./components/Sidebar/Sidebar";
 import MapView from "./components/MapView/MapView";
@@ -19,6 +19,10 @@ const App = () => {
   const theme = useTheme();
 
   const [view, setView] = useState("MAP");
+
+  useEffect(() => {
+    setView("MAP")
+  })
 
   const renderView = () => {
     switch (view) {
