@@ -3,9 +3,7 @@ import { Form } from "./SubmitStyles.js";
 import exifr from "exifr";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { getFirestore, collection, addDoc } from "firebase/firestore";
-
-const storage = getStorage();
-const db = getFirestore();
+import { db, storage } from "../../firebase";
 
 export function SubmitForm() {
   const [title, setTitle] = useState("");
@@ -14,14 +12,15 @@ export function SubmitForm() {
   const [description, setDescription] = useState("");
   const [exifData, setExifData] = useState(null); // Declare exifData state here
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
+    await submitData(); // Call submitData() first
     setTitle("");
     setPlantName("");
     setImage(null);
     setDescription("");
-    submitData()
   };
+
 
   const colors = {
     white: "#FFFFFF",
@@ -221,12 +220,12 @@ export function SubmitForm() {
       <button
         type="submit"
         className={classes.button}
-        onSubmit={submitData}
         style={buttonStyles}
         disabled={!title || !plantName || !image || !description}
       >
         Submit
       </button>
+
     </form>
   );  
 }
