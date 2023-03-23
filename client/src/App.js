@@ -18,11 +18,11 @@ const App = () => {
     useAuth();
   const theme = useTheme();
 
-  const [view, setView] = useState("MAP");
+  const [view, setView] = useState("");
 
   useEffect(() => {
     setView("MAP")
-  })
+  }, [])
 
   const renderView = () => {
     switch (view) {
