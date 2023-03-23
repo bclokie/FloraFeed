@@ -1,10 +1,19 @@
 import React, { useState, useEffect } from "react";
-import { Form } from "./SubmitStyles.js";
 import exifr from "exifr";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { getFirestore, collection, addDoc } from "firebase/firestore";
 import { db, storage } from "../../firebase";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
+import Container from "@mui/material/Container";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
+import InputLabel from "@mui/material/InputLabel";
+import FormControl from "@mui/material/FormControl";
+import FormHelperText from "@mui/material/FormHelperText";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import Grid from "@mui/material/Grid";
 
 export function SubmitForm() {
   const [title, setTitle] = useState("");
@@ -45,6 +54,8 @@ export function SubmitForm() {
     green2: "#2B764A",
     lightGreen1: "#EDF1F0",
     lightGreen2: "#DAE1D8",
+    glass1: "rgba(255, 255, 255, 0.8)",
+    glass2: "rgba(255, 255, 255, 0.15)",
   };
 
   const handleImageChange = async (event) => {
@@ -62,11 +73,11 @@ export function SubmitForm() {
       /* The following is placeholder until we can 
       ask user to add pins to Google Maps */
       if (!data || !data.latitude || !data.longitude) {
-        alert("Please choose an image file with GPS data")
+        alert("Please choose an image file with GPS data");
       } else {
         setImage(file); // Set the image file as the state
         setExifData(data); // Update the value of exifData state
-        console.log("Done!")
+        console.log("Done!");
       }
     }
   };
@@ -93,157 +104,152 @@ export function SubmitForm() {
     }
   };
 
-  const classes = Form();
-
   const disabledButtonStyles = {
     backgroundColor: "gray",
     color: "white",
-    cursor: "not-allowed"
+    cursor: "not-allowed",
   };
-  
+
   const enabledButtonStyles = {
     backgroundColor: colors.green1,
-    cursor: 'pointer',
-    transition: 'background-color 0.3s',
-    '&:hover': {
+    cursor: "pointer",
+    transition: "background-color 0.3s",
+    "&:hover": {
       backgroundColor: colors.green2,
     },
   };
 
-  const buttonStyles = !title || !plantName || !image || !description
-    ? disabledButtonStyles : enabledButtonStyles;
-
+  const buttonStyles =
+    !title || !plantName || !image || !description
+      ? disabledButtonStyles
+      : enabledButtonStyles;
 
   return (
     <form onSubmit={handleSubmit} style={{ width: "90%" }}>
-      <label>
-        <span style={{
-          color: colors.green1,
-          fontFamily: "'Nunito', sans-serif",
-          fontWeight: "bold",
-          fontSize: "24px",
-          marginTop: "100px",
-          marginBottom: 4,
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          maxWidth: "25%",
-          margin: "0 auto",
-        }}>Title:
-        </span>
-        <input style={{
-          marginBottom: "40px",
-          width: "25%",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          margin: "0 auto",
-        }}
-          type="text"
-          value={title}
-          onChange={(event) => setTitle(event.target.value)}
-          className={classes.input}
-        />
-      </label>
-      <br />
-      <label>
-        <span style={{
-          color: colors.green1,
-          fontFamily: "'Nunito', sans-serif",
-          fontWeight: "bold",
-          fontSize: "24px",
-          marginBottom: 4,
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          maxWidth: "25%",
-          margin: "0 auto",
-        }}> Scientific Plant Name:
-        </span>
-        <input style={{
-          marginBottom: "40px",
-          width: "25%",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          margin: "0 auto",
-        }}
-          type="text"
-          value={plantName}
-          onChange={(event) => setPlantName(event.target.value)}
-          className={classes.input}
-        />
-      </label>
-      <br />
-      <label>
-        <span style={{
-          color: colors.green1,
-          fontFamily: "'Nunito', sans-serif",
-          fontWeight: "bold",
-          fontSize: "24px",
-          marginBottom: 4,
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          maxWidth: "25%",
-          margin: "0 auto",
-        }}>
-          Photo:
-          </span>
-        <input style={{
-          marginTop: "10px",
-          marginBottom: "20px",
-          margin: "0 auto",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-          type="file"
-          accept="image/*"
-          onChange={handleImageChange}
-        />
-      </label>
-      <br />
-      <br></br>
-      <label>
-        <span style={{
-          color: colors.green1,
-          fontFamily: "'Nunito', sans-serif",
-          fontWeight: "bold",
-          fontSize: "24px",
-          marginBottom: 4,
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          maxWidth: "25%",
-          margin: "0 auto",
-        }}>
-          Description:
-        </span>
-        <textarea
-          style={{
-            marginBottom: "40px",
-            maxWidth: "70%",
-            margin: "0 auto",
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
+      <Container maxWidth="false">
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            minHeight: "100vh",
+            backgroundImage: "url('')",
+            backgroundSize: "cover",
           }}
-          value={description}
-          onChange={(event) => setDescription(event.target.value)}
-          className={classes.textarea}
-        />
-      </label>
-      <br />
-      <button
-        type="submit"
-        className={classes.button}
-        style={buttonStyles}
-        disabled={!title || !plantName || !image || !description}
-      >
-        Submit
-      </button>
+        >
+          <Box
+            component="form"
+            sx={{
+              backgroundColor: "#FFFFFF",
+              width: "100%",
+              maxWidth: 400,
+              borderRadius: 2,
+              padding: 4,
+              boxShadow: 3,
+              textAlign: "center",
+            }}
+            autoComplete="off"
+          >
+            <Typography
+              variant="h4"
+              component="h1"
+              sx={{
+                color: colors.green1,
+                fontFamily: "'Nunito', sans-serif",
+                fontWeight: "bold",
+                marginBottom: 2,
+              }}
+            >
+              Submit a New Plant
+            </Typography>
+            <FormControl>
+              <Button
+                variant="contained"
+                component="label"
+                startIcon={<CloudUploadIcon />}
+                sx={{
+                  backgroundColor: colors.green1,
+                  "&:hover": {
+                    backgroundColor: colors.green2,
+                  },
+                  marginTop: 2,
+                  textTransform: "none",
+                  fontFamily: "'Nunito', sans-serif",
+                  fontWeight: "bold",
+                }}
+              >
+                Choose File
+                <input
+                  id="photo-file"
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageChange}
+                  style={{
+                    display: "none",
+                  }}
+                />
+              </Button>
+              {image && (
+                <FormHelperText style={{ textAlign: "center", marginTop: 1 }}>
+                  {image.name}
+                </FormHelperText>
+              )}
+            </FormControl>
 
+            <TextField
+              label="Title"
+              fullWidth
+              margin="normal"
+              variant="outlined"
+              sx={{ marginBottom: 2, backgroundColor: colors.glass2 }}
+              value={title}
+              onChange={(event) => setTitle(event.target.value)}
+            />
+            <TextField
+              label="Scientific Plant Name"
+              fullWidth
+              margin="normal"
+              variant="outlined"
+              sx={{ marginBottom: 2, backgroundColor: colors.glass2 }}
+              value={plantName}
+              onChange={(event) => setPlantName(event.target.value)}
+            />
+
+            <TextField
+              label="Description"
+              fullWidth
+              margin="normal"
+              variant="outlined"
+              sx={{ marginBottom: 2, backgroundColor: colors.glass2 }}
+              value={description}
+              onChange={(event) => setDescription(event.target.value)}
+              multiline
+              rows={4}
+            />
+
+            <Button
+              fullWidth
+              variant="contained"
+              sx={{
+                fontFamily: "'Nunito', sans-serif",
+                backgroundColor: colors.green1,
+                "&:hover": {
+                  backgroundColor: colors.green2,
+                },
+                color: colors.white,
+                textTransform: "none",
+                fontWeight: "bold",
+                marginTop: 2,
+              }}
+              type="submit"
+              disabled={!title || !plantName || !image || !description}
+            >
+              Submit
+            </Button>
+          </Box>
+        </Box>
+      </Container>
     </form>
-  );  
+  );
 }
