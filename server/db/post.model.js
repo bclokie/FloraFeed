@@ -5,7 +5,7 @@ const postSchema = new Schema({
   title: String,
   plantName: String,
   image: String,
-  author: String,
+  userName: String,
   description: String,
   latitude: String,
   longitude: String

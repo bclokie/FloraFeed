@@ -58,6 +58,7 @@ const App = () => {
             onSignup={handleSignup}
             onSwitchToLogin={() => setView("LOGIN")}
             onGoogleSignIn={handleGoogleSignIn}
+            onSignupSuccess={() => setView("LOGIN")}
           />
         ) : (
           ""

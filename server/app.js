@@ -1,4 +1,3 @@
-// Declarations
 require("dotenv").config();
 const { ENVIROMENT, PORT, MONGODB_URI } = process.env;
 const express = require("express");
@@ -8,9 +7,9 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 const passport = require("passport");
+require("./passport-config")(passport);
 const session = require("express-session");
-const Post = require('./db/post.model.js');
-const catsRoutes = require("./routes/catsRoutes");
+const Post = require("./db/post.model.js");
 const User = require("./models/user");
 
 const app = express();
@@ -23,7 +22,7 @@ app.use(express.json());
 
 // Connect to MongoDB
 mongoose
-  .connect(process.env.MONGODB_URI, {
+  .connect(MONGODB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
@@ -42,43 +41,11 @@ app.get("/", (req, res) => {
   res.json({ greetings: "hello world" });
 });
 
-// Alex code
-  app.post("/api/register", async (req, res) => {
+app.post("/api/register", async (req, res) => {
   const { firstName, lastName, email, password } = req.body;
 
   try {
     const existingUser = await User.findOne({ email });
-// End of Alex code
-
-//Corey code
-app.use(cors());
-app.use(express.json());
-app.use(
-  session({
-    secret: "your_secret_key",
-    resave: false,
-    saveUninitialized: false,
-  })
-  );
-
-  require("./passport-config")(passport);
-  app.use(passport.initialize());
-  app.use(passport.session());
-  
-  
-  //Mongoose connection
-  mongoose.set('strictQuery', false);
-  const mongoDB = `mongodb+srv://${process.env.MONGODB_USERNAME}:${process.env.MONGODB_PASSWORD}@finalproject.lsfq8aa.mongodb.net/leafly`;
-  main().catch(err => console.log(err));
-  async function main() {
-    await mongoose.connect(mongoDB);
-    if (mongoose.connection.readyState === 1) {
-      console.log('Mongoose is connected')
-    }
-  }
-  const {postSchema} = require('./db/post.model.js')
-  
-// End of Corey code
 
     if (existingUser) {
       return res.status(400).json({ message: "Email already in use" });
@@ -105,27 +72,42 @@ app.use(
   }
 });
 
+app.use(
+  session({
+    secret: "your_secret_key",
+    resave: false,
+    saveUninitialized: false,
+  })
+);
 
+require("./passport-config")(passport);
+app.use(passport.initialize());
+app.use(passport.session());
+
+mongoose.set("strictQuery", false);
 
 app.post("/submit", (req, res) => {
-  Post.insertMany([{
-    title: req.body.title, 
-    plantName: req.body.plantName, 
-    image: req.body.image, 
-    description: req.body.description, 
-    latitude: req.body.latitude,
-    longitude: req.body.longitude,
-    timestamps: true}])
-})
+  Post.insertMany([
+    {
+      title: req.body.title,
+      plantName: req.body.plantName,
+      image: req.body.image,
+      description: req.body.description,
+      latitude: req.body.latitude,
+      longitude: req.body.longitude,
+      timestamps: true,
+    },
+  ]);
+});
+
 app.get("/posts", (req, res) => {
   Post.find({})
-    .then(posts => {
+    .then((posts) => {
       res.json(posts);
     })
-    .catch(err => {
+    .catch((err) => {
       console.error(err);
     });
-})
-
+});
 
 app.listen(PORT, () => console.log(`Server is listening on port ${PORT}`));
