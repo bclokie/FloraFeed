@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useStyles } from "./SubmitStyles.js";
+import { Form } from "./SubmitStyles.js";
 import exifr from "exifr";
 import axios from 'axios';
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
@@ -79,7 +79,7 @@ export function SubmitForm() {
       });
   };
 
-  const classes = useStyles();
+  const classes = Form();
 
   const disabledButtonStyles = {
     backgroundColor: "gray",
