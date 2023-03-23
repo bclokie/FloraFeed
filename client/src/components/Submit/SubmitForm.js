@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Form } from "./SubmitStyles.js";
 import exifr from "exifr";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { getFirestore, collection, addDoc } from "firebase/firestore";
 import { db, storage } from "../../firebase";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 export function SubmitForm() {
   const [title, setTitle] = useState("");
@@ -11,6 +12,7 @@ export function SubmitForm() {
   const [image, setImage] = useState(null);
   const [description, setDescription] = useState("");
   const [exifData, setExifData] = useState(null); // Declare exifData state here
+  const [uid, setUid] = useState(null);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -21,6 +23,21 @@ export function SubmitForm() {
     setDescription("");
   };
 
+  useEffect(() => {
+    const auth = getAuth();
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setUid(user.uid);
+      } else {
+        setUid(null);
+      }
+    });
+    return () => unsubscribe();
+  }, []);
+
+  useEffect(() => {
+    console.log("uid: ", uid);
+  }, [uid]);
 
   const colors = {
     white: "#FFFFFF",
@@ -68,6 +85,7 @@ export function SubmitForm() {
         description,
         latitude: exifData ? exifData.latitude : null, // include latitude field
         longitude: exifData ? exifData.longitude : null, // include longitude field
+        uid, // included uid field
       });
       console.log("Document written with ID: ", docRef.id);
     } catch (e) {
