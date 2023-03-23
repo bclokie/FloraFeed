@@ -42,7 +42,7 @@ app.get("/", (req, res) => {
 });
 
 app.post("/api/register", async (req, res) => {
-  const { firstName, lastName, email, password } = req.body;
+  const { userName, email, password } = req.body; // Added 'userName'
 
   try {
     const existingUser = await User.findOne({ email });
@@ -54,8 +54,7 @@ app.post("/api/register", async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 12);
 
     const newUser = await User.create({
-      firstName,
-      lastName,
+      userName,
       email,
       password: hashedPassword,
       authMethod: "local",

@@ -2,26 +2,11 @@ import { useState, useEffect } from "react";
 import { auth, provider } from "../firebase";
 import {
   signInWithEmailAndPassword,
-  createUserWithEmailAndPassword,
   signInWithPopup,
   signOut,
   onAuthStateChanged,
 } from "firebase/auth";
 import axios from 'axios';
-
-const handleSignup = async (firstName, lastName, email, password) => {
-  try {
-    await axios.post('/api/register', {
-      firstName,
-      lastName,
-      email,
-      password,
-    });
-    alert('User registered successfully');
-  } catch (error) {
-    alert(error.response.data.message || 'An error occurred during signup');
-  }
-};
 
 export const useAuth = () => {
   const [user, setUser] = useState(null);
@@ -44,12 +29,16 @@ export const useAuth = () => {
     }
   };
 
-  const handleSignup = async (firstName, lastName, email, password) => {
+  const handleSignup = async (userName, email, password) => { // Updated to use 'userName'
     try {
-      await createUserWithEmailAndPassword(auth, email, password);
-      alert("User registered successfully");
+      await axios.post('/api/register', {
+        userName, // Updated to use 'userName'
+        email,
+        password,
+      });
+      alert('User registered successfully');
     } catch (error) {
-      alert(error.message);
+      alert(error.response.data.message || 'An error occurred during signup');
     }
   };
 

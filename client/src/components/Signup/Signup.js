@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import axios from "axios";
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -26,12 +25,12 @@ const Signup = ({ onSignup, onSwitchToLogin, onGoogleSignIn, onSignupSuccess }) 
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-  
+
     if (password !== confirmPassword) {
       setError("Passwords do not match");
       return;
     }
-  
+
     try {
       await onSignup(userName, email, password);
       onSignupSuccess();
@@ -121,7 +120,7 @@ const Signup = ({ onSignup, onSwitchToLogin, onGoogleSignIn, onSignupSuccess }) 
                 textTransform: "none",
                 fontWeight: "bold",
               }}
-              type="submit" // Changed from onClick to type="submit"
+            type="submit"
             >
               Sign up
             </Button>
