@@ -1,6 +1,7 @@
 import { Box, filledInputClasses } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { fetchUserData, fetchPostsData } from "../../dataFetcher";
 import {
   GoogleMap,
   LoadScript,
@@ -18,6 +19,8 @@ const center = {
 };
 
 function MapView() {
+  let postsData = [];
+
   const [selectedMarker, setSelectedMarker] = useState(null);
   const handleMarkerClick = (marker) => {
     setSelectedMarker(marker);
@@ -25,9 +28,16 @@ function MapView() {
   const handleCloseClick = () => {
     setSelectedMarker(null);
   };
+
   const [coordinatesData, setCoordinatesData] = useState([]);
 
   useEffect(() => {
+    let usersData = [];
+    fetchUserData().then((results) => {
+      results.map((user) => {
+        usersData.push(user);
+      });
+    });
     const temp = [];
     axios
       .get(
@@ -37,6 +47,10 @@ function MapView() {
         posts.data.documents.map((data, index) => {
           const latitude = Number(data.fields.latitude?.doubleValue);
           const longitude = Number(data.fields.longitude?.doubleValue);
+
+          const poster = usersData.find(
+            (user) => user.userId === data.fields.uid.stringValue
+          );
           if (!isNaN(latitude) && !isNaN(longitude)) {
             temp.push({
               id: index + 1,
@@ -45,7 +59,7 @@ function MapView() {
                 lng: longitude,
               },
               content: data.fields.title.stringValue,
-              author: "Brandy",
+              author: poster ? poster.userName : "Unknown Poster",
               image: data.fields.image.stringValue,
             });
           }
@@ -98,7 +112,6 @@ function MapView() {
       ))}
     </GoogleMap>
   );
-  console.log(coordinatesData);
 
   return (
     <Box sx={{ width: "100%", height: "100%" }}>
