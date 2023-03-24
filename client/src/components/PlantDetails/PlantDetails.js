@@ -43,7 +43,7 @@ const PlantDetails = ({ user, plant }) => {
         <Card
           sx={{
             borderRadius: 2,
-            bgcolor: "transparent",
+            bgcolor: "#FFFFFF",
           }}
         >
           <Box
@@ -76,7 +76,7 @@ const PlantDetails = ({ user, plant }) => {
                   fontWeight: "bold",
                 }}
               >
-                {user.userName}
+                @{user.userName}
               </Typography>
             </Box>
 

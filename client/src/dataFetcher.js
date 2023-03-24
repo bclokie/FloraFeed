@@ -9,6 +9,8 @@ export const fetchUserData = async () => {
   return usersData.map((user) => ({
     userId: user.fields.uid.stringValue,
     userName: user.fields.userName.stringValue,
+    userFirstName: user.fields.firstName.stringValue,
+    userLastName: user.fields.lastName.stringValue,
     userAvatar: user.fields.avatarUrl.stringValue,
     posts: [],
   }));
