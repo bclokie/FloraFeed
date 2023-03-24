@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from "react";
-
-import { Container, useMediaQuery, useTheme, Box } from "@mui/material";
-
+import {
+  Container,
+  useMediaQuery,
+  useTheme,
+  Box,
+  Button,
+} from "@mui/material";
 import Sidebar from "./components/Sidebar/Sidebar";
 import MapView from "./components/MapView/MapView";
 import ListView from "./components/ListView/ListView";
@@ -12,13 +16,15 @@ import { useAuth } from "./hooks/useAuth";
 import { SubmitForm } from "./components/Submit/SubmitForm";
 import { ThemeProvider } from "@mui/material/styles";
 import UserProfile from "./components/UserProfile/UserProfile";
+import darkMode from "./components/DarkMode/darkMode";
 
 const App = () => {
   const { user, handleLogin, handleSignup, handleGoogleSignIn, handleLogout } =
     useAuth();
   const theme = useTheme();
-
+  const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
   const [view, setView] = useState("");
+  const [darkModeEnabled, setDarkModeEnabled] = useState(prefersDarkMode);
 
   useEffect(() => {
     setView("MAP");
@@ -45,6 +51,10 @@ const App = () => {
     handleLogout()
       .then(() => setView("LOGIN"))
       .catch((error) => console.log(error));
+  };
+
+  const toggleDarkMode = () => {
+    setDarkModeEnabled(!darkModeEnabled);
   };
 
   if (!user) {
@@ -103,6 +113,9 @@ const App = () => {
           marginLeft: "240px",
         }}
       >
+        <Button onClick={toggleDarkMode}>
+          {darkModeEnabled ? "Disable Dark Mode" : "Enable Dark Mode"}
+        </Button>
         {renderView()}
       </Box>
     </Box>
