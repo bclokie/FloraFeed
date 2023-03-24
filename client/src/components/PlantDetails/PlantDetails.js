@@ -12,6 +12,10 @@ import Button from "@mui/material/Button";
 const PlantDetails = ({ user, plant }) => {
   const [expanded, setExpanded] = useState(false);
 
+  if (!user) {
+    return <div>Loading...</div>;
+  }
+
   // Color palette
   const colors = {
     white: "#FFFFFF",

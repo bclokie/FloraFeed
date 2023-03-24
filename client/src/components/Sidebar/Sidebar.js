@@ -15,6 +15,7 @@ import MapIcon from "@mui/icons-material/Map";
 import LogoutIcon from "@mui/icons-material/Logout";
 import AddIcon from "@mui/icons-material/Add";
 import GridViewIcon from "@mui/icons-material/GridView";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
 const colors = {
   white: "#FFFFFF",
@@ -80,6 +81,11 @@ const Sidebar = ({ userName, userAvatar, onLogout, setView }) => {
             text: "Map View",
             onClick: () => setView("MAP"),
             icon: <MapIcon />,
+          },
+          {
+            text: "User Profile",
+            onClick: () => setView("USER_PROFILE"),
+            icon: <AccountCircleIcon />,
           },
         ].map((item, index) => (
           <ListItem
