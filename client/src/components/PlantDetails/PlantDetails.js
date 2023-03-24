@@ -30,14 +30,14 @@ const PlantDetails = ({ user, plant }) => {
   };
 
   return (
-    <Container maxWidth="sm">
+    <Container maxWidth="lg">
       <Box
         sx={{
-          maxWidth: 400,
+          maxWidth: 520,
           borderRadius: 2,
           boxShadow: 3,
           mx: "auto",
-          my: 2,
+          my: 1,
         }}
       >
         <Card

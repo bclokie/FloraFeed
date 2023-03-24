@@ -4,27 +4,36 @@ import PlantDetails from "../PlantDetails/PlantDetails";
 import {
   Avatar,
   Box,
-  Typography,
+  Container,
   Grid,
+  Typography,
+  ImageList,
+  ImageListItem,
+  ImageListItemBar,
+  Modal,
   Paper,
-  Divider,
-  useTheme,
+  Chip,
+  Card,
+  CardActionArea,
+  CardContent,
+  CardMedia,
 } from "@mui/material";
 import { styled } from "@mui/system";
 
 const UserProfile = ({ userId }) => {
   const [user, setUser] = useState(null);
   const [posts, setPosts] = useState([]);
-  const [lastPostImage, setLastPostImage] = useState("");
+  const [selectedPost, setSelectedPost] = useState(null);
+  const [open, setOpen] = useState(false);
 
-  const theme = useTheme();
+  const handleOpen = (post) => {
+    setSelectedPost(post);
+    setOpen(true);
+  };
 
-  const StyledPaper = styled(Paper)({
-    padding: theme.spacing(4),
-    borderRadius: theme.spacing(2),
-    backgroundColor: theme.palette.background.paper,
-    marginBottom: theme.spacing(4),
-  });
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -32,13 +41,7 @@ const UserProfile = ({ userId }) => {
       const currentUser = users.find((user) => user.userId === userId);
 
       if (currentUser) {
-        setUser({
-          userId: currentUser.userId,
-          userFirstName: currentUser.userFirstName,
-          userLastName: currentUser.userLastName,
-          userName: currentUser.userName,
-          userAvatar: currentUser.userAvatar,
-        });
+        setUser(currentUser);
       } else {
         console.log("No such user!");
       }
@@ -50,10 +53,6 @@ const UserProfile = ({ userId }) => {
 
       if (currentUserWithPosts) {
         setPosts(currentUserWithPosts.posts);
-        setLastPostImage(
-          currentUserWithPosts.posts[currentUserWithPosts.posts.length - 1]
-            .imageUrl
-        );
       } else {
         console.log("No posts found for this user!");
       }
@@ -66,98 +65,75 @@ const UserProfile = ({ userId }) => {
     return <div>Loading...</div>;
   }
 
+  const StyledPaper = styled(Paper)(({ theme }) => ({
+    backgroundColor: theme.palette.primary,
+    color: theme.palette.primary,
+    padding: theme.spacing(2),
+    borderRadius: theme.spacing(1),
+  }));
+
   return (
-    <Box
-      sx={{
-        backgroundColor: "#fafafa",
-        minHeight: "100vh",
-        py: 5,
-        position: "relative",
-      }}
-    >
-      <Box
-        sx={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          width: "100%",
-          height: "40%",
-          backgroundImage: `url(${lastPostImage})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          zIndex: -1,
-          filter: "brightness(60%)",
-        }}
-      />
-      <StyledPaper elevation={3}>
+    <Container>
+      <Box sx={{ mt: 4, mb: 4 }}>
         <Grid container spacing={2}>
-          <Grid item xs={12} md={4}>
+          <Grid item xs={12} sm={4} md={3} lg={2}>
             <Avatar
               src={user.userAvatar}
               alt={`${user.userName}'s avatar`}
               sx={{
                 width: 100,
                 height: 100,
-                borderColor: "#c7c7c7",
-                borderWidth: 2,
-                borderStyle: "solid",
-                display: "block",
-                mx: "auto",
+                margin: "0 auto",
               }}
             />
           </Grid>
-          <Grid item xs={12} md={8}>
-            <Typography
-              variant="h5"
-              sx={{
-                fontWeight: "bold",
-                color: "#262626",
-                marginBottom: 1,
-                textAlign: { xs: "center", md: "left" },
-              }}
-            >
-              {user.userFirstName} {user.userLastName}
-            </Typography>
-            <Typography
-              variant="subtitle1"
-              sx={{
-                fontWeight: "normal",
-                color: "#262626",
-                textAlign: { xs: "center", md: "left" },
-              }}
-            >
-              @{user.userName}
-            </Typography>
+          <Grid item xs={12} sm={8} md={9} lg={10}>
+            <StyledPaper>
+              <Typography variant="h4" component="div">
+                {user.userFirstName} {user.userLastName}
+              </Typography>
+              <Typography variant="subtitle1" color="inherit">
+                @{user.userName}
+              </Typography>
+            </StyledPaper>
           </Grid>
         </Grid>
-        <Divider sx={{ my: 4 }} />
-        <Grid container spacing={2} alignItems="center">
-          <Grid item xs={6}>
-            <Typography
-              variant="h6"
-              sx={{
-                fontWeight: "bold",
-                color: "#262626",
-                textAlign: { xs: "center", md: "left" },
-              }}
-            >
-              Posts: {posts.length}
-            </Typography>
-          </Grid>
-          <Grid item xs={6}>
-            {/* Add any additional user details here */}
-          </Grid>
-        </Grid>
-        <Divider sx={{ my: 4 }} />
+      </Box>
+      <Box sx={{ mt: 4 }}>
+        <Typography variant="h5" component="div">
+          Posts <Chip label={posts.length} />
+        </Typography>
+      </Box>
+      <Box sx={{ mt: 4 }}>
         <Grid container spacing={2}>
           {posts.map((post) => (
-            <Grid item xs={12} sm={6} md={4} key={post.id}>
-              <PlantDetails user={user} plant={post.plant} />
+            <Grid item key={post.id} xs={12} sm={6} md={4}>
+              <Card>
+                <CardActionArea onClick={() => handleOpen(post)}>
+                  <CardMedia
+                    component="img"
+                    src={post.plant.imageUrl}
+                    alt={post.plant.name}
+                    loading="lazy"
+                    height="400"
+                  />
+                </CardActionArea>
+              </Card>
             </Grid>
           ))}
         </Grid>
-      </StyledPaper>
-    </Box>
+      </Box>
+      {selectedPost && (
+        <Modal
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="plant-details-modal"
+          aria-describedby="plant-details"
+        >
+          <PlantDetails user={user} plant={selectedPost.plant} />
+        </Modal>
+      )}
+    </Container>
   );
 };
 
