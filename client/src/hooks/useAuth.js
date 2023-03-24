@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { auth, provider } from "../firebase";
+import { auth, provider, db, storage } from "../firebase";
 import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
@@ -7,6 +7,8 @@ import {
   signOut,
   onAuthStateChanged,
 } from "firebase/auth";
+import { setDoc, doc } from "firebase/firestore";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 export const useAuth = () => {
   const [user, setUser] = useState(null);
@@ -21,6 +23,36 @@ export const useAuth = () => {
     };
   }, []);
 
+  const uploadAvatar = async (file, uid) => {
+    const storageRef = ref(storage, `avatars/${uid}/${file.name}`);
+    await uploadBytes(storageRef, file);
+    const downloadURL = await getDownloadURL(storageRef);
+    return downloadURL;
+  };
+
+  const createUserDocument = async (
+    user,
+    firstName,
+    lastName,
+    userName,
+    avatarUrl
+  ) => {
+    try {
+      const userRef = doc(db, "users", user.uid);
+      await setDoc(userRef, {
+        uid: user.uid,
+        email: user.email,
+        firstName,
+        lastName,
+        userName,
+        avatarUrl,
+      });
+      console.log("User document created:", user.uid);
+    } catch (error) {
+      console.error("Error creating user document:", error);
+    }
+  };
+
   const handleLogin = async (email, password) => {
     try {
       await signInWithEmailAndPassword(auth, email, password);
@@ -29,9 +61,25 @@ export const useAuth = () => {
     }
   };
 
-  const handleSignup = async (firstName, lastName, email, password) => {
+  const handleSignup = async (
+    firstName,
+    lastName,
+    userName,
+    email,
+    password,
+    avatarFile
+  ) => {
     try {
-      await createUserWithEmailAndPassword(auth, email, password);
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      const { user } = userCredential;
+      const avatarUrl = avatarFile
+        ? await uploadAvatar(avatarFile, user.uid)
+        : null;
+      await createUserDocument(user, firstName, lastName, userName, avatarUrl); // Pass userName to createUserDocument
       alert("User registered successfully");
     } catch (error) {
       alert(error.message);
@@ -40,12 +88,14 @@ export const useAuth = () => {
 
   const handleGoogleSignIn = async () => {
     try {
-      await signInWithPopup(auth, provider);
+      const userCredential = await signInWithPopup(auth, provider);
+      const { user } = userCredential;
+      const [firstName, lastName] = user.displayName.split(" ");
+      await createUserDocument(user, firstName, lastName);
     } catch (error) {
       alert(error.message);
     }
   };
-
   const handleLogout = async () => {
     try {
       await signOut(auth);

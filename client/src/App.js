@@ -11,6 +11,7 @@ import Signup from "./components/Signup/Signup";
 import { useAuth } from "./hooks/useAuth";
 import { SubmitForm } from "./components/Submit/SubmitForm";
 import { ThemeProvider } from "@mui/material/styles";
+import UserProfile from "./components/UserProfile/UserProfile";
 
 const App = () => {
   const { user, handleLogin, handleSignup, handleGoogleSignIn, handleLogout } =
@@ -33,6 +34,8 @@ const App = () => {
         return <GridView />;
       case "SubmitForm":
         return <SubmitForm />;
+      case "USER_PROFILE":
+        return <UserProfile userId={user.uid} user={user} />;
       default:
         return null;
     }
