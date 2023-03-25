@@ -80,7 +80,7 @@ export const useAuth = () => {
       const avatarUrl = avatarFile
         ? await uploadAvatar(avatarFile, user.uid)
         : null;
-      await createUserDocument(user, firstName, lastName, userName, avatarUrl); // Pass userName to createUserDocument
+      await createUserDocument(user, firstName, lastName, userName, avatarUrl);
       alert("User registered successfully");
     } catch (error) {
       alert(error.message);

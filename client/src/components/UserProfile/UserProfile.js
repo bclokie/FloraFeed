@@ -4,27 +4,43 @@ import PlantDetails from "../PlantDetails/PlantDetails";
 import {
   Avatar,
   Box,
+  Container,
   Typography,
+  Modal,
+  Chip,
+  Card,
+  CardActionArea,
+  CardContent,
+  CardMedia,
+  Stack,
   Grid,
-  Paper,
-  Divider,
-  useTheme,
 } from "@mui/material";
 import { styled } from "@mui/system";
+import IconButton from "@mui/material/IconButton";
+import CameraAltIcon from "@mui/icons-material/CameraAlt";
 
 const UserProfile = ({ userId }) => {
   const [user, setUser] = useState(null);
   const [posts, setPosts] = useState([]);
-  const [lastPostImage, setLastPostImage] = useState("");
+  const [selectedPost, setSelectedPost] = useState(null);
+  const [open, setOpen] = useState(false);
 
-  const theme = useTheme();
+  const colors = {
+    white: "#FFFFFF",
+    green1: "#2C7C50",
+    green2: "#2B764A",
+    lightGreen1: "#96BCA7",
+    lightGreen2: "#DAE1D8",
+  };
 
-  const StyledPaper = styled(Paper)({
-    padding: theme.spacing(4),
-    borderRadius: theme.spacing(2),
-    backgroundColor: theme.palette.background.paper,
-    marginBottom: theme.spacing(4),
-  });
+  const handleOpen = (post) => {
+    setSelectedPost(post);
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -32,13 +48,7 @@ const UserProfile = ({ userId }) => {
       const currentUser = users.find((user) => user.userId === userId);
 
       if (currentUser) {
-        setUser({
-          userId: currentUser.userId,
-          userFirstName: currentUser.userFirstName,
-          userLastName: currentUser.userLastName,
-          userName: currentUser.userName,
-          userAvatar: currentUser.userAvatar,
-        });
+        setUser(currentUser);
       } else {
         console.log("No such user!");
       }
@@ -50,10 +60,6 @@ const UserProfile = ({ userId }) => {
 
       if (currentUserWithPosts) {
         setPosts(currentUserWithPosts.posts);
-        setLastPostImage(
-          currentUserWithPosts.posts[currentUserWithPosts.posts.length - 1]
-            .imageUrl
-        );
       } else {
         console.log("No posts found for this user!");
       }
@@ -67,97 +73,151 @@ const UserProfile = ({ userId }) => {
   }
 
   return (
-    <Box
-      sx={{
-        backgroundColor: "#fafafa",
-        minHeight: "100vh",
-        py: 5,
-        position: "relative",
-      }}
-    >
-      <Box
-        sx={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          width: "100%",
-          height: "40%",
-          backgroundImage: `url(${lastPostImage})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          zIndex: -1,
-          filter: "brightness(60%)",
-        }}
-      />
-      <StyledPaper elevation={3}>
-        <Grid container spacing={2}>
-          <Grid item xs={12} md={4}>
+    <Container fixed>
+      <Box sx={{ mt: 2, mb: 2 }}>
+        <Card
+          sx={{
+            borderBottom: `3px solid ${colors.lightGreen1}`,
+            borderTop: `3px solid ${colors.lightGreen1}`,
+            borderLeft: `3px solid ${colors.lightGreen1}`,
+            borderRight: `3px solid ${colors.lightGreen1}`,
+            position: "relative",
+            marginTop: "75px",
+            overflow: "visible",
+          }}
+        >
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              paddingTop: "75px",
+            }}
+          >
             <Avatar
               src={user.userAvatar}
               alt={`${user.userName}'s avatar`}
               sx={{
-                width: 100,
-                height: 100,
-                borderColor: "#c7c7c7",
-                borderWidth: 2,
-                borderStyle: "solid",
-                display: "block",
-                mx: "auto",
+                borderTop: `solid 3px ${colors.green2}`,
+                borderBottom: "none",
+                borderLeft: `solid 3px ${colors.green2}`,
+                borderRight: `solid 3px ${colors.green2}`,
+                width: 150,
+                height: 150,
+                position: "absolute",
+                top: "-75px",
+                zIndex: 1,
               }}
             />
-          </Grid>
-          <Grid item xs={12} md={8}>
-            <Typography
-              variant="h5"
-              sx={{
-                fontWeight: "bold",
-                color: "#262626",
-                marginBottom: 1,
-                textAlign: { xs: "center", md: "left" },
-              }}
-            >
-              {user.userFirstName} {user.userLastName}
-            </Typography>
-            <Typography
-              variant="subtitle1"
-              sx={{
-                fontWeight: "normal",
-                color: "#262626",
-                textAlign: { xs: "center", md: "left" },
-              }}
-            >
-              @{user.userName}
-            </Typography>
-          </Grid>
-        </Grid>
-        <Divider sx={{ my: 4 }} />
-        <Grid container spacing={2} alignItems="center">
-          <Grid item xs={6}>
-            <Typography
-              variant="h6"
-              sx={{
-                fontWeight: "bold",
-                color: "#262626",
-                textAlign: { xs: "center", md: "left" },
-              }}
-            >
-              Posts: {posts.length}
-            </Typography>
-          </Grid>
-          <Grid item xs={6}>
-            {/* Add any additional user details here */}
-          </Grid>
-        </Grid>
-        <Divider sx={{ my: 4 }} />
-        <Grid container spacing={2}>
-          {posts.map((post) => (
-            <Grid item xs={12} sm={6} md={4} key={post.id}>
-              <PlantDetails user={user} plant={post.plant} />
-            </Grid>
-          ))}
-        </Grid>
-      </StyledPaper>
-    </Box>
+          </Box>
+          <CardContent>
+            <Box sx={{ textAlign: "center" }}>
+              <Typography
+                variant="h4"
+                component="div"
+                sx={{
+                  mt: 2,
+                  color: colors.green1,
+                  fontFamily: "'Nunito', sans-serif",
+                  fontWeight: "bold",
+                }}
+              >
+                {user.userFirstName} {user.userLastName}
+              </Typography>
+              <Typography
+                gutterBottom
+                variant="caption"
+                color="text.secondary"
+                sx={{
+                  fontFamily: "Playfair Display', serif",
+                }}
+              >
+                @{user.userName}
+              </Typography>
+            </Box>
+          </CardContent>
+        </Card>
+      </Box>
+      <Typography
+        variant="h5"
+        component="div"
+        sx={{
+          mt: 8,
+          color: colors.green1,
+          fontFamily: "'Nunito', sans-serif",
+          fontWeight: "bold",
+        }}
+      >
+        Posts{" "}
+        <Chip
+          sx={{
+            backgroundColor: `${colors.green2}`,
+            color: `${colors.white}`,
+          }}
+          label={posts.length}
+        />
+      </Typography>
+
+      <Box sx={{ mt: 2 }}>
+        <Card
+          sx={{
+            borderTop: `3px solid ${colors.lightGreen1}`,
+            borderLeft: `3px solid ${colors.lightGreen1}`,
+            borderRight: `3px solid ${colors.lightGreen1}`,
+            borderBottom: `3px solid ${colors.lightGreen1}`,
+          }}
+        >
+          <CardContent>
+            <Box sx={{ mt: 1 }}>
+              <Grid container spacing={1}>
+                {posts.map((post) => (
+                  <Grid item key={post.id} xs={12} sm={12} md={12} lg={4}>
+                    <Card sx={{ boxShadow: 3, position: "relative" }}>
+                      <CardActionArea onClick={() => handleOpen(post)}>
+                        <CardMedia
+                          component="img"
+                          src={post.plant.imageUrl}
+                          alt={post.plant.name}
+                          loading="lazy"
+                          height="400"
+                        />
+                      </CardActionArea>
+
+                      <Box
+                        sx={{
+                          position: "absolute",
+                          top: "10px",
+                          left: "10px",
+                          backgroundColor: colors.green2,
+                          borderRadius: "50%",
+                          zIndex: 2,
+                        }}
+                      >
+                        <IconButton>
+                          <CameraAltIcon
+                            onClick={() => handleOpen(post)}
+                            sx={{ color: "#fff" }}
+                          />
+                        </IconButton>
+                      </Box>
+                    </Card>
+                  </Grid>
+                ))}
+              </Grid>
+            </Box>
+          </CardContent>
+        </Card>
+      </Box>
+      {selectedPost && (
+        <Modal
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="plant-details-modal"
+          aria-describedby="plant-details"
+        >
+          <PlantDetails user={user} plant={selectedPost.plant} />
+        </Modal>
+      )}
+    </Container>
   );
 };
 

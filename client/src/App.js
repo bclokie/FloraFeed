@@ -13,6 +13,8 @@ import { SubmitForm } from "./components/Submit/SubmitForm";
 import { ThemeProvider } from "@mui/material/styles";
 import UserProfile from "./components/UserProfile/UserProfile";
 import FavouritesView from "./components/FavouritesView/FavouritesView";
+import Topbar from "./components/Topbar/Topbar";
+
 
 const App = () => {
   const { user, handleLogin, handleSignup, handleGoogleSignIn, handleLogout } =
@@ -20,6 +22,8 @@ const App = () => {
   const theme = useTheme();
 
   const [view, setView] = useState("");
+
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
 
   useEffect(() => {
     setView("MAP");
@@ -82,28 +86,29 @@ const App = () => {
         height: "100vh",
       }}
     >
-      <Box
-        component="aside"
-        sx={{
-          width: "240px",
-          backgroundColor: "background.paper",
-          position: "fixed",
-        }}
-      >
-        <Sidebar
-          setView={setView}
-          userName={user.displayName}
+      {isMobile ? (
+        <Topbar
+          userId={user.uid}
+          user={user}
           userAvatar={user.photoURL}
+          setView={setView}
           onLogout={onLogout}
         />
-      </Box>
+      ) : (
+        <Sidebar
+          userId={user.uid}
+          user={user}
+          setView={setView}
+          onLogout={onLogout}
+        />
+      )}
       <Box
         component="main"
         sx={{
           flexGrow: 1,
-          overflow: "auto",
           backgroundColor: "background.default",
-          marginLeft: "240px",
+          marginLeft: isMobile ? 0 : "290px",
+          marginTop: isMobile ? "70px" : "0px",
         }}
       >
         {renderView()}

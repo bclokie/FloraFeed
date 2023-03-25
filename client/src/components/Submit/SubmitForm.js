@@ -14,8 +14,10 @@ import FormControl from "@mui/material/FormControl";
 import FormHelperText from "@mui/material/FormHelperText";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import Grid from "@mui/material/Grid";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
 
-export function SubmitForm() {
+export function SubmitForm({ handleClose }) {
   const [title, setTitle] = useState("");
   const [plantName, setPlantName] = useState("");
   const [image, setImage] = useState(null);
@@ -30,6 +32,9 @@ export function SubmitForm() {
     setPlantName("");
     setImage(null);
     setDescription("");
+    if (handleClose) {
+      handleClose(); // Call handleClose after submitting data
+    }
   };
 
   useEffect(() => {
@@ -151,6 +156,11 @@ export function SubmitForm() {
           }}
           autoComplete="off"
         >
+          <Box sx={{ position: "absolute", top: 10, right: 10, zIndex: 1 }}>
+            <IconButton onClick={handleClose}>
+              <CloseIcon sx={{ fontSize: 40, color: colors.white }} />
+            </IconButton>
+          </Box>
           <Typography
             variant="h4"
             component="h1"

@@ -1,4 +1,5 @@
 import React from "react";
+import { useEffect, useState } from "react";
 import {
   Box,
   List,
@@ -9,7 +10,6 @@ import {
   Typography,
   Button,
 } from "@mui/material";
-import HomeIcon from "@mui/icons-material/Home";
 import ListIcon from "@mui/icons-material/List";
 import MapIcon from "@mui/icons-material/Map";
 import LogoutIcon from "@mui/icons-material/Logout";
@@ -17,24 +17,51 @@ import AddIcon from "@mui/icons-material/Add";
 import GridViewIcon from "@mui/icons-material/GridView";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import FavoriteIcon from "@mui/icons-material/Favorite";
+import { fetchUserData } from "../../dataFetcher";
+import Modal from "@mui/material/Modal";
+import { SubmitForm } from "../Submit/SubmitForm";
+
 
 const colors = {
   white: "#FFFFFF",
   green1: "#2C7C50",
   green2: "#2B764A",
-  lightGreen1: "#EDF1F0",
+  lightGreen1: "#96BCA7",
   lightGreen2: "#DAE1D8",
-  glass1: "rgba(255, 255, 255, 0.8)",
-  glass2: "rgba(255, 255, 255, 0.15)",
 };
 
-const Sidebar = ({ userName, userAvatar, onLogout, setView }) => {
+const Sidebar = ({ userId, onLogout, setView }) => {
+  const [user, setUser] = useState(null);
+  const [submitFormOpen, setSubmitFormOpen] = useState(false);
+
+  const handleCloseSubmitForm = () => {
+    setSubmitFormOpen(false);
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const users = await fetchUserData();
+      const currentUser = users.find((user) => user.userId === userId);
+
+      if (currentUser) {
+        setUser(currentUser);
+      } else {
+        console.log("No such user!");
+      }
+    };
+
+    fetchData();
+  }, [userId]);
+
+  
+
   return (
     <Box
       sx={{
         backgroundColor: "#FFFFFF",
-        width: 250,
-        border: "none",
+        width: 300,
+        borderRight: `3px solid ${colors.lightGreen1}`,
+
         boxShadow: 3,
         zIndex: 1100,
         height: "100vh",
@@ -47,26 +74,62 @@ const Sidebar = ({ userName, userAvatar, onLogout, setView }) => {
         borderRadius: 2,
       }}
     >
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          padding: 2,
-          borderBottom: "1px solid",
-          borderColor: colors.green1,
-          marginBottom: 2,
-        }}
-      >
-        <Avatar src={userAvatar} sx={{ width: 60, height: 60 }} />
-        <Typography
-          variant="subtitle1"
-          sx={{ fontWeight: "bold", marginTop: 1, color: colors.green1 }}
+      {user && (
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            padding: 2,
+            borderBottom: "3px solid",
+            borderColor: colors.lightGreen1,
+            marginBottom: 0,
+            cursor: "pointer",
+          }}
+          onClick={() => setView("USER_PROFILE")}
         >
-          {userName}
-        </Typography>
-      </Box>
+          <Avatar src={user.userAvatar} sx={{ width: 90, height: 90 }} />
+          <Typography
+            variant="subtitle1"
+            sx={{ fontWeight: "bold", marginTop: 1, color: colors.green1 }}
+          >
+            {user.userFirstName} {user.userLastName}
+          </Typography>
+          <Typography
+            gutterBottom
+            variant="caption"
+            color="text.secondary"
+            sx={{
+              fontFamily: "Playfair Display', serif",
+            }}
+          >
+            @{user.userName}
+          </Typography>
+        </Box>
+      )}
       <List>
+        <Box sx={{ padding: 2 }}>
+          <Button
+            fullWidth
+            variant="outlined"
+            color="success"
+            startIcon={<AddIcon />}
+            onClick={() => setSubmitFormOpen(true)}
+            sx={{
+              marginBottom: 1,
+              borderColor: colors.green1,
+              color: colors.green1,
+              textTransform: "none",
+              fontWeight: "bold",
+              "&:hover": {
+                backgroundColor: colors.green2,
+                color: colors.white,
+              },
+            }}
+          >
+            New Post
+          </Button>
+        </Box>
         {[
           {
             text: "Favourites",
@@ -88,11 +151,6 @@ const Sidebar = ({ userName, userAvatar, onLogout, setView }) => {
             onClick: () => setView("MAP"),
             icon: <MapIcon />,
           },
-          {
-            text: "User Profile",
-            onClick: () => setView("USER_PROFILE"),
-            icon: <AccountCircleIcon />,
-          },
         ].map((item, index) => (
           <ListItem
             button
@@ -101,33 +159,20 @@ const Sidebar = ({ userName, userAvatar, onLogout, setView }) => {
             sx={{
               "&:hover": {
                 backgroundColor: colors.green1,
-                color: colors.lightGreen1,
+                color: colors.white,
               },
               color: colors.green1,
             }}
           >
             <ListItemIcon sx={{ color: "inherit" }}>{item.icon}</ListItemIcon>
-            <ListItemText primary={item.text} />
+            <ListItemText
+              primary={item.text}
+              primaryTypographyProps={{
+                sx: { fontSize: "1.1rem", ml: 4 },
+              }}
+            />
           </ListItem>
         ))}
-        <Box sx={{ padding: 2 }}>
-          <Button
-            fullWidth
-            variant="outlined"
-            color="success"
-            startIcon={<AddIcon />}
-            onClick={() => setView("SubmitForm")}
-            sx={{
-              marginBottom: 2,
-              borderColor: colors.green1,
-              color: colors.green1,
-              textTransform: "none",
-              fontWeight: "bold",
-            }}
-          >
-            New Post
-          </Button>
-        </Box>
       </List>
       <Box sx={{ flexGrow: 1 }} />
       <Box sx={{ padding: 2 }}>
@@ -148,6 +193,14 @@ const Sidebar = ({ userName, userAvatar, onLogout, setView }) => {
           Logout
         </Button>
       </Box>
+      <Modal
+        open={submitFormOpen}
+        onClose={handleCloseSubmitForm}
+        aria-labelledby="submit-form-modal"
+        aria-describedby="modal-for-submitting-a-new-post"
+      >
+        <SubmitForm handleClose={handleCloseSubmitForm} />
+      </Modal>
     </Box>
   );
 };
