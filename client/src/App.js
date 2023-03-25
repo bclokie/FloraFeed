@@ -12,7 +12,9 @@ import { useAuth } from "./hooks/useAuth";
 import { SubmitForm } from "./components/Submit/SubmitForm";
 import { ThemeProvider } from "@mui/material/styles";
 import UserProfile from "./components/UserProfile/UserProfile";
+import FavouritesView from "./components/FavouritesView/FavouritesView";
 import Topbar from "./components/Topbar/Topbar";
+
 
 const App = () => {
   const { user, handleLogin, handleSignup, handleGoogleSignIn, handleLogout } =
@@ -29,6 +31,8 @@ const App = () => {
 
   const renderView = () => {
     switch (view) {
+      case "FAVOURITES":
+        return <FavouritesView />;
       case "MAP":
         return <MapView />;
       case "LIST":

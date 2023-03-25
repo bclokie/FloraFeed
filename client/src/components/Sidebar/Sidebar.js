@@ -16,9 +16,11 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import AddIcon from "@mui/icons-material/Add";
 import GridViewIcon from "@mui/icons-material/GridView";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 import { fetchUserData } from "../../dataFetcher";
 import Modal from "@mui/material/Modal";
 import { SubmitForm } from "../Submit/SubmitForm";
+
 
 const colors = {
   white: "#FFFFFF",
@@ -129,6 +131,11 @@ const Sidebar = ({ userId, onLogout, setView }) => {
           </Button>
         </Box>
         {[
+          {
+            text: "Favourites",
+            onClick: () => setView("FAVOURITES"),
+            icon: <FavoriteIcon />,
+          },
           {
             text: "Grid View",
             onClick: () => setView("GRID"),
