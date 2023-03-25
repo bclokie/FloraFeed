@@ -46,6 +46,7 @@ export const useAuth = () => {
         lastName,
         userName,
         avatarUrl,
+        favourites: [],
       });
       console.log("User document created:", user.uid);
     } catch (error) {

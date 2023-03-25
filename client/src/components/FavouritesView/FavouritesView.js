@@ -8,32 +8,47 @@ import {
   fetchUser,
   createPosts,
 } from "../../dataFetcher";
-
-// let currentUser;
-// let favourites = [];
-// fetchUser().then((user) => {
-//   console.log("user", user);
-// });
-
-// fetchUserFavourites().then((favs) => {
-//   favourites.push(...favs);
-// });
-
 const FavouritesView = () => {
-  let [user, setUser] = useState();
-  let [favourites, setFavourites] = useState();
-  let [postData, setPostData] = useState();
+  let [currentUser, setCurrentUser] = useState();
+  let [favourites, setFavourites] = useState([]);
+  let [postData, setPostData] = useState([]);
+
   useEffect(() => {
     fetchUser().then((user) => {
-      setUser(user);
+      setCurrentUser(user);
+      fetchUserFavourites().then((posts) => {
+        setFavourites(posts);
+        const modifiedArr = [];
+        posts.forEach((data, index) => {
+          modifiedArr.push({
+            id: index + 1,
+            user: {
+              user: user.userName,
+              userAvatar: user.avatarUrl,
+            },
+            plant: {
+              commonName: data.title,
+              scientificName: data.plantName,
+              description: data.description,
+              imageUrl: data.image,
+              timePosted: "test",
+            },
+          });
+        });
+        setPostData(modifiedArr);
+      });
     });
-    fetchUserFavourites().then((posts) => {
-      setFavourites([...posts]);
-    });
-    createPosts(favourites, user);
   }, []);
 
-  return <div>Hello</div>;
+  return (
+    <Grid container spacing={1} sx={{ width: "100%", height: "100%" }}>
+      {postData.length > 0 &&
+        postData.map((data) => (
+          <Grid item xs={12} sm={12} md={6} lg={4} key={data.id}>
+            <PlantDetails user={data.user} plant={data.plant} />
+          </Grid>
+        ))}
+    </Grid>
+  );
 };
-
 export default FavouritesView;

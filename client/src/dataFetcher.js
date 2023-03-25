@@ -87,34 +87,22 @@ export const fetchUser = async function () {
 };
 
 export const createPosts = function (posts, user) {
-  console.log("posts is", posts);
-  console.log("user is", user);
-  // if (!posts || !user) {
-  //   return;
-  // }
-  // const favouritesArr = [];
-  // posts.forEach((data, index) => {
-  //   favouritesArr.push({
-  //     id: index + 1,
-  //     user: {
-  //       user: user.userName,
-  //       userAvatar: user.userAvatar,
-  //     },
-  //     plant: {
-  //       commonName: data.title,
-  //       scientificName: data.plantName,
-  //       description: data.description,
-  //       imageUrl: data.image,
-  //       timePosted: "test",
-  //     },
-  //   });
-  //   console.log("fav array is", favouritesArr);
-  // });
+  const favouritesArr = [];
+  posts.forEach((data, index) => {
+    favouritesArr.push({
+      id: index + 1,
+      user: {
+        user: user.userName,
+        userAvatar: user.avatarUrl,
+      },
+      plant: {
+        commonName: data.title,
+        scientificName: data.plantName,
+        description: data.description,
+        imageUrl: data.image,
+        timePosted: "test",
+      },
+    });
+  });
+  return favouritesArr;
 };
-
-// commonName: "Monstera Deliciosa",
-// scientificName: "Plant Scientific Name",
-// description:
-//   "Laboris incididunt id ipsum aute duis.Id id adipisicing sint eu ea dolor qui nisi laborum nisi pariatur id excepteur dolor.",
-// imageUrl: "https://source.unsplash.com/random/1080x1080?sig=6",
-// timePosted: "2 hours ago",
