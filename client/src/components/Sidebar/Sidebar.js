@@ -16,6 +16,7 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import AddIcon from "@mui/icons-material/Add";
 import GridViewIcon from "@mui/icons-material/GridView";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 
 const colors = {
   white: "#FFFFFF",
@@ -67,6 +68,11 @@ const Sidebar = ({ userName, userAvatar, onLogout, setView }) => {
       </Box>
       <List>
         {[
+          {
+            text: "Favourites",
+            onClick: () => setView("FAVOURITES"),
+            icon: <FavoriteIcon />,
+          },
           {
             text: "Grid View",
             onClick: () => setView("GRID"),
