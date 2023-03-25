@@ -134,7 +134,7 @@ const Signup = ({ onSwitchToLogin }) => {
                 marginBottom: 4,
               }}
             >
-              {fileName || "Upload Profile Picture"}
+              {fileName || "Upload a Profile Picture"}
               <input
                 accept="image/*"
                 type="file"
@@ -174,20 +174,7 @@ const Signup = ({ onSwitchToLogin }) => {
           >
             Sign up
           </Button>
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "center",
-              marginTop: 2,
-            }}
-          >
-            <GoogleButton
-              label="Continue with Google"
-              type="light"
-              onClick={handleGoogleSignIn}
-            ></GoogleButton>
-          </Box>
+
           <Box
             sx={{
               display: "flex",
