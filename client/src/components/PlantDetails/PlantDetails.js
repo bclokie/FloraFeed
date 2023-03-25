@@ -8,9 +8,20 @@ import IconButton from "@mui/material/IconButton";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
+import Modal from "@mui/material/Modal";
+import CloseIcon from "@mui/icons-material/Close";
 
 const PlantDetails = ({ user, plant }) => {
   const [expanded, setExpanded] = useState(false);
+  const [open, setOpen] = useState(false);
+
+  const handleOpenModal = () => {
+    setOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setOpen(false);
+  };
 
   if (!user) {
     return <div>Loading...</div>;
@@ -99,7 +110,9 @@ const PlantDetails = ({ user, plant }) => {
             sx={{
               position: "relative",
               paddingTop: "100%",
+              cursor: "pointer",
             }}
+            onClick={handleOpenModal}
           >
             <CardMedia
               component="img"
@@ -118,6 +131,7 @@ const PlantDetails = ({ user, plant }) => {
               }}
             />
           </Box>
+
           <Box
             sx={{
               p: 2,
@@ -191,6 +205,34 @@ const PlantDetails = ({ user, plant }) => {
           </Box>
         </Card>
       </Box>
+
+      <Modal
+        open={open}
+        onClose={handleCloseModal}
+        aria-labelledby="plant-image-modal"
+        aria-describedby="plant-image-modal-description"
+      >
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "100vh",
+          }}
+        >
+          <Box sx={{ position: "absolute", top: 10, right: 10, zIndex: 1 }}>
+            <IconButton onClick={handleCloseModal}>
+              <CloseIcon sx={{ fontSize: 40, color: colors.white }} />
+            </IconButton>
+          </Box>
+          <img
+            src={plant.imageUrl}
+            alt={plant.commonName}
+            style={{ maxWidth: "90%", maxHeight: "90%" }}
+          />
+        </Box>
+      </Modal>
     </Container>
   );
 };
