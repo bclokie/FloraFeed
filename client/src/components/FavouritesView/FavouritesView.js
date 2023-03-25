@@ -19,8 +19,10 @@ const FavouritesView = () => {
       fetchUserFavourites().then((posts) => {
         setFavourites(posts);
         const modifiedArr = [];
+        let timestamp;
         posts.forEach((data, index) => {
-          const timestamp = data.created_at;
+          timestamp = data.created_at;
+          console.log("data is", data);
           const date = new Date(timestamp.seconds * 1000);
           const formattedDateTime = date.toLocaleString("en-US", {
             month: "short",
@@ -57,7 +59,13 @@ const FavouritesView = () => {
       {postData.length > 0 &&
         postData.map((data) => (
           <Grid item xs={12} sm={12} md={6} lg={4} key={data.id}>
-            <PlantDetails user={data.user} plant={data.plant} />
+            <PlantDetails
+              user={{
+                userName: data.user.user,
+                userAvatar: data.user.userAvatar,
+              }}
+              plant={data.plant}
+            />
           </Grid>
         ))}
     </Grid>
