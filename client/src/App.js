@@ -79,28 +79,18 @@ const App = () => {
         height: "100vh",
       }}
     >
-      <Box
-        component="aside"
-        sx={{
-          width: "240px",
-          backgroundColor: "background.paper",
-          position: "fixed",
-        }}
-      >
-        <Sidebar
-          setView={setView}
-          userName={user.displayName}
-          userAvatar={user.photoURL}
-          onLogout={onLogout}
-        />
-      </Box>
+      <Sidebar
+        userId={user.uid}
+        user={user}
+        setView={setView}
+        onLogout={onLogout}
+      />
       <Box
         component="main"
         sx={{
           flexGrow: 1,
-          overflow: "auto",
           backgroundColor: "background.default",
-          marginLeft: "240px",
+          marginLeft: "290px",
         }}
       >
         {renderView()}

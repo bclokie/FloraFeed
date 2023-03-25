@@ -1,4 +1,5 @@
 import React from "react";
+import { useEffect, useState } from "react";
 import {
   Box,
   List,
@@ -9,13 +10,13 @@ import {
   Typography,
   Button,
 } from "@mui/material";
-import HomeIcon from "@mui/icons-material/Home";
 import ListIcon from "@mui/icons-material/List";
 import MapIcon from "@mui/icons-material/Map";
 import LogoutIcon from "@mui/icons-material/Logout";
 import AddIcon from "@mui/icons-material/Add";
 import GridViewIcon from "@mui/icons-material/GridView";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import { fetchUserData } from "../../dataFetcher";
 
 const colors = {
   white: "#FFFFFF",
@@ -27,12 +28,29 @@ const colors = {
   glass2: "rgba(255, 255, 255, 0.15)",
 };
 
-const Sidebar = ({ userName, userAvatar, onLogout, setView }) => {
+const Sidebar = ({ userId, onLogout, setView }) => {
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const users = await fetchUserData();
+      const currentUser = users.find((user) => user.userId === userId);
+
+      if (currentUser) {
+        setUser(currentUser);
+      } else {
+        console.log("No such user!");
+      }
+    };
+
+    fetchData();
+  }, [userId]);
+
   return (
     <Box
       sx={{
         backgroundColor: "#FFFFFF",
-        width: 250,
+        width: 300,
         border: "none",
         boxShadow: 3,
         zIndex: 1100,
@@ -46,25 +64,37 @@ const Sidebar = ({ userName, userAvatar, onLogout, setView }) => {
         borderRadius: 2,
       }}
     >
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          padding: 2,
-          borderBottom: "1px solid",
-          borderColor: colors.green1,
-          marginBottom: 2,
-        }}
-      >
-        <Avatar src={userAvatar} sx={{ width: 60, height: 60 }} />
-        <Typography
-          variant="subtitle1"
-          sx={{ fontWeight: "bold", marginTop: 1, color: colors.green1 }}
+      {user && (
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            padding: 2,
+            borderBottom: "3px solid",
+            borderColor: colors.green1,
+            marginBottom: 2,
+          }}
         >
-          {userName}
-        </Typography>
-      </Box>
+          <Avatar src={user.userAvatar} sx={{ width: 90, height: 90 }} />
+          <Typography
+            variant="subtitle1"
+            sx={{ fontWeight: "bold", marginTop: 1, color: colors.green1 }}
+          >
+            {user.userFirstName} {user.userLastName}
+          </Typography>
+          <Typography
+            gutterBottom
+            variant="caption"
+            color="text.secondary"
+            sx={{
+              fontFamily: "Playfair Display', serif",
+            }}
+          >
+            @{user.userName}
+          </Typography>
+        </Box>
+      )}
       <List>
         {[
           {

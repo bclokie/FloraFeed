@@ -73,7 +73,7 @@ const UserProfile = ({ userId }) => {
   }
 
   return (
-    <Container>
+    <Container fixed>
       <Box sx={{ mt: 2, mb: 2 }}>
         <Card
           sx={{
