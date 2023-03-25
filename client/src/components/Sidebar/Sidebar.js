@@ -17,19 +17,24 @@ import AddIcon from "@mui/icons-material/Add";
 import GridViewIcon from "@mui/icons-material/GridView";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { fetchUserData } from "../../dataFetcher";
+import Modal from "@mui/material/Modal";
+import { SubmitForm } from "../Submit/SubmitForm";
 
 const colors = {
   white: "#FFFFFF",
   green1: "#2C7C50",
   green2: "#2B764A",
-  lightGreen1: "#EDF1F0",
+  lightGreen1: "#96BCA7",
   lightGreen2: "#DAE1D8",
-  glass1: "rgba(255, 255, 255, 0.8)",
-  glass2: "rgba(255, 255, 255, 0.15)",
 };
 
 const Sidebar = ({ userId, onLogout, setView }) => {
   const [user, setUser] = useState(null);
+  const [submitFormOpen, setSubmitFormOpen] = useState(false);
+
+  const handleCloseSubmitForm = () => {
+    setSubmitFormOpen(false);
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -51,7 +56,8 @@ const Sidebar = ({ userId, onLogout, setView }) => {
       sx={{
         backgroundColor: "#FFFFFF",
         width: 300,
-        border: "none",
+        borderRight: `3px solid ${colors.lightGreen1}`,
+
         boxShadow: 3,
         zIndex: 1100,
         height: "100vh",
@@ -72,7 +78,7 @@ const Sidebar = ({ userId, onLogout, setView }) => {
             alignItems: "center",
             padding: 2,
             borderBottom: "3px solid",
-            borderColor: colors.green1,
+            borderColor: colors.lightGreen1,
             marginBottom: 2,
             cursor: "pointer",
           }}
@@ -122,7 +128,7 @@ const Sidebar = ({ userId, onLogout, setView }) => {
             sx={{
               "&:hover": {
                 backgroundColor: colors.green1,
-                color: colors.lightGreen1,
+                color: colors.white,
               },
               color: colors.green1,
             }}
@@ -137,13 +143,17 @@ const Sidebar = ({ userId, onLogout, setView }) => {
             variant="outlined"
             color="success"
             startIcon={<AddIcon />}
-            onClick={() => setView("SubmitForm")}
+            onClick={() => setSubmitFormOpen(true)}
             sx={{
               marginBottom: 2,
               borderColor: colors.green1,
               color: colors.green1,
               textTransform: "none",
               fontWeight: "bold",
+              "&:hover": {
+                backgroundColor: colors.green2,
+                color: colors.white,
+              },
             }}
           >
             New Post
@@ -169,6 +179,14 @@ const Sidebar = ({ userId, onLogout, setView }) => {
           Logout
         </Button>
       </Box>
+      <Modal
+        open={submitFormOpen}
+        onClose={handleCloseSubmitForm}
+        aria-labelledby="submit-form-modal"
+        aria-describedby="modal-for-submitting-a-new-post"
+      >
+        <SubmitForm handleClose={handleCloseSubmitForm} />
+      </Modal>
     </Box>
   );
 };
