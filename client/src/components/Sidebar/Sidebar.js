@@ -74,7 +74,9 @@ const Sidebar = ({ userId, onLogout, setView }) => {
             borderBottom: "3px solid",
             borderColor: colors.green1,
             marginBottom: 2,
+            cursor: "pointer",
           }}
+          onClick={() => setView("USER_PROFILE")}
         >
           <Avatar src={user.userAvatar} sx={{ width: 90, height: 90 }} />
           <Typography
@@ -111,11 +113,6 @@ const Sidebar = ({ userId, onLogout, setView }) => {
             text: "Map View",
             onClick: () => setView("MAP"),
             icon: <MapIcon />,
-          },
-          {
-            text: "User Profile",
-            onClick: () => setView("USER_PROFILE"),
-            icon: <AccountCircleIcon />,
           },
         ].map((item, index) => (
           <ListItem
