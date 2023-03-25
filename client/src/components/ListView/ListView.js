@@ -28,24 +28,20 @@ const ListView = () => {
   }, []);
   console.log("userData is", usersData);
   return (
-    <Grid container spacing={2} sx={{ width: "100%", height: "100%" }}>
+    <Grid container spacing={1} sx={{ width: "100%", height: "100%" }}>
       {usersData.length > 0 &&
         usersData.map((user) =>
-          user.posts.length > 0 ? (
-            user.posts.map((post) => (
-              <Grid item xs={12} key={post.id}>
-                <PlantDetails
-                  user={{
-                    userName: user.userName,
-                    userAvatar: user.userAvatar,
-                  }}
-                  plant={post.plant}
-                />
-              </Grid>
-            ))
-          ) : (
-            <Grid></Grid>
-          )
+          user.posts.map((post) => (
+            <Grid item xs={12} key={post.id}>
+              <PlantDetails
+                user={{
+                  userName: user.userName,
+                  userAvatar: user.userAvatar,
+                }}
+                plant={post.plant}
+              />
+            </Grid>
+          ))
         )}
     </Grid>
   );
