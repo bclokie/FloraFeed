@@ -156,7 +156,7 @@ export function SubmitForm({ handleClose }) {
           }}
           autoComplete="off"
         >
-          <Box sx={{ position: "absolute", top: 82, right: 568, zIndex: 1 }}>
+          <Box sx={{ position: "absolute", top: 10, right: 10, zIndex: 1 }}>
             <IconButton onClick={handleClose}>
               <CloseIcon sx={{ fontSize: 40, color: colors.white }} />
             </IconButton>

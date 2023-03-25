@@ -51,6 +51,8 @@ const Sidebar = ({ userId, onLogout, setView }) => {
     fetchData();
   }, [userId]);
 
+  
+
   return (
     <Box
       sx={{
@@ -79,7 +81,7 @@ const Sidebar = ({ userId, onLogout, setView }) => {
             padding: 2,
             borderBottom: "3px solid",
             borderColor: colors.lightGreen1,
-            marginBottom: 2,
+            marginBottom: 0,
             cursor: "pointer",
           }}
           onClick={() => setView("USER_PROFILE")}
@@ -104,6 +106,28 @@ const Sidebar = ({ userId, onLogout, setView }) => {
         </Box>
       )}
       <List>
+        <Box sx={{ padding: 2 }}>
+          <Button
+            fullWidth
+            variant="outlined"
+            color="success"
+            startIcon={<AddIcon />}
+            onClick={() => setSubmitFormOpen(true)}
+            sx={{
+              marginBottom: 1,
+              borderColor: colors.green1,
+              color: colors.green1,
+              textTransform: "none",
+              fontWeight: "bold",
+              "&:hover": {
+                backgroundColor: colors.green2,
+                color: colors.white,
+              },
+            }}
+          >
+            New Post
+          </Button>
+        </Box>
         {[
           {
             text: "Grid View",
@@ -134,31 +158,14 @@ const Sidebar = ({ userId, onLogout, setView }) => {
             }}
           >
             <ListItemIcon sx={{ color: "inherit" }}>{item.icon}</ListItemIcon>
-            <ListItemText primary={item.text} />
+            <ListItemText
+              primary={item.text}
+              primaryTypographyProps={{
+                sx: { fontSize: "1.1rem", ml: 4 },
+              }}
+            />
           </ListItem>
         ))}
-        <Box sx={{ padding: 2 }}>
-          <Button
-            fullWidth
-            variant="outlined"
-            color="success"
-            startIcon={<AddIcon />}
-            onClick={() => setSubmitFormOpen(true)}
-            sx={{
-              marginBottom: 2,
-              borderColor: colors.green1,
-              color: colors.green1,
-              textTransform: "none",
-              fontWeight: "bold",
-              "&:hover": {
-                backgroundColor: colors.green2,
-                color: colors.white,
-              },
-            }}
-          >
-            New Post
-          </Button>
-        </Box>
       </List>
       <Box sx={{ flexGrow: 1 }} />
       <Box sx={{ padding: 2 }}>

@@ -167,10 +167,10 @@ const UserProfile = ({ userId }) => {
           }}
         >
           <CardContent>
-            <Box sx={{ mt: 4 }}>
-              <Grid container spacing={2}>
+            <Box sx={{ mt: 1 }}>
+              <Grid container spacing={1}>
                 {posts.map((post) => (
-                  <Grid item key={post.id} xs={12} sm={6} md={4}>
+                  <Grid item key={post.id} xs={12} sm={12} md={12} lg={4}>
                     <Card sx={{ boxShadow: 3, position: "relative" }}>
                       <CardActionArea onClick={() => handleOpen(post)}>
                         <CardMedia
