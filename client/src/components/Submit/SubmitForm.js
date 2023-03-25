@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from "react";
 import exifr from "exifr";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { getFirestore, collection, addDoc } from "firebase/firestore";
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  serverTimestamp,
+} from "firebase/firestore";
 import { db, storage } from "../../firebase";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import Container from "@mui/material/Container";
@@ -102,6 +107,7 @@ export function SubmitForm({ handleClose }) {
         latitude: exifData ? exifData.latitude : null, // include latitude field
         longitude: exifData ? exifData.longitude : null, // include longitude field
         uid, // included uid field
+        created_at: serverTimestamp(),
       });
       console.log("Document written with ID: ", docRef.id);
     } catch (e) {

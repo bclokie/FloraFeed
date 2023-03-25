@@ -20,6 +20,18 @@ const FavouritesView = () => {
         setFavourites(posts);
         const modifiedArr = [];
         posts.forEach((data, index) => {
+          const timestamp = data.created_at;
+          const date = new Date(timestamp.seconds * 1000);
+          const formattedDateTime = date.toLocaleString("en-US", {
+            month: "short",
+            day: "numeric",
+            year: "numeric",
+            hour: "numeric",
+            minute: "numeric",
+            second: "numeric",
+            hour12: true,
+          });
+
           modifiedArr.push({
             id: index + 1,
             user: {
@@ -31,7 +43,7 @@ const FavouritesView = () => {
               scientificName: data.plantName,
               description: data.description,
               imageUrl: data.image,
-              timePosted: "test",
+              timePosted: formattedDateTime,
             },
           });
         });
