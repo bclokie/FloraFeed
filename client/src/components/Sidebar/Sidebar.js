@@ -9,6 +9,7 @@ import {
   Avatar,
   Typography,
   Button,
+  Skeleton,
 } from "@mui/material";
 import ListIcon from "@mui/icons-material/List";
 import MapIcon from "@mui/icons-material/Map";
@@ -34,6 +35,7 @@ const colors = {
 const Sidebar = ({ userId, onLogout, setView }) => {
   const [user, setUser] = useState(null);
   const [submitFormOpen, setSubmitFormOpen] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const handleCloseSubmitForm = () => {
     setSubmitFormOpen(false);
@@ -49,6 +51,7 @@ const Sidebar = ({ userId, onLogout, setView }) => {
       } else {
         console.log("No such user!");
       }
+      setLoading(false);
     };
 
     fetchData();
@@ -58,8 +61,8 @@ const Sidebar = ({ userId, onLogout, setView }) => {
     <Box
       sx={{
         backgroundColor: `${colors.white}`,
-        width: "290px",
-        boxShadow: 3,
+        width: "310px",
+        boxShadow: 6,
         height: "100%",
         position: "fixed",
         left: 0,
@@ -72,55 +75,71 @@ const Sidebar = ({ userId, onLogout, setView }) => {
         borderBottomLeftRadius: 0,
       }}
     >
-      {user && (
+      {loading ? (
         <Box
           sx={{
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
             padding: 1,
-            borderBottomColor: colors.green1,
             mt: 2,
-            cursor: "pointer",
           }}
-          onClick={() => setView("USER_PROFILE")}
         >
-          <Avatar
-            src={user.userAvatar}
-            sx={{ width: "12vmin", height: "12vmin" }}
-          />
-          <Typography
-            variant="h5"
-            sx={{
-              marginTop: 1,
-              color: colors.green1,
-              fontSize: "3vmin",
-              fontFamily: "'Nunito', sans-serif",
-              fontWeight: 700,
-            }}
-          >
-            {user.userFirstName} {user.userLastName}
-          </Typography>
-          <Typography
-            gutterBottom
-            variant="caption"
-            color="text.secondary"
-            sx={{
-              fontFamily: "'Nunito', sans-serif",
-              fontSize: "1.4vmin",
-            }}
-          >
-            @{user.userName}
-          </Typography>
+          <Skeleton variant="circular" width={"12vmin"} height={"12vmin"} />
+          <Skeleton variant="text" width={"70%"} height={"3vmin"} mt={1} />
+          <Skeleton variant="text" width={"50%"} height={"1.4vmin"} mb={1} />
+        </Box>
+      ) : (
+        user && (
           <Box
             sx={{
-              height: "2px",
-              width: "70%",
-              backgroundColor: colors.green1,
-              mt: 1,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              padding: 1,
+              borderBottomColor: colors.green1,
+              mt: 2,
+              cursor: "pointer",
             }}
-          />
-        </Box>
+            onClick={() => setView("USER_PROFILE")}
+          >
+            <Avatar
+              src={user.userAvatar}
+              sx={{ width: "12vmin", height: "12vmin" }}
+            />
+            <Typography
+              variant="h5"
+              sx={{
+                marginTop: 1,
+                color: colors.green1,
+                fontSize: "3vmin",
+                fontFamily: "'Nunito', sans-serif",
+                fontWeight: 700,
+              }}
+            >
+              {user.userFirstName} {user.userLastName}
+            </Typography>
+            <Typography
+              gutterBottom
+              variant="caption"
+              color="text.secondary"
+              sx={{
+                fontFamily: "'Nunito', sans-serif",
+                fontSize: "1.4vmin",
+              }}
+            >
+              @{user.userName}
+            </Typography>
+            <Box
+              sx={{
+                height: "2px",
+                width: "70%",
+                backgroundColor: colors.green1,
+                mt: 1,
+              }}
+            />
+          </Box>
+        )
       )}
       <Box sx={{ padding: 2 }}>
         <Button
@@ -143,7 +162,7 @@ const Sidebar = ({ userId, onLogout, setView }) => {
         </Button>
       </Box>
 
-      <List sx={{ marginTop: 8, mr: 0, wdith: "18vw" }}>
+      <List sx={{ marginTop: 1, mr: 0, wdith: "18vw" }}>
         {[
           {
             text: "Favorites",

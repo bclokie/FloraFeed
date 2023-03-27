@@ -24,7 +24,7 @@ const App = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
 
   useEffect(() => {
-    setView("MAP");
+    setView("USER_PROFILE");
   }, []);
 
   useEffect(() => {
@@ -71,12 +71,12 @@ const App = () => {
     animate: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.8, ease: "easeInOut" },
+      transition: { duration: 0.6, ease: "easeInOut" },
     },
     exit: {
       opacity: 0,
       y: -10,
-      transition: { duration: 0.7, ease: "easeInOut" },
+      transition: { duration: 0.6, ease: "easeInOut" },
     },
   };
 
@@ -139,13 +139,23 @@ const App = () => {
               </AnimatePresence>
             )
           ) : (
-            <Box
+            <Container
+              maxWidth
+              disableGutters
               sx={{
-                display: "flex",
                 top: 0,
                 right: 0,
                 bottom: 0,
                 left: 0,
+                minHeight: "98vh",
+                display: "flex",
+                backgroundImage: `
+      linear-gradient(to top, rgba(255, 255, 255, 0) 1%, rgba(255, 255, 255, 0.8) 90%),
+      url('../../assets/bgplants.png')
+    `,
+                backgroundSize: "cover",
+                backgroundAttachment: "fixed",
+                padding: 0,
               }}
             >
               {isMobile ? (
@@ -174,7 +184,7 @@ const App = () => {
               >
                 {renderView()}
               </Box>
-            </Box>
+            </Container>
           )}
         </>
       )}

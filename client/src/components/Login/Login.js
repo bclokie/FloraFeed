@@ -24,19 +24,31 @@ const Login = ({ onLogin, onSwitchToSignup, onGoogleSignIn }) => {
   };
 
   return (
-    <Container maxWidth="auto" disableGutters>
+    <Container
+      maxWidth
+      disableGutters
+      sx={{
+        position: "fixed",
+        top: 0,
+        right: 0,
+        bottom: 0,
+        left: 0,
+        minHeight: "98vh",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundImage: "url('../../assets/bgplants.png')",
+        backgroundSize: "cover",
+        backgroundAttachment: "fixed",
+        padding: 0,
+      }}
+    >
       <Box
         sx={{
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
-          minHeight: "100vh",
-          backgroundImage: isMobile
-            ? "url('https://cdn.discordapp.com/attachments/1062164987038150729/1089766267474427944/grid_0_1.png')"
-            : "url('https://cdn.midjourney.com/e0da86a9-00c5-4689-ac45-05a805a59d2a/grid_0.png')",
-          backgroundSize: "100% 100%",
-          padding: 0,
         }}
       >
         <Box
@@ -116,7 +128,6 @@ const Login = ({ onLogin, onSwitchToSignup, onGoogleSignIn }) => {
               onClick={onGoogleSignIn}
             ></GoogleButton>
           </Box>
-
           <Box
             sx={{
               display: "flex",

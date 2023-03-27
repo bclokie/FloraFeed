@@ -46,12 +46,21 @@ const SplashScreen = () => {
   return (
     <Container
       maxWidth
+      disableGutters
       sx={{
-        backgroundImage:
-          "url('https://cdn.midjourney.com/e0da86a9-00c5-4689-ac45-05a805a59d2a/grid_0.png')",
-        backgroundSize: "cover",
+        position: "fixed",
+        top: 0,
+        right: 0,
+        bottom: 0,
+        left: 0,
+        minHeight: "98vh",
         display: "flex",
         alignItems: "center",
+        justifyContent: "center",
+        backgroundImage: "url('../../assets/bgplants.png')",
+        backgroundSize: "cover",
+        backgroundAttachment: "fixed",
+        padding: 0,
       }}
     >
       <Logo

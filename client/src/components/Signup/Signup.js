@@ -5,7 +5,7 @@ import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { FormControl } from "@mui/material";
-import GoogleButton from "react-google-button";
+
 import { useAuth } from "../../hooks/useAuth";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 
@@ -25,23 +25,36 @@ const Signup = ({ onSwitchToLogin }) => {
     green2: "#2B764A",
     lightGreen1: "#EDF1F0",
     lightGreen2: "#DAE1D8",
-    glass1: "rgba(255, 255, 255, 0.8)",
+    glass1: "rgba(255, 255, 255, 0.95)",
     glass2: "rgba(255, 255, 255, 0.15)",
   };
 
   return (
-    <Container maxWidth="false">
+    <Container
+      maxWidth
+      disableGutters
+      sx={{
+        position: "fixed",
+        top: 0,
+        right: 0,
+        bottom: 0,
+        left: 0,
+        minHeight: "98vh",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundImage: "url('../../assets/bgplants.png')",
+        backgroundSize: "cover",
+        backgroundAttachment: "fixed",
+        padding: 0,
+      }}
+    >
       <Box
         sx={{
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
-          minHeight: "100vh",
-
-          backgroundImage:
-            "url('https://cdn.midjourney.com/5b0f582d-c01b-4253-9ad9-4de668ac04d3/grid_0.png')",
-          backgroundSize: "cover",
         }}
       >
         <Box

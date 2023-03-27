@@ -46,7 +46,7 @@ const PlantDetails = ({ user, plant }) => {
         sx={{
           maxWidth: 520,
           borderRadius: 2,
-          boxShadow: 3,
+
           mx: "auto",
           my: 1,
         }}
