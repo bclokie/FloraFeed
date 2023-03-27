@@ -17,6 +17,7 @@ const PlantDetails = ({ user, plant, favourites, id }) => {
   const [expanded, setExpanded] = useState(false);
   const [open, setOpen] = useState(false);
   const [currentFavourites, setCurrentFavourites] = useState(favourites);
+  const [isFavourite, setIsFavourite] = useState(favourites.includes(id));
   const handleOpenModal = () => {
     setOpen(true);
   };
@@ -103,14 +104,12 @@ const PlantDetails = ({ user, plant, favourites, id }) => {
                 aria-label="add to favorites"
                 sx={{ color: colors.green1 }}
                 onClick={() => {
-                  handleFavourite(id, favourites);
+                  handleFavourite(id, favourites).then(() => {
+                    setIsFavourite(!isFavourite);
+                  });
                 }}
               >
-                {favourites.includes(id) ? (
-                  <FavoriteIcon />
-                ) : (
-                  <FavoriteBorderIcon />
-                )}
+                {isFavourite ? <FavoriteIcon /> : <FavoriteBorderIcon />}
               </IconButton>
             </Box>
           </Box>

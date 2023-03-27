@@ -119,14 +119,14 @@ export const createPosts = function (posts, user) {
 
 export const addFavourite = async function (userId, postId) {
   const userRef = doc(db, "users", userId);
-  await updateDoc(userRef, {
+  return await updateDoc(userRef, {
     favourites: arrayUnion(postId),
   });
 };
 
 export const removeFavourite = async function (userId, postId) {
   const userRef = doc(db, "users", userId);
-  await updateDoc(userRef, {
+  return await updateDoc(userRef, {
     favourites: arrayRemove(postId),
   });
 };
@@ -146,7 +146,6 @@ export const getFavourites = async function () {
 
 export const handleFavourite = async function (postId, favourites) {
   if (favourites.includes(postId)) {
-    console.log("this condition was met");
     removeFavourite(auth.currentUser.uid, postId);
   } else {
     addFavourite(auth.currentUser.uid, postId);
