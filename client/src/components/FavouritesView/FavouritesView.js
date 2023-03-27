@@ -12,9 +12,10 @@ const FavouritesView = () => {
   let [currentUser, setCurrentUser] = useState();
   let [favourites, setFavourites] = useState([]);
   let [postData, setPostData] = useState([]);
-
+  let [favouritesArray, setFavouritesArray] = useState([]);
   useEffect(() => {
     fetchUser().then((user) => {
+      setFavouritesArray(user.favourites);
       setCurrentUser(user);
       fetchUserFavourites().then((posts) => {
         setFavourites(posts);
@@ -65,6 +66,7 @@ const FavouritesView = () => {
                 userAvatar: data.user.userAvatar,
               }}
               plant={data.plant}
+              favourites={favouritesArray}
             />
           </Grid>
         ))}
