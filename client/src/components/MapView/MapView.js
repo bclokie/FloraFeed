@@ -114,7 +114,7 @@ function MapView() {
   );
 
   return (
-    <Box sx={{ width: "100%", height: "100%" }}>
+    <Box sx={{ width: "99%", height: "98%", marginLeft: "10px", marginRight: "10px", marginBottom: "40px" }}>
       {window.google ? mapWithoutLoadScript : mapWithLoadScript}
     </Box>
   );

@@ -10,11 +10,14 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Modal from "@mui/material/Modal";
 import CloseIcon from "@mui/icons-material/Close";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import { handleFavourite } from "../../dataFetcher";
 
-const PlantDetails = ({ user, plant }) => {
+const PlantDetails = ({ user, plant, favourites, id }) => {
   const [expanded, setExpanded] = useState(false);
   const [open, setOpen] = useState(false);
-
+  const [currentFavourites, setCurrentFavourites] = useState(favourites);
+  const [isFavourite, setIsFavourite] = useState(favourites.includes(id));
   const handleOpenModal = () => {
     setOpen(true);
   };
@@ -100,8 +103,13 @@ const PlantDetails = ({ user, plant }) => {
               <IconButton
                 aria-label="add to favorites"
                 sx={{ color: colors.green1 }}
+                onClick={() => {
+                  handleFavourite(id, favourites).then(() => {
+                    setIsFavourite(!isFavourite);
+                  });
+                }}
               >
-                <FavoriteBorderIcon />
+                {isFavourite ? <FavoriteIcon /> : <FavoriteBorderIcon />}
               </IconButton>
             </Box>
           </Box>
