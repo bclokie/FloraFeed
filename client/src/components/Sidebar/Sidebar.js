@@ -20,7 +20,8 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import { fetchUserData } from "../../dataFetcher";
 import Modal from "@mui/material/Modal";
 import { SubmitForm } from "../Submit/SubmitForm";
-
+import Brightness4Icon from '@mui/icons-material/Brightness4';
+import Brightness7Icon from '@mui/icons-material/Brightness7';
 
 const colors = {
   white: "#FFFFFF",
@@ -33,9 +34,14 @@ const colors = {
 const Sidebar = ({ userId, onLogout, setView }) => {
   const [user, setUser] = useState(null);
   const [submitFormOpen, setSubmitFormOpen] = useState(false);
+  const [darkMode, setDarkMode] = useState(false);
 
   const handleCloseSubmitForm = () => {
     setSubmitFormOpen(false);
+  };
+
+  const handleDarkModeToggle = () => {
+    setDarkMode(!darkMode);
   };
 
   useEffect(() => {
@@ -53,7 +59,9 @@ const Sidebar = ({ userId, onLogout, setView }) => {
     fetchData();
   }, [userId]);
 
-  
+  const sunIcon = <Brightness7Icon />;
+  const moonIcon = <Brightness4Icon />;
+  const currentIcon = darkMode ? moonIcon : sunIcon;
 
   return (
     <Box
@@ -175,6 +183,25 @@ const Sidebar = ({ userId, onLogout, setView }) => {
         ))}
       </List>
       <Box sx={{ flexGrow: 1 }} />
+      <Box sx={{ padding: 2 }}>
+  <Button
+    fullWidth
+    startIcon={currentIcon}
+    sx={{
+      backgroundColor: colors.green1,
+      color: colors.white,
+      textTransform: "none",
+      fontWeight: "bold",
+      "&:hover": {
+        backgroundColor: colors.green2,
+      },
+    }}
+    onClick={handleDarkModeToggle}
+  >
+    {darkMode ? "Light Mode" : "Dark Mode"}
+  </Button>
+</Box>
+
       <Box sx={{ padding: 2 }}>
         <Button
           fullWidth
