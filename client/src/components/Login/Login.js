@@ -5,22 +5,26 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import React, { useState } from "react";
 import GoogleButton from "react-google-button";
+import { useMediaQuery, useTheme } from "@mui/material";
 
 const Login = ({ onLogin, onSwitchToSignup, onGoogleSignIn }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const colors = {
     white: "#FFFFFF",
     green1: "#2C7C50",
     green2: "#2B764A",
     lightGreen1: "#EDF1F0",
     lightGreen2: "#DAE1D8",
-    glass1: "rgba(255, 255, 255, 0.8)",
+    glass1: "rgba(255, 255, 255, 0.95)",
     glass2: "rgba(255, 255, 255, 0.15)",
   };
 
   return (
-    <Container maxWidth="false">
+    <Container maxWidth="auto" disableGutters>
       <Box
         sx={{
           display: "flex",
@@ -28,9 +32,11 @@ const Login = ({ onLogin, onSwitchToSignup, onGoogleSignIn }) => {
           alignItems: "center",
           justifyContent: "center",
           minHeight: "100vh",
-          backgroundImage:
-            "url('https://cdn.midjourney.com/5b0f582d-c01b-4253-9ad9-4de668ac04d3/grid_0.png')",
-          backgroundSize: "cover",
+          backgroundImage: isMobile
+            ? "url('https://cdn.discordapp.com/attachments/1062164987038150729/1089766267474427944/grid_0_1.png')"
+            : "url('https://cdn.midjourney.com/e0da86a9-00c5-4689-ac45-05a805a59d2a/grid_0.png')",
+          backgroundSize: "100% 100%",
+          padding: 0,
         }}
       >
         <Box

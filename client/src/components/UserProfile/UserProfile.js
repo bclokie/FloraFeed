@@ -115,9 +115,9 @@ const UserProfile = ({ userId }) => {
                 variant="h4"
                 component="div"
                 sx={{
-                  mt: 2,
+                  mt: 1,
                   color: colors.green1,
-                  fontFamily: "'Nunito', sans-serif",
+                  fontFamily: "'Montserrat', sans-serif",
                   fontWeight: "bold",
                 }}
               >

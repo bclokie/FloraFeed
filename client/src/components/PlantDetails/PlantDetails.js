@@ -54,7 +54,7 @@ const PlantDetails = ({ user, plant }) => {
         <Card
           sx={{
             borderRadius: 2,
-            bgcolor: "#FFFFFF",
+            bgcolor: `${colors.white}}`,
           }}
         >
           <Box
@@ -83,7 +83,7 @@ const PlantDetails = ({ user, plant }) => {
                 component="div"
                 sx={{
                   color: colors.green1,
-                  fontFamily: "'Nunito', sans-serif",
+                  fontFamily: "'Montserrat', sans-serif",
                   fontWeight: "bold",
                 }}
               >
@@ -146,7 +146,7 @@ const PlantDetails = ({ user, plant }) => {
               component="div"
               sx={{
                 color: colors.green1,
-                fontFamily: "'Nunito', sans-serif",
+                fontFamily: "'Montserrat', sans-serif",
                 fontWeight: "bold",
               }}
             >

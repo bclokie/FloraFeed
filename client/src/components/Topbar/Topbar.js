@@ -26,7 +26,7 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 
 const colors = {
-  white: "#FFFFFF",
+  white: "#E3DDD1",
   green1: "#2C7C50",
   green2: "#2B764A",
   lightGreen1: "#96BCA7",
