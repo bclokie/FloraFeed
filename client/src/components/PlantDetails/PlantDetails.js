@@ -49,7 +49,7 @@ const PlantDetails = ({ user, plant, favourites, id }) => {
         sx={{
           maxWidth: 520,
           borderRadius: 2,
-          boxShadow: 3,
+
           mx: "auto",
           my: 1,
         }}
@@ -57,7 +57,7 @@ const PlantDetails = ({ user, plant, favourites, id }) => {
         <Card
           sx={{
             borderRadius: 2,
-            bgcolor: "#FFFFFF",
+            bgcolor: `${colors.white}}`,
           }}
         >
           <Box
@@ -86,7 +86,7 @@ const PlantDetails = ({ user, plant, favourites, id }) => {
                 component="div"
                 sx={{
                   color: colors.green1,
-                  fontFamily: "'Nunito', sans-serif",
+                  fontFamily: "'Montserrat', sans-serif",
                   fontWeight: "bold",
                 }}
               >
@@ -154,7 +154,7 @@ const PlantDetails = ({ user, plant, favourites, id }) => {
               component="div"
               sx={{
                 color: colors.green1,
-                fontFamily: "'Nunito', sans-serif",
+                fontFamily: "'Montserrat', sans-serif",
                 fontWeight: "bold",
               }}
             >

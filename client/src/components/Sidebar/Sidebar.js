@@ -9,6 +9,7 @@ import {
   Avatar,
   Typography,
   Button,
+  Skeleton,
 } from "@mui/material";
 import ListIcon from "@mui/icons-material/List";
 import MapIcon from "@mui/icons-material/Map";
@@ -20,7 +21,8 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import { fetchUserData } from "../../dataFetcher";
 import Modal from "@mui/material/Modal";
 import { SubmitForm } from "../Submit/SubmitForm";
-
+import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
+import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
 
 const colors = {
   white: "#FFFFFF",
@@ -33,6 +35,7 @@ const colors = {
 const Sidebar = ({ userId, onLogout, setView }) => {
   const [user, setUser] = useState(null);
   const [submitFormOpen, setSubmitFormOpen] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const handleCloseSubmitForm = () => {
     setSubmitFormOpen(false);
@@ -48,108 +51,150 @@ const Sidebar = ({ userId, onLogout, setView }) => {
       } else {
         console.log("No such user!");
       }
+      setLoading(false);
     };
 
     fetchData();
   }, [userId]);
 
-  
-
   return (
     <Box
       sx={{
-        backgroundColor: "#FFFFFF",
-        width: 300,
-        borderRight: `3px solid ${colors.lightGreen1}`,
-
-        boxShadow: 3,
-        zIndex: 1100,
-        height: "100vh",
+        backgroundColor: `${colors.white}`,
+        width: "310px",
+        boxShadow: 6,
+        height: "100%",
         position: "fixed",
         left: 0,
         top: 0,
         display: "flex",
         flexDirection: "column",
         WebkitBackdropFilter: "blur(4px)",
-        borderRadius: 2,
+        borderRadius: 10,
+        borderTopLeftRadius: 0,
+        borderBottomLeftRadius: 0,
       }}
     >
-      {user && (
+      {loading ? (
         <Box
           sx={{
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            padding: 2,
-            borderBottom: "3px solid",
-            borderColor: colors.lightGreen1,
-            marginBottom: 0,
-            cursor: "pointer",
+            padding: 1,
+            mt: 2,
           }}
-          onClick={() => setView("USER_PROFILE")}
         >
-          <Avatar src={user.userAvatar} sx={{ width: 90, height: 90 }} />
-          <Typography
-            variant="subtitle1"
-            sx={{ fontWeight: "bold", marginTop: 1, color: colors.green1 }}
-          >
-            {user.userFirstName} {user.userLastName}
-          </Typography>
-          <Typography
-            gutterBottom
-            variant="caption"
-            color="text.secondary"
-            sx={{
-              fontFamily: "Playfair Display', serif",
-            }}
-          >
-            @{user.userName}
-          </Typography>
+          <Skeleton variant="circular" width={"12vmin"} height={"12vmin"} />
+          <Skeleton variant="text" width={"70%"} height={"3vmin"} mt={1} />
+          <Skeleton variant="text" width={"50%"} height={"1.4vmin"} mb={1} />
         </Box>
+      ) : (
+        user && (
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              padding: 1,
+              borderBottomColor: colors.green1,
+              mt: 2,
+              cursor: "pointer",
+            }}
+            onClick={() => setView("USER_PROFILE")}
+          >
+            <Avatar
+              src={user.userAvatar}
+              sx={{ width: "12vmin", height: "12vmin" }}
+            />
+            <Typography
+              variant="h5"
+              sx={{
+                marginTop: 1,
+                color: colors.green1,
+                fontSize: "3vmin",
+                fontFamily: "'Nunito', sans-serif",
+                fontWeight: 700,
+              }}
+            >
+              {user.userFirstName} {user.userLastName}
+            </Typography>
+            <Typography
+              gutterBottom
+              variant="caption"
+              color="text.secondary"
+              sx={{
+                fontFamily: "'Nunito', sans-serif",
+                fontSize: "1.4vmin",
+              }}
+            >
+              @{user.userName}
+            </Typography>
+            <Box
+              sx={{
+                height: "2px",
+                width: "70%",
+                backgroundColor: colors.green1,
+                mt: 1,
+              }}
+            />
+          </Box>
+        )
       )}
-      <List>
-        <Box sx={{ padding: 2 }}>
-          <Button
-            fullWidth
-            variant="outlined"
-            color="success"
-            startIcon={<AddIcon />}
-            onClick={() => setSubmitFormOpen(true)}
-            sx={{
-              marginBottom: 1,
-              borderColor: colors.green1,
-              color: colors.green1,
-              textTransform: "none",
-              fontWeight: "bold",
-              "&:hover": {
-                backgroundColor: colors.green2,
-                color: colors.white,
-              },
-            }}
-          >
-            New Post
-          </Button>
-        </Box>
+      <Box sx={{ padding: 2 }}>
+        <Button
+          fullWidth
+          variant="contained"
+          startIcon={<AddAPhotoIcon />}
+          onClick={() => setSubmitFormOpen(true)}
+          sx={{
+            backgroundColor: colors.green1,
+            color: colors.white,
+            textTransform: "none",
+            fontWeight: "bold",
+            "&:hover": {
+              backgroundColor: colors.green2,
+            },
+            fontSize: "1.7vmin",
+          }}
+        >
+          New Post
+        </Button>
+      </Box>
+
+      <List sx={{ marginTop: 1, mr: 0, wdith: "18vw" }}>
         {[
           {
-            text: "Favourites",
+            text: "Favorites",
             onClick: () => setView("FAVOURITES"),
-            icon: <FavoriteIcon />,
+            icon: <FavoriteIcon sx={{ pl: 2, fontSize: "3vmin" }} />,
+            icon2: (
+              <KeyboardArrowRightIcon sx={{ pl: "2vw", fontSize: "3vmin" }} />
+            ),
           },
           {
             text: "Grid View",
             onClick: () => setView("GRID"),
-            icon: <GridViewIcon />,
+            icon: <GridViewIcon sx={{ pl: 2, fontSize: "3vmin" }} />,
+            icon2: (
+              <KeyboardArrowRightIcon sx={{ pl: "2vw", fontSize: "3vmin" }} />
+            ),
           },
           {
             text: "List View",
             onClick: () => setView("LIST"),
-            icon: <ListIcon />,
+            icon: <ListIcon sx={{ pl: 2, fontSize: "3vmin" }} />,
+            icon2: (
+              <KeyboardArrowRightIcon sx={{ pl: "2vw", fontSize: "3vmin" }} />
+            ),
           },
           {
             text: "Map View",
             onClick: () => setView("MAP"),
-            icon: <MapIcon />,
+            icon: <MapIcon sx={{ pl: 2, fontSize: "3vmin" }} />,
+            icon2: (
+              <KeyboardArrowRightIcon sx={{ pl: "2vw", fontSize: "3vmin" }} />
+            ),
           },
         ].map((item, index) => (
           <ListItem
@@ -158,24 +203,39 @@ const Sidebar = ({ userId, onLogout, setView }) => {
             onClick={item.onClick}
             sx={{
               "&:hover": {
-                backgroundColor: colors.green1,
-                color: colors.white,
+                backgroundColor: colors.lightGreen2,
+                color: colors.green1,
               },
               color: colors.green1,
+              borderRadius: 2,
+              marginBottom: 1,
+              padding: "10px 9px",
             }}
           >
-            <ListItemIcon sx={{ color: "inherit" }}>{item.icon}</ListItemIcon>
+            <ListItemIcon sx={{ color: "inherit", marginRight: 2 }}>
+              {item.icon}
+            </ListItemIcon>
             <ListItemText
               primary={item.text}
               primaryTypographyProps={{
-                sx: { fontSize: "1.1rem", ml: 4 },
+                sx: {
+                  pl: 3,
+                  fontSize: "2vmin",
+                  fontFamily: "'Nunito', sans-serif;",
+                  fontWeight: 500,
+                },
               }}
             />
+            <ListItemIcon sx={{ color: "inherit", marginRight: 2 }}>
+              {item.icon2}
+            </ListItemIcon>
           </ListItem>
         ))}
       </List>
+
       <Box sx={{ flexGrow: 1 }} />
-      <Box sx={{ padding: 2 }}>
+
+      <Box sx={{ padding: 8, pb: 3 }}>
         <Button
           fullWidth
           startIcon={<LogoutIcon />}
@@ -187,6 +247,7 @@ const Sidebar = ({ userId, onLogout, setView }) => {
             "&:hover": {
               backgroundColor: colors.green2,
             },
+            fontSize: "1.6vmin",
           }}
           onClick={onLogout}
         >
@@ -201,6 +262,38 @@ const Sidebar = ({ userId, onLogout, setView }) => {
       >
         <SubmitForm handleClose={handleCloseSubmitForm} />
       </Modal>
+      <Box
+        sx={{
+          pb: 0,
+          pl: 5,
+          pt: 1,
+          borderTop: `2px solid ${colors.green1}`,
+        }}
+      >
+        <Box sx={{ display: "flex", alignItems: "center", mb: 1 }}>
+          <img
+            src="https://cdn.discordapp.com/attachments/1085966387203293376/1089398046019813386/Alex_Ferru_simple_green_leaf_map_marker_logo_vector_art_adobe_i_b87b5e1b-1d02-4b11-8f88-820e10527f42-IMAGEX_26265c48.png"
+            alt="FloraFeed logo"
+            width="60px"
+            height="60px"
+            sx={{ mr: 0 }}
+          />
+          <Typography
+            variant="body1"
+            sx={{
+              color: colors.green1,
+              fontSize: "2.7vmin",
+            }}
+          >
+            <span style={{ fontFamily: "Nunito", fontWeight: "bold" }}>
+              Flora
+            </span>
+            <span style={{ fontFamily: "Nunito", fontWeight: "regular" }}>
+              Feed
+            </span>
+          </Typography>
+        </Box>
+      </Box>
     </Box>
   );
 };

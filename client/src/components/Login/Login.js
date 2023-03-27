@@ -5,32 +5,50 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import React, { useState } from "react";
 import GoogleButton from "react-google-button";
+import { useMediaQuery, useTheme } from "@mui/material";
 
 const Login = ({ onLogin, onSwitchToSignup, onGoogleSignIn }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const colors = {
     white: "#FFFFFF",
     green1: "#2C7C50",
     green2: "#2B764A",
     lightGreen1: "#EDF1F0",
     lightGreen2: "#DAE1D8",
-    glass1: "rgba(255, 255, 255, 0.8)",
+    glass1: "rgba(255, 255, 255, 0.95)",
     glass2: "rgba(255, 255, 255, 0.15)",
   };
 
   return (
-    <Container maxWidth="false">
+    <Container
+      maxWidth
+      disableGutters
+      sx={{
+        position: "fixed",
+        top: 0,
+        right: 0,
+        bottom: 0,
+        left: 0,
+        minHeight: "98vh",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundImage: "url('../../assets/bgplants.png')",
+        backgroundSize: "cover",
+        backgroundAttachment: "fixed",
+        padding: 0,
+      }}
+    >
       <Box
         sx={{
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
-          minHeight: "100vh",
-          backgroundImage:
-            "url('https://cdn.midjourney.com/5b0f582d-c01b-4253-9ad9-4de668ac04d3/grid_0.png')",
-          backgroundSize: "cover",
         }}
       >
         <Box
@@ -110,7 +128,6 @@ const Login = ({ onLogin, onSwitchToSignup, onGoogleSignIn }) => {
               onClick={onGoogleSignIn}
             ></GoogleButton>
           </Box>
-
           <Box
             sx={{
               display: "flex",

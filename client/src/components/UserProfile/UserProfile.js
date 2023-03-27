@@ -18,12 +18,14 @@ import {
 import { styled } from "@mui/system";
 import IconButton from "@mui/material/IconButton";
 import CameraAltIcon from "@mui/icons-material/CameraAlt";
+import UserProfileSkeleton from "./UserProfileSkeleton";
 
 const UserProfile = ({ userId }) => {
   const [user, setUser] = useState(null);
   const [posts, setPosts] = useState([]);
   const [selectedPost, setSelectedPost] = useState(null);
   const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const colors = {
     white: "#FFFFFF",
@@ -63,159 +65,160 @@ const UserProfile = ({ userId }) => {
       } else {
         console.log("No posts found for this user!");
       }
+
+      setLoading(false); 
     };
 
     fetchData();
   }, [userId]);
 
-  if (!user) {
-    return <div>Loading...</div>;
-  }
-
   return (
-    <Container fixed>
-      <Box sx={{ mt: 2, mb: 2 }}>
-        <Card
-          sx={{
-            borderBottom: `3px solid ${colors.lightGreen1}`,
-            borderTop: `3px solid ${colors.lightGreen1}`,
-            borderLeft: `3px solid ${colors.lightGreen1}`,
-            borderRight: `3px solid ${colors.lightGreen1}`,
-            position: "relative",
-            marginTop: "75px",
-            overflow: "visible",
-          }}
-        >
-          <Box
+    <Container>
+      {loading ? (
+        <>
+          <UserProfileSkeleton />
+        </>
+      ) : (
+        <>
+          <Box sx={{ mt: 2, mb: 2 }}>
+            <Card
+              sx={{
+                position: "relative",
+                marginTop: "75px",
+                overflow: "visible",
+                borderRadius: 10,
+                boxShadow: 6,
+              }}
+            >
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  paddingTop: "75px",
+                }}
+              >
+                <Avatar
+                  src={user.userAvatar}
+                  alt={`${user.userName}'s avatar`}
+                  sx={{
+                    borderTop: `solid 3px ${colors.green2}`,
+                    borderBottom: "none",
+                    borderLeft: `solid 3px ${colors.green2}`,
+                    borderRight: `solid 3px ${colors.green2}`,
+                    width: 150,
+                    height: 150,
+                    position: "absolute",
+                    top: "-75px",
+                    zIndex: 1,
+                  }}
+                />
+              </Box>
+              <CardContent>
+                <Box sx={{ textAlign: "center" }}>
+                  <Typography
+                    variant="h4"
+                    component="div"
+                    sx={{
+                      mt: 1,
+                      color: colors.green1,
+                      fontFamily: "'Montserrat', sans-serif",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    {user.userFirstName} {user.userLastName}
+                  </Typography>
+                  <Typography
+                    gutterBottom
+                    variant="caption"
+                    color="text.secondary"
+                    sx={{
+                      fontFamily: "Playfair Display', serif",
+                    }}
+                  >
+                    @{user.userName}
+                  </Typography>
+                </Box>
+              </CardContent>
+            </Card>
+          </Box>
+          <Typography
+            variant="h5"
+            component="div"
             sx={{
-              display: "flex",
-              justifyContent: "center",
-              paddingTop: "75px",
+              mt: 8,
+              color: colors.green1,
+              fontFamily: "'Nunito', sans-serif",
+              fontWeight: "bold",
             }}
           >
-            <Avatar
-              src={user.userAvatar}
-              alt={`${user.userName}'s avatar`}
+            Posts{" "}
+            <Chip
               sx={{
-                borderTop: `solid 3px ${colors.green2}`,
-                borderBottom: "none",
-                borderLeft: `solid 3px ${colors.green2}`,
-                borderRight: `solid 3px ${colors.green2}`,
-                width: 150,
-                height: 150,
-                position: "absolute",
-                top: "-75px",
-                zIndex: 1,
+                backgroundColor: `${colors.green2}`,
+                color: `${colors.white}`,
               }}
+              label={posts.length}
             />
-          </Box>
-          <CardContent>
-            <Box sx={{ textAlign: "center" }}>
-              <Typography
-                variant="h4"
-                component="div"
-                sx={{
-                  mt: 2,
-                  color: colors.green1,
-                  fontFamily: "'Nunito', sans-serif",
-                  fontWeight: "bold",
-                }}
-              >
-                {user.userFirstName} {user.userLastName}
-              </Typography>
-              <Typography
-                gutterBottom
-                variant="caption"
-                color="text.secondary"
-                sx={{
-                  fontFamily: "Playfair Display', serif",
-                }}
-              >
-                @{user.userName}
-              </Typography>
-            </Box>
-          </CardContent>
-        </Card>
-      </Box>
-      <Typography
-        variant="h5"
-        component="div"
-        sx={{
-          mt: 8,
-          color: colors.green1,
-          fontFamily: "'Nunito', sans-serif",
-          fontWeight: "bold",
-        }}
-      >
-        Posts{" "}
-        <Chip
-          sx={{
-            backgroundColor: `${colors.green2}`,
-            color: `${colors.white}`,
-          }}
-          label={posts.length}
-        />
-      </Typography>
+          </Typography>
 
-      <Box sx={{ mt: 2 }}>
-        <Card
-          sx={{
-            borderTop: `3px solid ${colors.lightGreen1}`,
-            borderLeft: `3px solid ${colors.lightGreen1}`,
-            borderRight: `3px solid ${colors.lightGreen1}`,
-            borderBottom: `3px solid ${colors.lightGreen1}`,
-          }}
-        >
-          <CardContent>
-            <Box sx={{ mt: 1 }}>
-              <Grid container spacing={1}>
-                {posts.map((post) => (
-                  <Grid item key={post.id} xs={12} sm={12} md={12} lg={4}>
-                    <Card sx={{ boxShadow: 3, position: "relative" }}>
-                      <CardActionArea onClick={() => handleOpen(post)}>
-                        <CardMedia
-                          component="img"
-                          src={post.plant.imageUrl}
-                          alt={post.plant.name}
-                          loading="lazy"
-                          height="400"
-                        />
-                      </CardActionArea>
+          <Box sx={{ mt: 2 }}>
+            <Card
+              sx={{
+                borderRadius: 10,
+              }}
+            >
+              <CardContent>
+                <Box sx={{ mt: 1 }}>
+                  <Grid container spacing={1}>
+                    {posts.map((post) => (
+                      <Grid item key={post.id} xs={12} sm={12} md={12} lg={4}>
+                        <Card sx={{ boxShadow: 3, position: "relative" }}>
+                          <CardActionArea onClick={() => handleOpen(post)}>
+                            <CardMedia
+                              component="img"
+                              src={post.plant.imageUrl}
+                              alt={post.plant.name}
+                              loading="lazy"
+                              height="400"
+                            />
+                          </CardActionArea>
 
-                      <Box
-                        sx={{
-                          position: "absolute",
-                          top: "10px",
-                          left: "10px",
-                          backgroundColor: colors.green2,
-                          borderRadius: "50%",
-                          zIndex: 2,
-                        }}
-                      >
-                        <IconButton>
-                          <CameraAltIcon
-                            onClick={() => handleOpen(post)}
-                            sx={{ color: "#fff" }}
-                          />
-                        </IconButton>
-                      </Box>
-                    </Card>
+                          <Box
+                            sx={{
+                              position: "absolute",
+                              top: "10px",
+                              left: "10px",
+                              backgroundColor: colors.green2,
+                              borderRadius: "50%",
+                              zIndex: 2,
+                            }}
+                          >
+                            <IconButton>
+                              <CameraAltIcon
+                                onClick={() => handleOpen(post)}
+                                sx={{ color: "#fff" }}
+                              />
+                            </IconButton>
+                          </Box>
+                        </Card>
+                      </Grid>
+                    ))}
                   </Grid>
-                ))}
-              </Grid>
-            </Box>
-          </CardContent>
-        </Card>
-      </Box>
-      {selectedPost && (
-        <Modal
-          open={open}
-          onClose={handleClose}
-          aria-labelledby="plant-details-modal"
-          aria-describedby="plant-details"
-        >
-          <PlantDetails user={user} plant={selectedPost.plant} />
-        </Modal>
+                </Box>
+              </CardContent>
+            </Card>
+          </Box>
+          {selectedPost && (
+            <Modal
+              open={open}
+              onClose={handleClose}
+              aria-labelledby="plant-details-modal"
+              aria-describedby="plant-details"
+            >
+              <PlantDetails user={user} plant={selectedPost.plant} />
+            </Modal>
+          )}
+        </>
       )}
     </Container>
   );
