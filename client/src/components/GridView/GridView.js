@@ -1,18 +1,22 @@
 import React, { useEffect, useState } from "react";
 import PlantDetails from "../PlantDetails/PlantDetails";
 import Grid from "@mui/material/Grid";
-import { fetchUserData, fetchPostsData } from "../../dataFetcher";
+import { fetchUserData, fetchPostsData, fetchUser } from "../../dataFetcher";
 
 const GridView = () => {
   let [usersData, setUsersData] = useState([]);
+  let [currentUser, setCurrentUser] = useState();
+  let [favourites, setFavourites] = useState();
   useEffect(() => {
     const fetchData = async () => {
       const users = await fetchUserData();
       const usersWithPosts = await fetchPostsData(users);
       setUsersData(usersWithPosts);
     };
-
     fetchData();
+    fetchUser().then((user) => {
+      setFavourites(user.favourites);
+    });
   }, []);
 
   return (
@@ -27,6 +31,8 @@ const GridView = () => {
                   userAvatar: user.userAvatar,
                 }}
                 plant={post.plant}
+                favourites={favourites ? favourites : []}
+                id={post.id}
               />
             </Grid>
           ))

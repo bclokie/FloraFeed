@@ -1,8 +1,17 @@
 import axios from "axios";
 import { db } from "./firebase";
 import { auth } from "./firebase";
-import { collection, getDocs, query, where } from "firebase/firestore";
+import {
+  arrayRemove,
+  arrayUnion,
+  collection,
+  getDocs,
+  query,
+  updateDoc,
+  where,
+} from "firebase/firestore";
 import { documentId } from "firebase/firestore";
+import { doc } from "firebase/firestore";
 export const fetchUserData = async () => {
   const response = await axios.get(
     "https://firestore.googleapis.com/v1/projects/final-project-lhl-a053a/databases/(default)/documents/users"
@@ -24,8 +33,9 @@ export const fetchPostsData = async (users) => {
     "https://firestore.googleapis.com/v1/projects/final-project-lhl-a053a/databases/(default)/documents/posts"
   );
   const postsData = response.data.documents;
-
   postsData.forEach((data, index) => {
+    const postPath = data.name.split("/");
+    const postId = postPath[postPath.length - 1];
     const date = new Date(data.createTime);
     const formattedDate = date.toLocaleDateString();
     const formattedTime = date.toLocaleTimeString();
@@ -35,7 +45,7 @@ export const fetchPostsData = async (users) => {
 
     if (user) {
       user.posts.push({
-        id: index + 1,
+        id: postId,
         plant: {
           commonName: data.fields.title.stringValue,
           scientificName: data.fields.plantName.stringValue,
@@ -105,4 +115,39 @@ export const createPosts = function (posts, user) {
     });
   });
   return favouritesArr;
+};
+
+export const addFavourite = async function (userId, postId) {
+  const userRef = doc(db, "users", userId);
+  return await updateDoc(userRef, {
+    favourites: arrayUnion(postId),
+  });
+};
+
+export const removeFavourite = async function (userId, postId) {
+  const userRef = doc(db, "users", userId);
+  return await updateDoc(userRef, {
+    favourites: arrayRemove(postId),
+  });
+};
+
+export const getFavourites = async function () {
+  let favourites;
+  const favouritesQuery = query(
+    collection(db, "users"),
+    where("uid", "==", auth.currentUser.uid)
+  );
+  const favouritesQuerySnapshot = await getDocs(favouritesQuery);
+  favouritesQuery.forEach((doc) => {
+    let user = doc.data();
+  });
+  return;
+};
+
+export const handleFavourite = async function (postId, favourites) {
+  if (favourites.includes(postId)) {
+    removeFavourite(auth.currentUser.uid, postId);
+  } else {
+    addFavourite(auth.currentUser.uid, postId);
+  }
 };
