@@ -265,7 +265,7 @@ const Sidebar = ({ userId, onLogout, setView }) => {
       <Box
         sx={{
           pb: 0,
-          pl: 5,
+          pl: 7,
           pt: 1,
           borderTop: `2px solid ${colors.green1}`,
         }}
