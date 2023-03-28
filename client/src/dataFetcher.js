@@ -151,3 +151,77 @@ export const handleFavourite = async function (postId, favourites) {
     addFavourite(auth.currentUser.uid, postId);
   }
 };
+
+export const fetchUserByUid = async function (uid) {
+  if (!uid) {
+    return null;
+  }
+  console.log("uid is", uid);
+  let user;
+  const userQuery = query(
+    collection(db, "users"),
+    where("uid", "==", auth.currentUser.uid)
+  );
+  const userQuerySnapshot = await getDocs(userQuery);
+  userQuerySnapshot.forEach((doc) => {
+    user = doc.data();
+  });
+  return user;
+};
+
+export const getPoster = async function (userId) {
+  let user;
+  const userQuery = query(collection(db, "users"), where("uid", "==", userId));
+  const userQuerySnapshot = await getDocs(userQuery);
+  userQuerySnapshot.forEach((doc) => {
+    user = doc.data();
+  });
+  return user;
+};
+
+export const createFavourites = async function () {
+  let favouritesIds;
+  let favouritePostArr = [];
+  if (!auth.currentUser) {
+    console.log("no user");
+    return favouritePostArr;
+  }
+  await fetchUserByUid(auth.currentUser.uid).then((data) => {
+    favouritesIds = data.favourites;
+  });
+  const postsQuery = query(
+    collection(db, "posts"),
+    where("__name__", "in", favouritesIds)
+  );
+  const querySnapshot = await getDocs(postsQuery);
+  querySnapshot.forEach((doc) => {
+    getPoster(doc.data().uid).then((user) => {
+      const timestamp = doc.data().created_at;
+      const date = new Date(timestamp.seconds * 1000);
+      const formattedDateTime = date.toLocaleString("en-US", {
+        month: "short",
+        day: "numeric",
+        year: "numeric",
+        hour: "numeric",
+        minute: "numeric",
+        second: "numeric",
+        hour12: true,
+      });
+      favouritePostArr.push({
+        id: doc.id,
+        user: {
+          userName: user.userName,
+          userAvatar: user.avatarUrl,
+        },
+        plant: {
+          commonName: doc.data().title,
+          scientificName: doc.data().plantName,
+          description: doc.data().description,
+          imageUrl: doc.data().image,
+          timePosted: formattedDateTime,
+        },
+      });
+    });
+  });
+  return favouritePostArr;
+};

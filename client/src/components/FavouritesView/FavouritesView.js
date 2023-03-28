@@ -8,11 +8,13 @@ import {
   fetchUser,
   createPosts,
 } from "../../dataFetcher";
+let authorUsername;
 const FavouritesView = () => {
   let [currentUser, setCurrentUser] = useState();
   let [favourites, setFavourites] = useState([]);
   let [postData, setPostData] = useState([]);
   let [favouritesArray, setFavouritesArray] = useState([]);
+  const [posterUsername, setPosterUsername] = useState();
   useEffect(() => {
     fetchUser().then((user) => {
       setFavouritesArray(user.favourites);
@@ -23,7 +25,6 @@ const FavouritesView = () => {
         let timestamp;
         posts.forEach((data, index) => {
           timestamp = data.created_at;
-          console.log("data is", data);
           const date = new Date(timestamp.seconds * 1000);
           const formattedDateTime = date.toLocaleString("en-US", {
             month: "short",
@@ -34,11 +35,10 @@ const FavouritesView = () => {
             second: "numeric",
             hour12: true,
           });
-
           modifiedArr.push({
             id: index + 1,
             user: {
-              user: user.userName,
+              user: authorUsername,
               userAvatar: user.avatarUrl,
             },
             plant: {
@@ -46,6 +46,7 @@ const FavouritesView = () => {
               scientificName: data.plantName,
               description: data.description,
               imageUrl: data.image,
+
               timePosted: formattedDateTime,
             },
           });
@@ -67,6 +68,7 @@ const FavouritesView = () => {
               }}
               plant={data.plant}
               favourites={favouritesArray}
+              view={"FAVOURITE"}
             />
           </Grid>
         ))}
