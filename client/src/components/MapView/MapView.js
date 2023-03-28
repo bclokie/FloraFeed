@@ -11,7 +11,7 @@ import {
 } from "@react-google-maps/api";
 import MapIcon from "@mui/icons-material/Map";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
-
+import { getUserByUid } from "../../dataFetcher";
 const containerStyle = {
   width: "97.6%",
   height: "95.4%",
@@ -102,26 +102,32 @@ function MapView() {
       )
       .then((posts) => {
         posts.data.documents.map((data, index) => {
-          const latitude = Number(data.fields.latitude?.doubleValue);
-          const longitude = Number(data.fields.longitude?.doubleValue);
+          let user;
+          getUserByUid(data.fields.uid.stringValue).then((authorData) => {
+            user = authorData.userName;
 
-          const poster = usersData.find(
-            (user) => user.userId === data.fields.uid.stringValue
-          );
-          if (!isNaN(latitude) && !isNaN(longitude)) {
-            temp.push({
-              id: index + 1,
-              position: {
-                lat: latitude,
-                lng: longitude,
-              },
-              content: data.fields.title.stringValue,
-              author: poster ? poster.userName : "Unknown Poster",
-              image: data.fields.image.stringValue,
-            });
-          }
+            const latitude = Number(data.fields.latitude?.doubleValue);
+            const longitude = Number(data.fields.longitude?.doubleValue);
+
+            const poster = usersData.find(
+              (user) => user.userId === data.fields.uid.stringValue
+            );
+            console.log("user is 123", user);
+            if (!isNaN(latitude) && !isNaN(longitude)) {
+              temp.push({
+                id: index + 1,
+                position: {
+                  lat: latitude,
+                  lng: longitude,
+                },
+                content: data.fields.title.stringValue,
+                author: user ? user : "Unknown Poster",
+                image: data.fields.image.stringValue,
+              });
+            }
+          });
+          setCoordinatesData(temp);
         });
-        setCoordinatesData(temp);
       });
 
     return () => {

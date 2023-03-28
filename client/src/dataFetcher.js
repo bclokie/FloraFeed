@@ -225,3 +225,16 @@ export const createFavourites = async function () {
   });
   return favouritePostArr;
 };
+
+export const getUserByUid = async function (uid) {
+  if (!uid) {
+    return null;
+  }
+  let user;
+  const userQuery = query(collection(db, "users"), where("uid", "==", uid));
+  const userQuerySnapshot = await getDocs(userQuery);
+  userQuerySnapshot.forEach((doc) => {
+    user = doc.data();
+  });
+  return user;
+};
