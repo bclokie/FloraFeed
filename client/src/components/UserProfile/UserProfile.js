@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { fetchUserData, fetchPostsData } from "../../dataFetcher";
+import {
+  fetchUserData,
+  fetchPostsData,
+  fetchUserFavourites,
+  fetchUser,
+} from "../../dataFetcher";
 import PlantDetails from "../PlantDetails/PlantDetails";
 import {
   Avatar,
@@ -26,7 +31,7 @@ const UserProfile = ({ userId }) => {
   const [selectedPost, setSelectedPost] = useState(null);
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(true);
-
+  const [favourites, setFavourites] = useState();
   const colors = {
     white: "#FFFFFF",
     green1: "#2C7C50",
@@ -66,7 +71,10 @@ const UserProfile = ({ userId }) => {
         console.log("No posts found for this user!");
       }
 
-      setLoading(false); 
+      setLoading(false);
+      fetchUser().then((user) => {
+        setFavourites(user.favourites);
+      });
     };
 
     fetchData();
@@ -215,7 +223,11 @@ const UserProfile = ({ userId }) => {
               aria-labelledby="plant-details-modal"
               aria-describedby="plant-details"
             >
-              <PlantDetails user={user} plant={selectedPost.plant} />
+              <PlantDetails
+                user={user}
+                plant={selectedPost.plant}
+                favourites={favourites}
+              />
             </Modal>
           )}
         </>
