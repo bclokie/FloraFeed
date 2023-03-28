@@ -22,7 +22,7 @@ import { fetchUserData } from "../../dataFetcher";
 import Modal from "@mui/material/Modal";
 import { SubmitForm } from "../Submit/SubmitForm";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
-import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
+import AddLocationAltIcon from "@mui/icons-material/AddLocationAlt";
 
 const colors = {
   white: "#FFFFFF",
@@ -103,10 +103,7 @@ const Sidebar = ({ userId, onLogout, setView }) => {
             }}
             onClick={() => setView("USER_PROFILE")}
           >
-            <Avatar
-              src={user.userAvatar}
-              sx={{ width: "12vmin", height: "12vmin" }}
-            />
+            <Avatar src={user.userAvatar} sx={{ width: 115, height: 115 }} />
             <Typography
               variant="h5"
               sx={{
@@ -145,7 +142,7 @@ const Sidebar = ({ userId, onLogout, setView }) => {
         <Button
           fullWidth
           variant="contained"
-          startIcon={<AddAPhotoIcon />}
+          startIcon={<AddLocationAltIcon />}
           onClick={() => setSubmitFormOpen(true)}
           sx={{
             backgroundColor: colors.green1,
@@ -165,15 +162,15 @@ const Sidebar = ({ userId, onLogout, setView }) => {
       <List sx={{ marginTop: 1, mr: 0, wdith: "18vw" }}>
         {[
           {
-            text: "Favorites",
-            onClick: () => setView("FAVOURITES"),
-            icon: <FavoriteIcon sx={{ pl: 2, fontSize: "3vmin" }} />,
+            text: "Map ",
+            onClick: () => setView("MAP"),
+            icon: <MapIcon sx={{ pl: 2, fontSize: "3vmin" }} />,
             icon2: (
               <KeyboardArrowRightIcon sx={{ pl: "2vw", fontSize: "3vmin" }} />
             ),
           },
           {
-            text: "Grid View",
+            text: "Discover",
             onClick: () => setView("GRID"),
             icon: <GridViewIcon sx={{ pl: 2, fontSize: "3vmin" }} />,
             icon2: (
@@ -181,17 +178,9 @@ const Sidebar = ({ userId, onLogout, setView }) => {
             ),
           },
           {
-            text: "List View",
-            onClick: () => setView("LIST"),
-            icon: <ListIcon sx={{ pl: 2, fontSize: "3vmin" }} />,
-            icon2: (
-              <KeyboardArrowRightIcon sx={{ pl: "2vw", fontSize: "3vmin" }} />
-            ),
-          },
-          {
-            text: "Map View",
-            onClick: () => setView("MAP"),
-            icon: <MapIcon sx={{ pl: 2, fontSize: "3vmin" }} />,
+            text: "Favourites",
+            onClick: () => setView("FAVOURITES"),
+            icon: <FavoriteIcon sx={{ pl: 2, fontSize: "3vmin" }} />,
             icon2: (
               <KeyboardArrowRightIcon sx={{ pl: "2vw", fontSize: "3vmin" }} />
             ),
