@@ -66,7 +66,7 @@ const UserProfile = ({ userId }) => {
         console.log("No posts found for this user!");
       }
 
-      setLoading(false); 
+      setLoading(false);
     };
 
     fetchData();
@@ -121,7 +121,7 @@ const UserProfile = ({ userId }) => {
                     sx={{
                       mt: 1,
                       color: colors.green1,
-                      fontFamily: "'Montserrat', sans-serif",
+                      fontFamily: "'Nunito', sans-serif",
                       fontWeight: "bold",
                     }}
                   >
@@ -132,7 +132,7 @@ const UserProfile = ({ userId }) => {
                     variant="caption"
                     color="text.secondary"
                     sx={{
-                      fontFamily: "Playfair Display', serif",
+                      fontFamily: "'Nunito', sans-serif",
                     }}
                   >
                     @{user.userName}

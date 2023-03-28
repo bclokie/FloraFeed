@@ -100,15 +100,10 @@ const App = () => {
                   <Signup
                     onSignup={(email, password) =>
                       handleSignup(email, password)
-                        .then(() => setView("GRID"))
+                        .then(() => setView("USER_PROFILE"))
                         .catch((error) => console.log(error))
                     }
                     onSwitchToLogin={() => setView("LOGIN")}
-                    onGoogleSignIn={() =>
-                      handleGoogleSignIn()
-                        .then(() => setView("GRID"))
-                        .catch((error) => console.log(error))
-                    }
                   />
                 </motion.div>
               </AnimatePresence>
@@ -125,7 +120,7 @@ const App = () => {
                     key="login"
                     onLogin={(email, password) =>
                       handleLogin(email, password)
-                        .then(() => setView("GRID"))
+                        .then(() => setView("USER_PROFILE"))
                         .catch((error) => console.log(error))
                     }
                     onSwitchToSignup={() => setView("SIGNUP")}
@@ -178,7 +173,7 @@ const App = () => {
                 component="main"
                 sx={{
                   flexGrow: 1,
-                  marginLeft: isMobile ? 0 : "310px",
+                  marginLeft: isMobile ? 0 : "300px",
                   marginTop: isMobile ? "70px" : "0px",
                 }}
               >
