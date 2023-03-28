@@ -13,7 +13,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { handleFavourite } from "../../dataFetcher";
 
-const PlantDetails = ({ user, plant, favourites, id }) => {
+const PlantDetails = ({ user, plant, favourites, id, view }) => {
   const [expanded, setExpanded] = useState(false);
   const [open, setOpen] = useState(false);
   const [currentFavourites, setCurrentFavourites] = useState(favourites);
@@ -90,7 +90,7 @@ const PlantDetails = ({ user, plant, favourites, id }) => {
                   fontWeight: "bold",
                 }}
               >
-                @{user.userName}
+                {view !== "FAVOURITE" ? user.userName : ""}
               </Typography>
             </Box>
 
@@ -109,7 +109,11 @@ const PlantDetails = ({ user, plant, favourites, id }) => {
                   });
                 }}
               >
-                {isFavourite ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+                {isFavourite || view === "FAVOURITE" ? (
+                  <FavoriteIcon />
+                ) : (
+                  <FavoriteBorderIcon />
+                )}
               </IconButton>
             </Box>
           </Box>

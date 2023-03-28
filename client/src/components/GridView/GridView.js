@@ -33,6 +33,7 @@ const GridView = () => {
                 plant={post.plant}
                 favourites={favourites ? favourites : []}
                 id={post.id}
+                view={"GRID"}
               />
             </Grid>
           ))
