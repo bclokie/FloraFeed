@@ -6,7 +6,10 @@ import {
   collection,
   addDoc,
   serverTimestamp,
+  updateDoc,
+  doc,
 } from "firebase/firestore";
+
 import { db, storage } from "../../firebase";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import Container from "@mui/material/Container";
@@ -129,6 +132,9 @@ export function SubmitForm({ handleClose, setView }) {
         longitude: exifData ? exifData.longitude : null, // include longitude field
         uid, // included uid field
         created_at: serverTimestamp(),
+      });
+      await updateDoc(doc(db, "posts", docRef.id), {
+        postId: docRef.id,
       });
       console.log("Document written with ID: ", docRef.id);
       setView("MAP");

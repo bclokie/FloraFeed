@@ -112,7 +112,6 @@ function MapView() {
             const poster = usersData.find(
               (user) => user.userId === data.fields.uid.stringValue
             );
-            console.log("user is 123", user);
             if (!isNaN(latitude) && !isNaN(longitude)) {
               temp.push({
                 id: index + 1,
