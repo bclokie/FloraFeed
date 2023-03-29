@@ -115,8 +115,7 @@ const Topbar = ({ userId, onLogout, setView }) => {
           open={Boolean(anchorEl)}
           onClose={() => handleCloseMenu()}
         >
-          <MenuItem onClick={() => handleCloseMenu("GRID")}>Grid View</MenuItem>
-          <MenuItem onClick={() => handleCloseMenu("LIST")}>List View</MenuItem>
+          <MenuItem onClick={() => handleCloseMenu("GRID")}>Discover</MenuItem>
           <MenuItem onClick={() => handleCloseMenu("MAP")}>Map View</MenuItem>
         </Menu>
         <Box sx={{ flexGrow: 1 }} />
