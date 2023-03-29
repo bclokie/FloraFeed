@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Card from "@mui/material/Card";
 import Typography from "@mui/material/Typography";
 import CardMedia from "@mui/material/CardMedia";
@@ -12,8 +12,18 @@ import Modal from "@mui/material/Modal";
 import CloseIcon from "@mui/icons-material/Close";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { handleFavourite } from "../../dataFetcher";
+import { useSlotProps } from "@mui/base";
 
-const PlantDetails = ({ user, plant, favourites, id, view }) => {
+const PlantDetails = ({
+  user,
+  plant,
+  favourites,
+  id,
+  view,
+  setPostData,
+  postData,
+  index,
+}) => {
   const [expanded, setExpanded] = useState(false);
   const [open, setOpen] = useState(false);
   const [currentFavourites, setCurrentFavourites] = useState(favourites);
@@ -42,6 +52,7 @@ const PlantDetails = ({ user, plant, favourites, id, view }) => {
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
+  console.log("favourites is in plantdetails", favourites);
 
   return (
     <Container maxWidth="lg">
@@ -104,8 +115,13 @@ const PlantDetails = ({ user, plant, favourites, id, view }) => {
                 aria-label="add to favorites"
                 sx={{ color: colors.green1 }}
                 onClick={() => {
+                  setIsFavourite(!isFavourite);
                   handleFavourite(id, favourites).then(() => {
-                    setIsFavourite(!isFavourite);
+                    if (!isFavourite) {
+                      const newPostsData = [...postData];
+                      newPostsData.splice(index, 1);
+                      setPostData(newPostsData);
+                    }
                   });
                 }}
               >

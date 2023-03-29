@@ -125,6 +125,8 @@ export const addFavourite = async function (userId, postId) {
 };
 
 export const removeFavourite = async function (userId, postId) {
+  console.log("user id", userId);
+  console.log("post id", postId);
   const userRef = doc(db, "users", userId);
   return await updateDoc(userRef, {
     favourites: arrayRemove(postId),
@@ -145,6 +147,8 @@ export const getFavourites = async function () {
 };
 
 export const handleFavourite = async function (postId, favourites) {
+  console.log("favourites in handleFavourite", favourites);
+  console.log("post id in handlefavourites", postId);
   if (favourites.includes(postId)) {
     removeFavourite(auth.currentUser.uid, postId);
   } else {
@@ -237,4 +241,15 @@ export const getUserByUid = async function (uid) {
     user = doc.data();
   });
   return user;
+};
+
+export const getPostById = async function (postId) {
+  const postsQuery = query(
+    collection(db, "posts"),
+    where("__name__", "==", postId)
+  );
+  const querySnapshot = await getDocs(postsQuery);
+  querySnapshot.forEach((doc) => {
+    return doc.data();
+  });
 };

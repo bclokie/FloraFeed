@@ -7,6 +7,7 @@ import {
   fetchUserFavourites,
   fetchUser,
   createPosts,
+  getPostById,
 } from "../../dataFetcher";
 let authorUsername;
 const FavouritesView = () => {
@@ -17,13 +18,14 @@ const FavouritesView = () => {
   const [posterUsername, setPosterUsername] = useState();
   useEffect(() => {
     fetchUser().then((user) => {
-      setFavouritesArray(user.favourites);
+      setFavouritesArray([...user.favourites]);
       setCurrentUser(user);
       fetchUserFavourites().then((posts) => {
         setFavourites(posts);
         const modifiedArr = [];
         let timestamp;
         posts.forEach((data, index) => {
+          console.log("data is", data);
           timestamp = data.created_at;
           const date = new Date(timestamp.seconds * 1000);
           const formattedDateTime = date.toLocaleString("en-US", {
@@ -36,7 +38,7 @@ const FavouritesView = () => {
             hour12: true,
           });
           modifiedArr.push({
-            id: index + 1,
+            id: data.postId,
             user: {
               user: authorUsername,
               userAvatar: user.avatarUrl,
@@ -59,13 +61,17 @@ const FavouritesView = () => {
   return (
     <Grid container spacing={1} sx={{ width: "100%", height: "100%" }}>
       {postData.length > 0 &&
-        postData.map((data) => (
+        postData.map((data, index) => (
           <Grid item xs={12} sm={12} md={6} lg={4} key={data.id}>
             <PlantDetails
+              id={data.id}
               user={{
                 userName: data.user.user,
                 userAvatar: data.user.userAvatar,
               }}
+              postData={postData}
+              setPostData={setPostData}
+              index={index}
               plant={data.plant}
               favourites={favouritesArray}
               view={"FAVOURITE"}
