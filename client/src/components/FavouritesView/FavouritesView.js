@@ -36,7 +36,6 @@ const FavouritesView = () => {
         const modifiedArr = [];
         let timestamp;
         posts.forEach((data, index) => {
-          console.log("data is", data);
           timestamp = data.created_at;
           const date = new Date(timestamp.seconds * 1000);
           const formattedDateTime = date.toLocaleString("en-US", {
