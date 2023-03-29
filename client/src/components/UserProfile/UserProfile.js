@@ -75,7 +75,6 @@ const UserProfile = ({ userId }) => {
       fetchUser().then((user) => {
         setFavourites(user.favourites);
       });
-
     };
 
     fetchData();
@@ -142,6 +141,7 @@ const UserProfile = ({ userId }) => {
                     color="text.secondary"
                     sx={{
                       fontFamily: "'Nunito', sans-serif",
+                      fontSize: 17,
                     }}
                   >
                     @{user.userName}

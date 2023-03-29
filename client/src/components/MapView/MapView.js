@@ -205,7 +205,7 @@ function MapView() {
     >
       <Snackbar
         open={showSnackbar}
-        autoHideDuration={8000}
+        autoHideDuration={7000}
         onClose={handleCloseSnackbar}
         anchorOrigin={{ vertical: "top", horizontal: "right" }}
       >
@@ -235,10 +235,10 @@ function MapView() {
       <Card
         sx={{
           marginBottom: 1,
-          width: "10%",
+          width: "120px",
           mt: 1,
           borderRadius: 10,
-          minWidth: "100px",
+          minWidth: "120px",
           top: 0,
           left: 0,
         }}

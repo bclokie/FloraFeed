@@ -81,7 +81,7 @@ export const useAuth = () => {
         ? await uploadAvatar(avatarFile, user.uid)
         : null;
       await createUserDocument(user, firstName, lastName, userName, avatarUrl);
-      alert("User registered successfully");
+      window.location.reload();
     } catch (error) {
       alert(error.message);
     }
