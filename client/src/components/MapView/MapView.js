@@ -206,7 +206,7 @@ function MapView() {
     >
       <Snackbar
         open={showSnackbar}
-        autoHideDuration={8000}
+        autoHideDuration={7000}
         onClose={handleCloseSnackbar}
         anchorOrigin={{ vertical: "top", horizontal: "right" }}
       >

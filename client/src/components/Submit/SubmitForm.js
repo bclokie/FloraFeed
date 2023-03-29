@@ -21,14 +21,33 @@ import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import Grid from "@mui/material/Grid";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
+import Snackbar from "@mui/material/Snackbar";
+import Alert from "@mui/lab/Alert";
 
-export function SubmitForm({ handleClose }) {
+const colors = {
+  white: "#FFFFFF",
+  green1: "#2C7C50",
+  green2: "#2B764A",
+  lightGreen1: "#EDF1F0",
+  lightGreen2: "#DAE1D8",
+};
+
+export function SubmitForm({ handleClose, setView }) {
   const [title, setTitle] = useState("");
   const [plantName, setPlantName] = useState("");
   const [image, setImage] = useState(null);
   const [description, setDescription] = useState("");
   const [exifData, setExifData] = useState(null); // Declare exifData state here
   const [uid, setUid] = useState(null);
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+
+  const handleOpenSnackbar = () => {
+    setOpenSnackbar(true);
+  };
+
+  const handleCloseSnackbar = () => {
+    setOpenSnackbar(false);
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -39,6 +58,8 @@ export function SubmitForm({ handleClose }) {
     setDescription("");
     if (handleClose) {
       handleClose(); // Call handleClose after submitting data
+      setView("MAP");
+      handleOpenSnackbar();
     }
   };
 
@@ -110,6 +131,7 @@ export function SubmitForm({ handleClose }) {
         created_at: serverTimestamp(),
       });
       console.log("Document written with ID: ", docRef.id);
+      setView("MAP");
     } catch (e) {
       console.error("Error adding document: ", e);
     }
@@ -265,6 +287,34 @@ export function SubmitForm({ handleClose }) {
           </Button>
         </Box>
       </Box>
+      <Snackbar
+        open={openSnackbar}
+        autoHideDuration={8000}
+        onClose={handleCloseSnackbar}
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
+      >
+        <Alert
+          onClose={handleCloseSnackbar}
+          severity="success"
+          sx={{
+            width: "100%",
+            backgroundColor: colors.white,
+            color: colors.green1,
+            borderRadius: "10px",
+            boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.25)",
+          }}
+        >
+          <Typography
+            sx={{
+              fontFamily: "'Nunito', sans-serif",
+              fontWeight: 600,
+              fontSize: "1rem",
+            }}
+          >
+            Your plant submission was successful!
+          </Typography>
+        </Alert>
+      </Snackbar>
     </Container>
   );
 }

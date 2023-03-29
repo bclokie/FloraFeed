@@ -249,7 +249,7 @@ const Sidebar = ({ userId, onLogout, setView }) => {
         aria-labelledby="submit-form-modal"
         aria-describedby="modal-for-submitting-a-new-post"
       >
-        <SubmitForm handleClose={handleCloseSubmitForm} />
+        <SubmitForm handleClose={handleCloseSubmitForm} setView={setView} />
       </Modal>
       <Box
         sx={{

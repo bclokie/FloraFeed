@@ -1,6 +1,13 @@
 import React, { useState, useEffect } from "react";
 
-import { Container, useMediaQuery, useTheme, Box } from "@mui/material";
+import {
+  Container,
+  useMediaQuery,
+  useTheme,
+  Box,
+  Snackbar,
+  Alert,
+} from "@mui/material";
 
 import Sidebar from "./components/Sidebar/Sidebar";
 import MapView from "./components/MapView/MapView";
@@ -17,14 +24,20 @@ import SplashScreen from "./components/Splash/Splash";
 import { AnimatePresence, motion } from "framer-motion";
 
 const App = () => {
-  const { user, handleLogin, handleSignup, handleGoogleSignIn, handleLogout } =
-    useAuth();
+  const {
+    user,
+    handleLogin,
+    userDocumentCreated,
+    handleSignup,
+    handleGoogleSignIn,
+    handleLogout,
+  } = useAuth();
   const theme = useTheme();
   const [view, setView] = useState("");
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
 
   useEffect(() => {
-    setView("USER_PROFILE");
+    setView("MAP");
   }, []);
 
   useEffect(() => {
@@ -39,6 +52,14 @@ const App = () => {
     }, 3000);
     return () => clearTimeout(timer);
   }, []);
+
+  useEffect(() => {
+    if (user) {
+      setView("MAP");
+    } else {
+      setView("LOGIN");
+    }
+  }, [user]);
 
   const renderView = () => {
     switch (view) {
@@ -100,7 +121,7 @@ const App = () => {
                   <Signup
                     onSignup={(email, password) =>
                       handleSignup(email, password)
-                        .then(() => setView("USER_PROFILE"))
+                        .then(() => setView("MAP"))
                         .catch((error) => console.log(error))
                     }
                     onSwitchToLogin={() => setView("LOGIN")}
@@ -155,6 +176,7 @@ const App = () => {
             >
               {isMobile ? (
                 <Topbar
+                  key={user.uid}
                   userId={user.uid}
                   user={user}
                   userAvatar={user.photoURL}
@@ -164,7 +186,6 @@ const App = () => {
               ) : (
                 <Sidebar
                   userId={user.uid}
-                  user={user}
                   setView={setView}
                   onLogout={onLogout}
                 />
