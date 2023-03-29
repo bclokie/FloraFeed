@@ -116,7 +116,8 @@ const Topbar = ({ userId, onLogout, setView }) => {
           onClose={() => handleCloseMenu()}
         >
           <MenuItem onClick={() => handleCloseMenu("GRID")}>Discover</MenuItem>
-          <MenuItem onClick={() => handleCloseMenu("MAP")}>Map View</MenuItem>
+          <MenuItem onClick={() => handleCloseMenu("MAP")}>Map</MenuItem>
+          <MenuItem onClick={() => handleCloseMenu("FAVOURITES")}>Favourites</MenuItem>
         </Menu>
         <Box sx={{ flexGrow: 1 }} />
         <IconButton color="inherit" onClick={onLogout}>
