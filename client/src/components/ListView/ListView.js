@@ -26,7 +26,6 @@ const ListView = () => {
 
     fetchData();
   }, []);
-  console.log("userData is", usersData);
   return (
     <Grid container spacing={1} sx={{ width: "100%", height: "100%" }}>
       {usersData.length > 0 &&

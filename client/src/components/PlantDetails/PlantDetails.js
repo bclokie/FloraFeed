@@ -52,7 +52,6 @@ const PlantDetails = ({
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
-  console.log("favourites is in plantdetails", favourites);
 
   return (
     <Container maxWidth="lg">
@@ -115,13 +114,13 @@ const PlantDetails = ({
                 aria-label="add to favorites"
                 sx={{ color: colors.green1 }}
                 onClick={() => {
-                  setIsFavourite(!isFavourite);
                   handleFavourite(id, favourites).then(() => {
-                    if (!isFavourite) {
+                    if (isFavourite) {
                       const newPostsData = [...postData];
                       newPostsData.splice(index, 1);
                       setPostData(newPostsData);
                     }
+                    setIsFavourite(!isFavourite);
                   });
                 }}
               >

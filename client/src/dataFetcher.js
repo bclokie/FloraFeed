@@ -125,8 +125,6 @@ export const addFavourite = async function (userId, postId) {
 };
 
 export const removeFavourite = async function (userId, postId) {
-  console.log("user id", userId);
-  console.log("post id", postId);
   const userRef = doc(db, "users", userId);
   return await updateDoc(userRef, {
     favourites: arrayRemove(postId),
@@ -147,8 +145,6 @@ export const getFavourites = async function () {
 };
 
 export const handleFavourite = async function (postId, favourites) {
-  console.log("favourites in handleFavourite", favourites);
-  console.log("post id in handlefavourites", postId);
   if (favourites.includes(postId)) {
     removeFavourite(auth.currentUser.uid, postId);
   } else {
@@ -160,7 +156,6 @@ export const fetchUserByUid = async function (uid) {
   if (!uid) {
     return null;
   }
-  console.log("uid is", uid);
   let user;
   const userQuery = query(
     collection(db, "users"),
