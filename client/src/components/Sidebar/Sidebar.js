@@ -11,19 +11,16 @@ import {
   Button,
   Skeleton,
 } from "@mui/material";
-import ListIcon from "@mui/icons-material/List";
+
 import MapIcon from "@mui/icons-material/Map";
 import LogoutIcon from "@mui/icons-material/Logout";
-import AddIcon from "@mui/icons-material/Add";
 import GridViewIcon from "@mui/icons-material/GridView";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { fetchUserData } from "../../dataFetcher";
 import Modal from "@mui/material/Modal";
 import { SubmitForm } from "../Submit/SubmitForm";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import AddLocationAltIcon from "@mui/icons-material/AddLocationAlt";
-
 const colors = {
   white: "#FFFFFF",
   green1: "#2C7C50",
@@ -103,7 +100,10 @@ const Sidebar = ({ userId, onLogout, setView }) => {
             }}
             onClick={() => setView("USER_PROFILE")}
           >
-            <Avatar src={user.userAvatar} sx={{ width: 115, height: 115 }} />
+            <Avatar
+              src={user.userAvatar}
+              sx={{ width: "12vmin", height: "12vmin" }}
+            />
             <Typography
               variant="h5"
               sx={{
@@ -122,7 +122,7 @@ const Sidebar = ({ userId, onLogout, setView }) => {
               color="text.secondary"
               sx={{
                 fontFamily: "'Nunito', sans-serif",
-                fontSize: "1.4vmin",
+                fontSize: "1.6vmin",
               }}
             >
               @{user.userName}
@@ -162,17 +162,17 @@ const Sidebar = ({ userId, onLogout, setView }) => {
       <List sx={{ marginTop: 1, mr: 0, wdith: "18vw" }}>
         {[
           {
-            text: "Map ",
-            onClick: () => setView("MAP"),
-            icon: <MapIcon sx={{ pl: 2, fontSize: "3vmin" }} />,
+            text: "Discover",
+            onClick: () => setView("GRID"),
+            icon: <GridViewIcon sx={{ pl: 2, fontSize: "3vmin" }} />,
             icon2: (
               <KeyboardArrowRightIcon sx={{ pl: "2vw", fontSize: "3vmin" }} />
             ),
           },
           {
-            text: "Discover",
-            onClick: () => setView("GRID"),
-            icon: <GridViewIcon sx={{ pl: 2, fontSize: "3vmin" }} />,
+            text: "Map",
+            onClick: () => setView("MAP"),
+            icon: <MapIcon sx={{ pl: 2, fontSize: "3vmin" }} />,
             icon2: (
               <KeyboardArrowRightIcon sx={{ pl: "2vw", fontSize: "3vmin" }} />
             ),

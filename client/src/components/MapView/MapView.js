@@ -236,10 +236,10 @@ function MapView() {
       <Card
         sx={{
           marginBottom: 1,
-          width: "10%",
+          width: "120px",
           mt: 1,
           borderRadius: 10,
-          minWidth: "100px",
+          minWidth: "120px",
           top: 0,
           left: 0,
         }}

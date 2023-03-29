@@ -4,6 +4,15 @@ import Grid from "@mui/material/Grid";
 import { fetchUserData, fetchPostsData, fetchUser } from "../../dataFetcher";
 import { Container, Card, CardContent, Box, Typography } from "@mui/material";
 import MapIcon from "@mui/icons-material/Map";
+import GridViewIcon from "@mui/icons-material/GridView";
+
+const colors = {
+  white: "#FFFFFF",
+  green1: "#2C7C50",
+  green2: "#2B764A",
+  lightGreen1: "#EDF1F0",
+  lightGreen2: "#DAE1D8",
+};
 
 const GridView = () => {
   let [usersData, setUsersData] = useState([]);
@@ -23,37 +32,50 @@ const GridView = () => {
 
   return (
     <Container maxWidth disableGutters>
-      <Card
+      <Box
         sx={{
-          width: "10%",
-          
-          borderRadius: 10,
-          minWidth: "100px",
-          ml: 2,
+          marginLeft: 2,
+          marginRight: 0,
+          marginBottom: 1,
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
         }}
       >
-        <CardContent>
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              mt: 0,
-            }}
-          >
-            <MapIcon sx={{ marginRight: 1 }} />
-            <Typography
+        <Card
+          sx={{
+            marginBottom: 1,
+            width: "160px",
+            height: "65px",
+            mt: 1,
+            borderRadius: 10,
+            minWidth: "160px",
+          }}
+        >
+          <CardContent>
+            <Box
               sx={{
-                fontSize: 22,
-                fontFamily: "'Nunito', sans-serif;",
-                fontWeight: 700,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                mt: 0,
               }}
             >
-              Map
-            </Typography>
-          </Box>
-        </CardContent>
-      </Card>
+              <GridViewIcon sx={{ marginRight: 1, color: colors.green1 }} />
+              <Typography
+                sx={{
+                  fontSize: 22,
+                  fontFamily: "'Nunito', sans-serif;",
+                  fontWeight: 700,
+                  color: colors.green1,
+                }}
+              >
+                Discover
+              </Typography>
+            </Box>
+          </CardContent>
+        </Card>
+      </Box>
       <Grid container spacing={1} sx={{ width: "100%", height: "100%" }}>
         {usersData.length > 0 &&
           usersData.map((user) =>
